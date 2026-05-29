@@ -65,9 +65,10 @@ function generateSiteContentFile(data: SiteContent, existingFileContent: string)
  * This triggers the GitHub Actions CI/CD pipeline for auto-deployment.
  */
 async function commitToGitHub(content: SiteContent): Promise<SaveToGitHubResult> {
-  const token = import.meta.env.VITE_GITHUB_TOKEN;
+  const token = localStorage.getItem('ierf_github_token') || import.meta.env.VITE_GITHUB_TOKEN;
+  
   if (!token) {
-    return { success: false, message: 'GitHub token not configured. Please set VITE_GITHUB_TOKEN.' };
+    return { success: false, message: 'GitHub token not configured. Please set it in Admin Settings.' };
   }
 
   const apiBase = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE_PATH}`;

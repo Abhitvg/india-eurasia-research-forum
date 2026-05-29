@@ -413,54 +413,28 @@ export default function Admin() {
 
   const handleSave = async () => {
     updateContent(draft);
-    if (isProduction) {
-      // Save directly to GitHub, which triggers CI/CD auto-deploy
-      setIsSaving(true);
-      setDeployStatus('idle');
-      try {
-        const result = await saveToGitHub(draft);
-        if (result.success) {
-          setSaved(true);
-          setDeployStatus('deploying');
-          setTimeout(() => setSaved(false), 4000);
-          // Clear deploying status after estimated deploy time
-          setTimeout(() => setDeployStatus('idle'), 180000);
-        } else {
-          setDeployError(result.message);
-          setDeployStatus('error');
-          setTimeout(() => setDeployStatus('idle'), 5000);
-        }
-      } catch (e: any) {
-        setDeployError(e.message);
-        setDeployStatus('error');
-        setTimeout(() => setDeployStatus('idle'), 5000);
-      } finally {
-        setIsSaving(false);
-      }
-      return;
-    }
+    // Always save directly to GitHub, which triggers CI/CD auto-deploy
+    setIsSaving(true);
+    setDeployStatus('idle');
     try {
-      const resp = await fetch('/api/save_content', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(draft)
-      });
-      if (resp.ok) {
+      const result = await saveToGitHub(draft);
+      if (result.success) {
         setSaved(true);
-        setTimeout(() => setSaved(false), 2000);
+        setDeployStatus('deploying');
+        setTimeout(() => setSaved(false), 4000);
+        // Clear deploying status after estimated deploy time
+        setTimeout(() => setDeployStatus('idle'), 180000);
       } else {
-        const err = await resp.json();
-        setDeployError('Failed to save to codebase: ' + (err.error || 'Unknown error'));
+        setDeployError(result.message);
         setDeployStatus('error');
         setTimeout(() => setDeployStatus('idle'), 5000);
       }
-    } catch (e) {
-      console.error(e);
-      setDeployError('Network error: Could not save to codebase. Are you running the dev server?');
+    } catch (e: any) {
+      setDeployError(e.message);
       setDeployStatus('error');
       setTimeout(() => setDeployStatus('idle'), 5000);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -801,6 +775,15 @@ export default function Admin() {
         return (
           <div>
             <h2 className="text-xl font-black text-white mb-6">Global Site Settings</h2>
+            <div className="bg-white/5 rounded-2xl p-6 border border-white/10 mb-6 border-l-4 border-l-[#E87722]">
+              <h3 className="text-sm font-black text-[#E87722] uppercase tracking-widest mb-4">Deployment Configuration</h3>
+              <p className="text-white/60 text-xs mb-4">Enter a GitHub Personal Access Token to enable direct saving to the live site. This is saved securely in your browser and overrides any local configuration.</p>
+              <TextField 
+                label="GitHub Token (PAT)" 
+                value={localStorage.getItem('ierf_github_token') || ''} 
+                onChange={v => { localStorage.setItem('ierf_github_token', v); setDraft({...draft}) }} 
+              />
+            </div>
             <div className="bg-white/5 rounded-2xl p-6 border border-white/10 mb-6">
               <h3 className="text-sm font-black text-[#E87722] uppercase tracking-widest mb-4">Branding</h3>
               <TextField label="Site Name" value={draft.settings.siteName} onChange={v => updateDraft('settings', { siteName: v })} />
