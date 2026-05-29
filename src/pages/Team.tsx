@@ -4,6 +4,7 @@ import { Linkedin, ChevronDown } from 'lucide-react';
 import SubHero from '../components/SubHero';
 import { useContent } from '../context/ContentContext';
 import { PersonData } from '../data/siteContent';
+import SEOHead from '../components/SEOHead';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -136,6 +137,11 @@ export default function Team() {
   const scholarlyNetworkData = content.team.scholarlyNetwork;
   return (
     <div className="flex flex-col min-h-screen bg-[#F8FAFC]">
+      <SEOHead
+        title="Our People"
+        description="Meet the leadership, research advisors, scholarly network, and digital strategy team behind the India Eurasia Research Forum."
+        path="/our-people"
+      />
       <SubHero
         title="Our People"
         subtitle="A network of excellence spanning academia, policy, and technology."

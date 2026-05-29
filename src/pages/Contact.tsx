@@ -3,6 +3,7 @@ import { Mail, MapPin, Phone, ArrowRight, MessageSquare, CheckCircle, RefreshCcw
 import { motion, AnimatePresence } from 'motion/react';
 import SubHero from '../components/SubHero';
 import { useContent } from '../context/ContentContext';
+import SEOHead from '../components/SEOHead';
 
 export default function Contact() {
   const { content } = useContent();
@@ -44,6 +45,11 @@ export default function Contact() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F8FAFC]">
+      <SEOHead
+        title="Contact Us"
+        description="Get in touch with the India Eurasia Research Forum. Reach out for research collaborations, academic inquiries, event partnerships, or general questions."
+        path="/contact"
+      />
       <SubHero 
         title="Contact Us" 
         subtitle={c.subtitle}

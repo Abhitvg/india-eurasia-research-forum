@@ -5,6 +5,7 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 import SubHero from '../components/SubHero';
 import { useContent } from '../context/ContentContext';
 import ScrollReveal from '../components/ScrollReveal';
+import SEOHead from '../components/SEOHead';
 
 export default function Publications() {
   const { content } = useContent();
@@ -52,6 +53,11 @@ export default function Publications() {
   
   return (
     <div className="flex flex-col min-h-screen bg-[#F8FAFC] pb-24 overflow-x-hidden">
+      <SEOHead
+        title="Research and Analysis"
+        description="Read IERF's latest research papers, policy commentaries, perspectives, and strategic analysis on India-Eurasia relations, Central Asian geopolitics, and trans-regional connectivity."
+        path="/research"
+      />
       <SubHero 
         title="Research and Analysis" 
         subtitle="Insights and analysis from our research network on the shifting dynamics of India-Eurasia relations."

@@ -4,6 +4,7 @@ import { motion, useScroll, useSpring } from 'motion/react';
 import { Calendar, User, ArrowLeft, Download, Share2, Printer, Clock } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { defaultContent } from '../data/siteContent';
+import SEOHead from '../components/SEOHead';
 
 export default function PublicationDetail() {
   const { content } = useContent();
@@ -48,6 +49,13 @@ export default function PublicationDetail() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F4F6F8]">
+      <SEOHead
+        title={publication.title}
+        description={publication.description}
+        path={`/publications/${publication.id}`}
+        type="article"
+        image={publication.image?.startsWith('http') ? publication.image : `https://indiaeurasia.org${publication.image}`}
+      />
       {/* Reading Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1.5 bg-[#E87722] z-[100] origin-left"

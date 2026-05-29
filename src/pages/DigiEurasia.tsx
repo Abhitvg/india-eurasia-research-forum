@@ -2,6 +2,7 @@ import { Camera, Mail, ArrowRight, MapPin } from 'lucide-react';
 import { motion } from 'motion/react';
 import SubHero from '../components/SubHero';
 import { useContent } from '../context/ContentContext';
+import SEOHead from '../components/SEOHead';
 
 const galleryImages = [
   {
@@ -31,6 +32,11 @@ export default function DigiEurasia() {
   const c = content.digieurasia;
   return (
     <div className="flex flex-col min-h-screen bg-[#F8FAFC]">
+      <SEOHead
+        title="DigiEurasia"
+        description="DigiEurasia — IERF's digital heritage initiative capturing the living fabric of India-Eurasia civilizational connections through community photography and regional documentation."
+        path="/digieurasia"
+      />
       <SubHero 
         title="DigiEurasia" 
         subtitle={c.subtitle}
@@ -73,18 +79,18 @@ export default function DigiEurasia() {
             >
                <div className="space-y-4">
                   <div className="rounded-3xl overflow-hidden h-40 md:h-64 shadow-2xl">
-                    <img src="/images/digieurasia/landscape-1.webp" loading="lazy" className="w-full h-full object-cover" alt="" />
+                    <img src="/images/digieurasia/landscape-1.webp" loading="lazy" className="w-full h-full object-cover" alt="Modern architecture in Nur-Sultan, Kazakhstan" />
                   </div>
                   <div className="rounded-3xl overflow-hidden h-32 md:h-48 shadow-xl">
-                    <img src="/images/digieurasia/landscape-3.webp" loading="lazy" className="w-full h-full object-cover" alt="" />
+                    <img src="/images/digieurasia/landscape-3.webp" loading="lazy" className="w-full h-full object-cover" alt="Ancient motifs in Central Asian architecture" />
                   </div>
                </div>
                <div className="space-y-4 pt-12">
                   <div className="rounded-3xl overflow-hidden h-32 md:h-48 shadow-xl">
-                    <img src="/images/digieurasia/landscape-2.webp" loading="lazy" className="w-full h-full object-cover" alt="" />
+                    <img src="/images/digieurasia/landscape-2.webp" loading="lazy" className="w-full h-full object-cover" alt="Architectural detail in Nur-Sultan" />
                   </div>
                   <div className="rounded-3xl overflow-hidden h-40 md:h-64 shadow-2xl">
-                    <img src="/images/digieurasia/landscape-4.webp" loading="lazy" className="w-full h-full object-cover" alt="" />
+                    <img src="/images/digieurasia/landscape-4.webp" loading="lazy" className="w-full h-full object-cover" alt="Aerial view of Rashtrapati Bhawan, New Delhi" />
                   </div>
                </div>
             </motion.div>

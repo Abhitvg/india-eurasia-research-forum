@@ -6,6 +6,7 @@ import { useContent } from '../context/ContentContext';
 import ScrollReveal from '../components/ScrollReveal';
 import GangaLogo from '../components/GangaLogo';
 import EurasiaMap from '../components/EurasiaMap';
+import SEOHead from '../components/SEOHead';
 
 const heroImages = [
   '/images/hero1_new_opt.webp',
@@ -27,6 +28,11 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <SEOHead
+        title="India Eurasia Research Forum (IERF) | Connecting India and Eurasia"
+        description="India Eurasia Research Forum (IERF) is a premier academic platform promoting research, dialogue, and trans-regional connectivity between India and the Eurasian region."
+        path="/"
+      />
       {/* Hero Section */}
       <section className="relative h-[90vh] min-h-[700px] flex items-center justify-center overflow-hidden">
         {/* Cinematic Background Slider */}

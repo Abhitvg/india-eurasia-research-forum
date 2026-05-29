@@ -2,6 +2,7 @@ import { Mail, Edit3, BookOpen, Globe2, FileText, CheckCircle2, ArrowRight } fro
 import { motion } from 'motion/react';
 import SubHero from '../components/SubHero';
 import { useContent } from '../context/ContentContext';
+import SEOHead from '../components/SEOHead';
 
 export default function WriteForUs() {
   const { content } = useContent();
@@ -12,6 +13,11 @@ export default function WriteForUs() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F8FAFC]">
+      <SEOHead
+        title="Write For Us"
+        description="Submit your research papers, commentaries, and policy briefs on India-Eurasia relations. IERF welcomes scholarly contributions on geopolitics, connectivity, and strategic studies."
+        path="/write-for-us"
+      />
       <SubHero 
         title="Write For Us" 
         subtitle={c.subtitle}

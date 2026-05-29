@@ -3,6 +3,7 @@ import { Search, BookOpen, MessageCircle, Handshake, Target, ArrowRight } from '
 import { Link } from 'react-router-dom';
 import SubHero from '../components/SubHero';
 import { useContent } from '../context/ContentContext';
+import SEOHead from '../components/SEOHead';
 
 const pillarIcons = [
   <Search size={28} />,
@@ -17,6 +18,11 @@ export default function About() {
   const c = content.about;
   return (
     <div className="flex flex-col min-h-screen bg-[#F8FAFC] pb-24">
+      <SEOHead
+        title="About Us"
+        description="Learn about IERF's mission to bridge India and Eurasia through academic research, strategic dialogue, and collaborative engagement across civilizational, economic, and security domains."
+        path="/about"
+      />
       <SubHero
         title="About Us"
         subtitle={c.subtitle}

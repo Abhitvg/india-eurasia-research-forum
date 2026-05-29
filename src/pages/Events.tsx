@@ -2,6 +2,7 @@ import { Calendar, MapPin, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { useContent } from '../context/ContentContext';
+import SEOHead from '../components/SEOHead';
 
 export default function Events() {
   const { content } = useContent();
@@ -9,6 +10,11 @@ export default function Events() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F4F6F8]">
+      <SEOHead
+        title="Events & Dialogues"
+        description="Explore IERF's events, conferences, dialogues, and academic seminars on India-Eurasia relations, including the flagship Volga to Ganga series."
+        path="/events"
+      />
       {/* Page Header */}
       <section className="bg-[#1B3B5F] py-20 text-white overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">

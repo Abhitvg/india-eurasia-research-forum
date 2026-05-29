@@ -4,12 +4,18 @@ import { MessageSquare, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SubHero from '../components/SubHero';
 import { useContent } from '../context/ContentContext';
+import SEOHead from '../components/SEOHead';
 
 export default function IERFTalks() {
   const { content } = useContent();
   const c = content.ierfTalks;
   return (
     <div className="flex flex-col min-h-screen bg-[#F8FAFC]">
+      <SEOHead
+        title="IERF Talks"
+        description="IERF Talks — a platform for expert-led discussions on India-Eurasia geopolitics, connectivity, and emerging strategic partnerships."
+        path="/events/ierf-talks"
+      />
       <SubHero 
         title="IERF Talks" 
         subtitle={c.subtitle}

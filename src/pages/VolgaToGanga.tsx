@@ -3,12 +3,18 @@ import { Calendar, Quote, ArrowRight } from 'lucide-react';
 import SubHero from '../components/SubHero';
 import { useContent } from '../context/ContentContext';
 import GangaLogo from '../components/GangaLogo';
+import SEOHead from '../components/SEOHead';
 
 export default function VolgaToGanga() {
   const { content } = useContent();
   const c = content.volgaToGanga;
   return (
     <div className="flex flex-col min-h-screen bg-[#F8FAFC]">
+      <SEOHead
+        title="Volga to Ganga"
+        description="IERF's flagship civilizational dialogue series connecting the historical and cultural narratives flowing from the Volga to the Ganga, exploring shared heritage and future partnerships."
+        path="/events/volga-to-ganga"
+      />
       <SubHero 
         title="Volga to Ganga" 
         subtitle={c.subtitle}
