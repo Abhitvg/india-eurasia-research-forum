@@ -74,11 +74,11 @@ export default function Header() {
         {/* ── Logo & Wordmark ── */}
         <div className="flex shrink-0 items-center">
           <Link to="/" className="flex items-center gap-2 md:gap-3 group">
-            <div className={`relative flex-shrink-0 transition-all duration-500 flex items-center justify-center ${scrolled ? 'w-10 h-10 md:w-12 md:h-12' : 'w-12 h-12 md:w-14 md:h-14'}`}>
+            <div className={`relative flex-shrink-0 transition-all duration-500 flex items-center justify-center ${scrolled ? 'w-12 h-12 md:w-14 md:h-14' : 'w-14 h-14 md:w-16 md:h-16'}`}>
               <img
                 src="/ierf_normal.png"
                 alt="IERF Logo"
-                className={`w-[115%] h-[115%] max-w-none object-contain transition-all duration-500 ${isLight ? 'brightness-0 invert drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]' : 'drop-shadow-sm'}`}
+                className={`w-full h-full object-contain transition-all duration-500 ${isLight ? 'brightness-0 invert drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]' : 'drop-shadow-sm'}`}
               />
             </div>
 
@@ -274,8 +274,8 @@ export default function Header() {
             >
               <div className="p-6 flex items-center justify-between border-b border-gray-50">
                 <Link to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-3 group">
-                  <div className="w-10 h-10 bg-white rounded-full overflow-hidden flex items-center justify-center flex-shrink-0">
-                    <img src="/ierf_normal.png" className="w-[115%] h-[115%] max-w-none object-contain" alt="IERF" />
+                  <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
+                    <img src="/ierf_normal.png" className="w-full h-full object-contain" alt="IERF" />
                   </div>
                   <div>
                     <div className="text-[#1B3B5F] font-black tracking-tight text-lg">IERF</div>
