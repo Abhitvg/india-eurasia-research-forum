@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, MapPin, Facebook, Twitter, Instagram, Linkedin, Send, Check } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
-import GangaLogo from './GangaLogo';
 
 export default function Footer() {
   const { content } = useContent();
@@ -47,7 +46,7 @@ export default function Footer() {
               <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center p-2.5 group-hover:scale-110 transition-all duration-500 shadow-lg group-hover:shadow-[#E87722]/40 border border-white/10 relative overflow-hidden">
                  {/* Golden hover glow */}
                  <div className="absolute inset-0 bg-gradient-to-tr from-[#E87722]/0 to-[#E87722]/0 group-hover:from-[#E87722]/5 group-hover:to-[#E87722]/10 transition-all duration-500"></div>
-                 <img src="/logo_opt.webp" alt="IERF Logo" className="w-full h-full object-contain relative z-10" />
+                 <img src="/ierf_normal.png" alt="IERF Logo" className="w-full h-full object-contain relative z-10" />
               </div>
               <div className="flex items-center">
                 <span className="text-white font-bold text-sm tracking-widest uppercase" style={{ fontFamily: '"Outfit", sans-serif', letterSpacing: '0.1em' }}>{content.settings?.siteName || "INDIA EURASIA RESEARCH FORUM"}</span>
@@ -159,7 +158,9 @@ export default function Footer() {
                <div className="flex items-center space-x-4 cursor-default group/ganga">
                   <div className="w-16 h-16 bg-white rounded-2xl shadow-lg group-hover/ganga:shadow-[#E87722]/40 p-3 flex items-center justify-center transition-all duration-500 border border-white/10 relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-tr from-[#E87722]/0 to-[#E87722]/0 group-hover/ganga:from-[#E87722]/5 group-hover/ganga:to-[#E87722]/10 transition-all duration-500"></div>
-                    <GangaLogo className="w-10 h-10 relative z-10 transition-all group-hover/ganga:scale-105" />
+                    <div className="w-10 h-10 relative z-10 transition-all group-hover/ganga:scale-105 flex items-center justify-center">
+                      <img src="/volga_to_ganga_final.png" alt="Volga to Ganga Logo" className="w-full h-full object-contain" />
+                    </div>
                   </div>
                   <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 group-hover/ganga:text-white transition-colors">Volga to Ganga</span>
                </div>

@@ -55,6 +55,11 @@ export default function PublicationDetail() {
         path={`/publications/${publication.id}`}
         type="article"
         image={publication.image?.startsWith('http') ? publication.image : `https://indiaeurasia.org${publication.image}`}
+        articleData={{
+          publishedTime: new Date(publication.date).toISOString() || new Date().toISOString(),
+          author: publication.author,
+          section: publication.type
+        }}
       />
       {/* Reading Progress Bar */}
       <motion.div

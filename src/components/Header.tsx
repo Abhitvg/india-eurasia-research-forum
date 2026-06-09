@@ -74,11 +74,11 @@ export default function Header() {
         {/* ── Logo & Wordmark ── */}
         <div className="flex shrink-0 items-center">
           <Link to="/" className="flex items-center gap-2 md:gap-3 group">
-            <div className={`relative flex-shrink-0 transition-all duration-500 ${scrolled ? 'w-10 h-10 md:w-12 md:h-12' : 'w-12 h-12 md:w-14 md:h-14'}`}>
+            <div className={`relative flex-shrink-0 transition-all duration-500 flex items-center justify-center ${scrolled ? 'w-10 h-10 md:w-12 md:h-12' : 'w-12 h-12 md:w-14 md:h-14'}`}>
               <img
-                src="/logo_opt.webp"
-                alt="IERF"
-                className={`w-full h-full object-contain transition-all duration-500 ${scrolled ? 'drop-shadow-sm' : 'drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]'} ${isLight ? 'brightness-0 invert' : ''}`}
+                src="/ierf_normal.png"
+                alt="IERF Logo"
+                className={`w-[115%] h-[115%] max-w-none object-contain transition-all duration-500 ${isLight ? 'brightness-0 invert drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]' : 'drop-shadow-sm'}`}
               />
             </div>
 
@@ -273,13 +273,15 @@ export default function Header() {
               className="absolute right-0 top-0 bottom-0 w-[300px] bg-white flex flex-col pointer-events-auto shadow-2xl"
             >
               <div className="p-6 flex items-center justify-between border-b border-gray-50">
-                <div className="flex items-center gap-3">
-                  <img src="/logo.webp" className="w-10 h-10 object-contain" alt="IERF" />
-                  <div className="font-black text-[10px] text-[#1B3B5F] leading-tight tracking-wider font-sans uppercase">
-                    <div>India Eurasia</div>
-                    <div className="text-[#E87722]">Research Forum</div>
+                <Link to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-3 group">
+                  <div className="w-10 h-10 bg-white rounded-full overflow-hidden flex items-center justify-center flex-shrink-0">
+                    <img src="/ierf_normal.png" className="w-[115%] h-[115%] max-w-none object-contain" alt="IERF" />
                   </div>
-                </div>
+                  <div>
+                    <div className="text-[#1B3B5F] font-black tracking-tight text-lg">IERF</div>
+                    <div className="text-[#E87722] text-[9px] uppercase tracking-[0.2em] font-bold">Research Forum</div>
+                  </div>
+                </Link>
                 <button
                   onClick={() => setIsMenuOpen(false)}
                   className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-50 text-[#1B3B5F]"

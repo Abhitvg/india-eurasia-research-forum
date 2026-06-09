@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, ChangeEvent } from 'react';
 import { useContent } from '../context/ContentContext';
 import { SiteContent, PersonData, PublicationData, EventData, GalleryImageData, ContactInfoData, PillarData, CategoryData } from '../data/siteContent';
 import { Save, Download, Upload, RotateCcw, Lock, Eye, Plus, Trash2, ChevronDown, ChevronRight, Home, Info, Users, BookOpen, Calendar, PenLine, Mail, MessageSquare, Camera, Mic, LayoutDashboard, X, Search, Send } from 'lucide-react';
+import { DefaultEditor } from 'react-simple-wysiwyg';
 
 const ADMIN_PASSWORD = '65002 u171749519@145.223.17.93';
 
@@ -31,105 +32,36 @@ const TextField: React.FC<{ label: string; value: string; onChange: (v: string) 
 };
 
 const RichTextField: React.FC<{ label: string; value: string; onChange: (v: string) => void; }> = ({ label, value, onChange }) => {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isUploading, setIsUploading] = useState(false);
-
-  const handleInsertImage = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (import.meta.env.PROD) {
-      alert('Note: Image upload is only available in the local development environment. For the live site, please upload images to the repository and reference them by their path.');
-      return;
-    }
-
-    setIsUploading(true);
-    try {
-      const response = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/octet-stream',
-        },
-        body: file,
-      });
-      const data = await response.json();
-      if (data.url) {
-        const imageTag = `\n<img src="${data.url}" class="w-full my-8 rounded-xl shadow-lg border border-gray-100 object-cover" alt="Uploaded Image" />\n`;
-        
-        const textarea = textareaRef.current;
-        if (textarea) {
-          const start = textarea.selectionStart;
-          const end = textarea.selectionEnd;
-          const newValue = value.substring(0, start) + imageTag + value.substring(end);
-          onChange(newValue);
-        } else {
-          onChange(value + imageTag);
-        }
-      } else {
-        alert("Upload failed: " + (data.error || "Unknown error"));
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Error uploading image. Is the dev server running?");
-    } finally {
-      setIsUploading(false);
-      if (fileInputRef.current) fileInputRef.current.value = '';
+  const handleDriveImport = () => {
+    const url = window.prompt("Enter Google Drive Image URL:");
+    if (!url) return;
+    
+    const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      const fileId = match[1];
+      const imgTag = `<img src="https://drive.google.com/uc?export=view&id=${fileId}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 1rem 0;" />`;
+      onChange(value ? value + '<br/>' + imgTag : imgTag);
+    } else {
+      alert("Invalid Google Drive URL. Could not find File ID.");
     }
   };
 
   return (
     <div className="mb-5">
-      <div className="flex justify-between items-end mb-2">
+      <div className="flex justify-between items-center mb-2">
         <label className="block text-[10px] font-black text-white/40 uppercase tracking-[0.2em]">{label}</label>
-        
-        <div>
-          <input type="file" accept="image/*" onChange={handleInsertImage} ref={fileInputRef} className="hidden" />
-          <button 
-            onClick={() => fileInputRef.current?.click()}
-            disabled={isUploading}
-            className="flex items-center gap-2 bg-[#1B3B5F] hover:bg-[#E87722] text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors shadow-lg disabled:opacity-50"
-            title="Upload and insert an image directly into the content"
-          >
-            {isUploading ? <RotateCcw size={14} className="animate-spin" /> : <Camera size={14} />}
-            {isUploading ? 'Uploading...' : 'Insert Image'}
-          </button>
-          
-          <button 
-            onClick={() => {
-              const url = prompt("Enter URL:");
-              if (!url) return;
-              const text = prompt("Enter Link Text:");
-              if (!text) return;
-              const linkTag = `<a href="${url}" target="_blank" class="text-[#E87722] hover:underline font-bold">${text}</a>`;
-              
-              const textarea = textareaRef.current;
-              if (textarea) {
-                const start = textarea.selectionStart;
-                const end = textarea.selectionEnd;
-                const newValue = value.substring(0, start) + linkTag + value.substring(end);
-                onChange(newValue);
-              } else {
-                onChange(value + linkTag);
-              }
-            }}
-            className="flex items-center gap-2 bg-[#1B3B5F] hover:bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors shadow-lg"
-            title="Insert a hyperlink"
-          >
-            <PenLine size={14} />
-            Insert Link
-          </button>
-        </div>
+        <button type="button" onClick={handleDriveImport} className="text-[10px] uppercase tracking-widest bg-[#E87722]/20 text-[#E87722] hover:bg-[#E87722] hover:text-white px-2 py-1 rounded transition-colors font-bold flex items-center gap-1">
+          <Camera size={12} />
+          Import GDrive Image
+        </button>
       </div>
-      
-      <textarea
-        ref={textareaRef}
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        rows={12}
-        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-[#E87722] focus:ring-1 focus:ring-[#E87722]/30 outline-none transition-all resize-y font-mono"
-        placeholder="Type HTML content here... Use the 'Insert Image' button to add photos."
-      />
+      <div className="bg-white text-black rounded-lg overflow-hidden border border-white/10 shadow-inner p-2">
+        <DefaultEditor 
+          value={value || ''} 
+          onChange={(e) => onChange(e.target.value)}
+          containerProps={{ style: { minHeight: '350px', border: 'none' } }}
+        />
+      </div>
     </div>
   );
 };
@@ -212,10 +144,27 @@ function ImagePickerModal({ onClose, onSelect, selectedValue }: { onClose: () =>
 
 function ImageField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   const [showPicker, setShowPicker] = useState(false);
+  
+  const handleDriveImport = () => {
+    const url = window.prompt("Enter Google Drive Image URL:");
+    if (!url) return;
+    const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      onChange(`https://drive.google.com/uc?export=view&id=${match[1]}`);
+    } else {
+      alert("Invalid Google Drive URL. Could not find File ID.");
+    }
+  };
+
   return (
     <div className="mb-5 relative">
       {showPicker && <ImagePickerModal onClose={() => setShowPicker(false)} onSelect={onChange} selectedValue={value} />}
-      <label className="block text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-2">{label}</label>
+      <div className="flex justify-between items-center mb-2">
+        <label className="block text-[10px] font-black text-white/40 uppercase tracking-[0.2em]">{label}</label>
+        <button type="button" onClick={handleDriveImport} className="text-[10px] uppercase tracking-widest bg-[#1B3B5F] text-white hover:bg-[#E87722] px-2 py-1 rounded transition-colors font-bold">
+          GDrive URL
+        </button>
+      </div>
       <div className="flex gap-2">
         <input
           type="text"

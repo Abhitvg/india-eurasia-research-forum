@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 import { Calendar, Quote, ArrowRight } from 'lucide-react';
 import SubHero from '../components/SubHero';
 import { useContent } from '../context/ContentContext';
-import GangaLogo from '../components/GangaLogo';
+import React from 'react';
 import SEOHead from '../components/SEOHead';
 
 export default function VolgaToGanga() {
@@ -40,8 +40,8 @@ export default function VolgaToGanga() {
                viewport={{ once: true }}
                className="flex justify-center mb-16"
             >
-              <div className="h-64 scale-125 flex items-center justify-center">
-                <GangaLogo className="w-full h-full" />
+              <div className="w-full h-full p-4 md:p-8 flex items-center justify-center">
+                <img src="/volga_to_ganga_final.png" alt="Volga to Ganga Logo" className="w-full h-full object-contain" />
               </div>
             </motion.div>
             

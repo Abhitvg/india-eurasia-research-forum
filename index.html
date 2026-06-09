@@ -12,6 +12,12 @@
     <meta name="theme-color" content="#1B3B5F" />
     <meta name="color-scheme" content="light" />
 
+    <!-- Preconnect & Preload -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="/ierf_normal.png" as="image" />
+    <link rel="preload" href="/og-image.webp" as="image" />
+
     <!-- Canonical -->
     <link rel="canonical" href="https://indiaeurasia.org/" />
 
@@ -35,6 +41,12 @@
     <meta name="twitter:image" content="https://indiaeurasia.org/og-image.webp" />
     <meta name="twitter:image:alt" content="India Eurasia Research Forum logo and branding" />
 
+    <!-- GEO Tags -->
+    <meta name="geo.region" content="IN-DL" />
+    <meta name="geo.placename" content="New Delhi" />
+    <meta name="geo.position" content="28.6139;77.2090" />
+    <meta name="ICBM" content="28.6139, 77.2090" />
+
     <!-- Structured Data: Organization -->
     <script type="application/ld+json">
     {
@@ -43,10 +55,18 @@
       "name": "India Eurasia Research Forum",
       "alternateName": "IERF",
       "url": "https://indiaeurasia.org",
-      "logo": "https://indiaeurasia.org/logo_opt.webp",
+      "logo": "https://indiaeurasia.org/ierf_normal.png",
       "description": "A premier academic platform promoting research, dialogue, and trans-regional connectivity between India and the Eurasian region.",
       "foundingDate": "2023",
       "sameAs": [],
+      "location": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "New Delhi",
+          "addressCountry": "IN"
+        }
+      },
       "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "general",

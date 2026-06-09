@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useContent } from '../context/ContentContext';
 import ScrollReveal from '../components/ScrollReveal';
-import GangaLogo from '../components/GangaLogo';
+import React from 'react';
 import EurasiaMap from '../components/EurasiaMap';
 import SEOHead from '../components/SEOHead';
 
@@ -270,7 +270,9 @@ export default function Home() {
               <div className="relative group">
                 <div className="absolute inset-0 bg-[#E87722]/20 rounded-full blur-[100px] transition-all duration-700 group-hover:bg-[#E87722]/30"></div>
                 <div className="relative rounded-[3rem] md:rounded-[5rem] bg-white/5 backdrop-blur-3xl p-10 md:p-16 border border-white/10 shadow-3xl flex flex-col items-center justify-center min-h-[360px] md:min-h-[480px] transform transition-all duration-1000 hover:rotate-2 hover:scale-[1.02]">
-                  <GangaLogo className="w-64 md:w-80 h-auto" />
+                  <div className="w-64 md:w-80 h-auto">
+                    <img src="/volga_to_ganga_final.png" alt="Volga to Ganga Logo" className="w-full h-full object-contain" />
+                  </div>
                   <div className="mt-8 inline-block px-8 py-3 rounded-full bg-[#E87722] text-white text-[10px] font-black uppercase tracking-[0.5em] shadow-2xl">
                     Global Flagship
                   </div>
