@@ -6,6 +6,7 @@ interface SEOHeadProps {
   path: string;
   type?: string;
   image?: string;
+  keywords?: string;
   articleData?: {
     publishedTime: string;
     author: string;
@@ -17,7 +18,7 @@ const BASE_URL = 'https://indiaeurasia.org';
 const DEFAULT_IMAGE = `${BASE_URL}/ierf_normal.png`;
 const SITE_NAME = 'India Eurasia Research Forum (IERF)';
 
-export default function SEOHead({ title, description, path, type = 'website', image, articleData }: SEOHeadProps) {
+export default function SEOHead({ title, description, path, type = 'website', image, keywords, articleData }: SEOHeadProps) {
   const fullTitle = path === '/' ? title : `${title} | ${SITE_NAME}`;
   const canonicalUrl = `${BASE_URL}${path}`;
   const ogImage = image || DEFAULT_IMAGE;
@@ -39,6 +40,17 @@ export default function SEOHead({ title, description, path, type = 'website', im
 
     // Standard meta
     setMeta('name', 'description', description);
+    if (keywords) {
+      setMeta('name', 'keywords', keywords);
+    } else {
+      setMeta('name', 'keywords', 'India Eurasia, IERF, Geopolitics, Central Asia, Connectivity, Research Forum, Volga to Ganga, India Russia Relations, Eurasian Studies, International Relations, South Asia, Foreign Policy, Strategic Studies');
+    }
+
+    // GEO Tags for local/geographic search relevance
+    setMeta('name', 'geo.region', 'IN-DL');
+    setMeta('name', 'geo.placename', 'New Delhi');
+    setMeta('name', 'geo.position', '28.6139;77.2090');
+    setMeta('name', 'ICBM', '28.6139, 77.2090');
 
     // Open Graph
     setMeta('property', 'og:title', fullTitle);
@@ -56,13 +68,52 @@ export default function SEOHead({ title, description, path, type = 'website', im
     setMeta('property', 'twitter:url', canonicalUrl);
     setMeta('property', 'twitter:image', ogImage);
 
-    // Article Specific Meta
+    // Dynamic JSON-LD Breadcrumb List for search engines
+    const pathSegments = path.split('/').filter(Boolean);
+    const breadcrumbList = [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": BASE_URL
+      }
+    ];
+
+    let cumulativePath = BASE_URL;
+    pathSegments.forEach((segment, index) => {
+      cumulativePath += `/${segment}`;
+      // Make it readable (e.g. "write-for-us" -> "Write For Us")
+      const name = segment
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+      breadcrumbList.push({
+        "@type": "ListItem",
+        "position": index + 2,
+        "name": name,
+        "item": cumulativePath
+      });
+    });
+
+    let breadcrumbLdJson = document.querySelector('script[id="breadcrumb-ld-json"]') as HTMLScriptElement | null;
+    if (!breadcrumbLdJson) {
+      breadcrumbLdJson = document.createElement('script');
+      breadcrumbLdJson.setAttribute('type', 'application/ld+json');
+      breadcrumbLdJson.setAttribute('id', 'breadcrumb-ld-json');
+      document.head.appendChild(breadcrumbLdJson);
+    }
+    breadcrumbLdJson.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": breadcrumbList
+    });
+
+    // Article Specific Meta & JSON-LD Schema
     if (type === 'article' && articleData) {
       setMeta('property', 'article:published_time', articleData.publishedTime);
       setMeta('property', 'article:author', articleData.author);
       setMeta('property', 'article:section', articleData.section);
 
-      // JSON-LD Structured Data for Articles
       let ldJson = document.querySelector('script[id="article-ld-json"]') as HTMLScriptElement | null;
       if (!ldJson) {
         ldJson = document.createElement('script');
@@ -73,7 +124,7 @@ export default function SEOHead({ title, description, path, type = 'website', im
       ldJson.textContent = JSON.stringify({
         "@context": "https://schema.org",
         "@type": "NewsArticle",
-        "headline": fullTitle,
+        "headline": title,
         "image": [ogImage],
         "datePublished": articleData.publishedTime,
         "author": [{
@@ -81,7 +132,7 @@ export default function SEOHead({ title, description, path, type = 'website', im
             "name": articleData.author
         }],
         "publisher": {
-          "@type": "Organization",
+          "@type": "ResearchOrganization",
           "name": SITE_NAME,
           "logo": {
             "@type": "ImageObject",
@@ -104,7 +155,8 @@ export default function SEOHead({ title, description, path, type = 'website', im
     }
     canonical.setAttribute('href', canonicalUrl);
 
-  }, [fullTitle, description, canonicalUrl, type, ogImage, articleData]);
+  }, [fullTitle, title, description, keywords, canonicalUrl, type, ogImage, articleData, path]);
 
   return null;
 }
+

@@ -1,13 +1,14 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
-import { ContentProvider } from './context/ContentContext';
+import { ContentProvider, useContent } from './context/ContentContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import AutoUpdateCheck from './components/AutoUpdateCheck';
 
 // Lazy load pages
-import Home from './pages/Home';
+const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
 
 // Lazy load secondary pages
@@ -75,9 +76,14 @@ function AnimatedRoutes() {
 }
 
 function AppLayout() {
+  const { loading } = useContent();
   const location = useLocation();
-  const isAdmin = location.pathname.startsWith('/admin');
+  const isAdmin = location.pathname.startsWith('/admin') || location.pathname === '/admin';
   const isHome = location.pathname === '/';
+  
+  if (loading) {
+    return <PageLoader />;
+  }
   
   if (isAdmin) {
     return (
@@ -107,7 +113,9 @@ export default function App() {
       <Router>
         <ScrollToTop />
         <AppLayout />
+        <AutoUpdateCheck />
       </Router>
     </ContentProvider>
   );
 }
+

@@ -342,10 +342,17 @@ export default function Admin() {
   const [deployError, setDeployError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [inquiries, setInquiries] = useState<{ type: 'newsletter' | 'contact', data: any, date: string }[]>(() => {
+  const [inquiries, setInquiries] = useState<{ type: 'newsletter' | 'contact', data: any, date: string, status?: 'new' | 'replied' | 'archived', notes?: string }[]>(() => {
     const stored = localStorage.getItem('ierf_inquiries');
     return stored ? JSON.parse(stored) : [];
   });
+
+  const updateInquiry = (idx: number, updates: Partial<{ status: 'new' | 'replied' | 'archived', notes: string }>) => {
+    const updated = [...inquiries];
+    updated[idx] = { ...updated[idx], ...updates };
+    setInquiries(updated);
+    localStorage.setItem('ierf_inquiries', JSON.stringify(updated));
+  };
 
   useEffect(() => { setDraft(content); }, [content]);
 
@@ -800,14 +807,32 @@ export default function Admin() {
                   {inquiries.filter(i => i.type === 'contact').length === 0 ? (
                     <p className="text-white/20 text-xs italic">No contact messages yet.</p>
                   ) : (
-                    inquiries.filter(i => i.type === 'contact').map((inq, idx) => (
-                      <div key={idx} className="bg-white/5 p-6 rounded-2xl border border-white/5 group hover:border-[#E87722]/30 transition-all">
+                    inquiries.map((inq, idx) => {
+                      if (inq.type !== 'contact') return null;
+                      const status = inq.status || 'new';
+                      return (
+                      <div key={idx} className={`bg-white/5 p-6 rounded-2xl border ${status === 'new' ? 'border-[#E87722]/50 shadow-[0_0_15px_rgba(232,119,34,0.1)]' : 'border-white/5'} transition-all`}>
                         <div className="flex justify-between items-start mb-4">
                           <div>
                             <h4 className="text-[#E87722] font-black text-sm mb-0.5">{inq.data.name}</h4>
                             <p className="text-white/40 text-[10px] font-bold">{inq.data.email}</p>
                           </div>
-                          <span className="text-white/20 text-[10px] font-black uppercase tracking-tighter">{new Date(inq.date).toLocaleString()}</span>
+                          <div className="flex items-center gap-3">
+                            <span className="text-white/20 text-[10px] font-black uppercase tracking-tighter">{new Date(inq.date).toLocaleString()}</span>
+                            <select 
+                              value={status} 
+                              onChange={(e) => updateInquiry(idx, { status: e.target.value as 'new' | 'replied' | 'archived' })}
+                              className={`text-[10px] uppercase font-black tracking-widest px-2 py-1 rounded-md outline-none cursor-pointer ${
+                                status === 'new' ? 'bg-[#E87722]/20 text-[#E87722]' : 
+                                status === 'replied' ? 'bg-green-500/20 text-green-400' : 
+                                'bg-white/10 text-white/40'
+                              }`}
+                            >
+                              <option value="new" className="bg-[#0A192F] text-white">New</option>
+                              <option value="replied" className="bg-[#0A192F] text-white">Replied</option>
+                              <option value="archived" className="bg-[#0A192F] text-white">Archived</option>
+                            </select>
+                          </div>
                         </div>
                         <div className="mb-3">
                           <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] block mb-1">Subject</span>
@@ -817,8 +842,28 @@ export default function Admin() {
                           <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] block mb-1">Message</span>
                           <p className="text-white/70 text-sm leading-relaxed bg-black/20 p-4 rounded-xl border border-white/5">{inq.data.message}</p>
                         </div>
+
+                        {/* Client Response Management UI */}
+                        <div className="border-t border-white/5 pt-4 mt-4 space-y-3">
+                           <div className="flex justify-between items-center">
+                             <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">Response Management</span>
+                             <a 
+                               href={`mailto:${inq.data.email}?subject=Re: ${encodeURIComponent(inq.data.subject)}&body=${encodeURIComponent(`\n\n---\nOn ${new Date(inq.date).toLocaleString()}, ${inq.data.name} wrote:\n${inq.data.message}`)}`}
+                               onClick={() => updateInquiry(idx, { status: 'replied' })}
+                               className="flex items-center gap-1.5 px-3 py-1.5 bg-[#E87722]/10 hover:bg-[#E87722] text-[#E87722] hover:text-white rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all"
+                             >
+                               <Mail size={12} /> Reply via Email
+                             </a>
+                           </div>
+                           <textarea
+                             value={inq.notes || ''}
+                             onChange={(e) => updateInquiry(idx, { notes: e.target.value })}
+                             placeholder="Add internal notes about this response..."
+                             className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-white/70 text-xs focus:border-[#E87722] focus:ring-1 focus:ring-[#E87722]/30 outline-none transition-all resize-none h-20"
+                           />
+                        </div>
                       </div>
-                    ))
+                    );})
                   )}
                 </div>
               </div>
