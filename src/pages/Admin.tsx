@@ -3,6 +3,8 @@ import { useContent } from '../context/ContentContext';
 import { SiteContent, PersonData, PublicationData, EventData, GalleryImageData, ContactInfoData, PillarData, CategoryData } from '../data/siteContent';
 import { Save, Download, Upload, RotateCcw, Lock, Eye, Plus, Trash2, ChevronDown, ChevronRight, Home, Info, Users, BookOpen, Calendar, PenLine, Mail, MessageSquare, Camera, Mic, LayoutDashboard, X, Search, Send } from 'lucide-react';
 import { DefaultEditor } from 'react-simple-wysiwyg';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '../firebase';
 
 const ADMIN_PASSWORD = '65002 u171749519@145.223.17.93';
 
@@ -144,6 +146,8 @@ function ImagePickerModal({ onClose, onSelect, selectedValue }: { onClose: () =>
 
 function ImageField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   const [showPicker, setShowPicker] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const handleDriveImport = () => {
     const url = window.prompt("Enter Google Drive Image URL:");
@@ -156,9 +160,34 @@ function ImageField({ label, value, onChange }: { label: string; value: string; 
     }
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const storageRef = ref(storage, `images/${Date.now()}_${file.name}`);
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+      onChange(downloadURL);
+    } catch (err: any) {
+      console.error("Error uploading image:", err);
+      alert(`Upload failed: ${err.message}`);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <div className="mb-5 relative">
       {showPicker && <ImagePickerModal onClose={() => setShowPicker(false)} onSelect={onChange} selectedValue={value} />}
+      <input 
+        type="file" 
+        ref={fileInputRef} 
+        onChange={handleFileUpload} 
+        accept="image/*" 
+        className="hidden" 
+      />
       <div className="flex justify-between items-center mb-2">
         <label className="block text-[10px] font-black text-white/40 uppercase tracking-[0.2em]">{label}</label>
         <button type="button" onClick={handleDriveImport} className="text-[10px] uppercase tracking-widest bg-[#1B3B5F] text-white hover:bg-[#E87722] px-2 py-1 rounded transition-colors font-bold">
@@ -173,10 +202,17 @@ function ImageField({ label, value, onChange }: { label: string; value: string; 
           className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-[#E87722] focus:ring-1 focus:ring-[#E87722]/30 outline-none transition-all"
         />
         <button 
-          onClick={() => setShowPicker(true)}
-          className="px-5 py-3 bg-white/10 hover:bg-[#E87722] text-white rounded-xl text-[11px] font-bold transition-colors whitespace-nowrap uppercase tracking-widest shadow-sm"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={uploading}
+          className="px-5 py-3 bg-[#E87722]/20 hover:bg-[#E87722] text-[#E87722] hover:text-white rounded-xl text-[11px] font-bold transition-all whitespace-nowrap uppercase tracking-widest shadow-sm disabled:opacity-50"
         >
-          Browse...
+          {uploading ? "Uploading..." : "Upload File"}
+        </button>
+        <button 
+          onClick={() => setShowPicker(true)}
+          className="px-5 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-[11px] font-bold transition-colors whitespace-nowrap uppercase tracking-widest shadow-sm"
+        >
+          Gallery...
         </button>
       </div>
     </div>
