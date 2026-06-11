@@ -25,3 +25,7 @@ test_glob.js
 IERF_Content/
 src/*.json
 !src/data/siteContent.ts
+
+# Firebase Cache
+.firebase/
+
