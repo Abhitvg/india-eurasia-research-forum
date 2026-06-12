@@ -1,11 +1,8 @@
 $ORIGIN indiaeurasia.org.
 $TTL 3600
 
-; Firebase Hosting A Record
-@   IN  A     199.36.158.100
+; Vercel A Record
+@   IN  A     76.76.21.21
 
-; Firebase Verification TXT Record
-@   IN  TXT   "hosting-site=ierf-525cc"
-
-; Setup 'www' to point to the main domain
-www IN  CNAME indiaeurasia.org.
+; Vercel CNAME for www
+www IN  CNAME cname.vercel-dns.com.
