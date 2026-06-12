@@ -43,8 +43,8 @@ export default function PublicationDetail() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Publication Not Found</h2>
-          <Link href="/publications" className="text-[#1B3B5F] hover:text-[#E87722] font-semibold flex items-center justify-center">
-            <ArrowLeft size={18} className="mr-2" /> Back to Publications
+          <Link href="/research" className="text-[#1B3B5F] hover:text-[#E87722] font-semibold flex items-center justify-center">
+            <ArrowLeft size={18} className="mr-2" /> Back to Research
           </Link>
         </div>
       </div>
@@ -56,7 +56,7 @@ export default function PublicationDetail() {
       <SEOHead
         title={publication.title}
         description={publication.description}
-        path={`/publications/${publication.id}`}
+        path={`/research/${publication.id}`}
         type="article"
         image={publication.image?.startsWith('http') ? publication.image : `https://indiaeurasia.org${publication.image}`}
         articleData={{
@@ -80,8 +80,8 @@ export default function PublicationDetail() {
             animate={{ opacity: 1, x: 0 }}
             className="mb-8 drop-shadow-lg"
           >
-            <Link href="/publications" className="inline-flex items-center bg-black/25 backdrop-blur-md px-4 py-2 rounded-full text-white hover:bg-black/40 transition-colors font-bold text-sm tracking-wide group border border-white/10 shadow-lg">
-              <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" /> BACK TO PUBLICATIONS
+            <Link href="/research" className="inline-flex items-center bg-black/25 backdrop-blur-md px-4 py-2 rounded-full text-white hover:bg-black/40 transition-colors font-bold text-sm tracking-wide group border border-white/10 shadow-lg">
+              <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" /> BACK TO RESEARCH
             </Link>
           </motion.div>
 
@@ -219,8 +219,8 @@ export default function PublicationDetail() {
 
           {/* Bottom Navigation */}
           <div className="mt-12 text-center">
-            <Link href="/publications" className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B3B5F] font-bold rounded-xl border-2 border-[#1B3B5F] hover:bg-[#1B3B5F] hover:text-white transition-all shadow-sm">
-              <ArrowLeft size={18} className="mr-2" /> SEE ALL PUBLICATIONS
+            <Link href="/research" className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B3B5F] font-bold rounded-xl border-2 border-[#1B3B5F] hover:bg-[#1B3B5F] hover:text-white transition-all shadow-sm">
+              <ArrowLeft size={18} className="mr-2" /> SEE ALL RESEARCH
             </Link>
           </div>
         </div>

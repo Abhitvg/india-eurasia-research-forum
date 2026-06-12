@@ -167,7 +167,7 @@ function PublicationsContent() {
                     <span className="flex items-center gap-1 uppercase"><Globe size={12} className="text-[#E87722]"/> {pub.region?.replace('-', ' ') || 'General'}</span>
                   </div>
                   
-                  <Link href={`/publications/${pub.id}`}>
+                  <Link href={`/research/${pub.id}`}>
                     <h3 className="text-2xl font-black text-[#1B3B5F] mb-6 hover:text-[#E87722] transition-colors leading-[1.3] tracking-tight">
                       {pub.title}
                     </h3>
@@ -180,7 +180,7 @@ function PublicationsContent() {
                   <div className="mt-auto flex items-center justify-between pt-8 border-t border-gray-50">
                     <span className="text-[10px] font-black text-[#1B3B5F]/40 uppercase tracking-[0.2em]">{pub.author}</span>
                     <Link 
-                      href={`/publications/${pub.id}`}
+                      href={`/research/${pub.id}`}
                       className="flex items-center gap-2 text-[10px] font-black text-[#E87722] uppercase tracking-widest hover:gap-3 transition-all"
                     >
                       Read More <ArrowRight size={14} />
