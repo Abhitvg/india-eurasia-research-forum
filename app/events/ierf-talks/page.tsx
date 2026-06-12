@@ -29,7 +29,7 @@ export default function IERFTalks() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-xl w-full bg-white rounded-[2.5rem] p-12 text-center shadow-[0_20px_50px_-15px_rgba(27,59,95,0.1)] border border-gray-100 relative overflow-hidden"
+          className="max-w-xl w-full bg-white rounded-xl p-12 text-center shadow-[0_20px_50px_-15px_rgba(27,59,95,0.1)] border border-gray-100 relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-b from-[#1B3B5F]/40 via-[#1B3B5F]/0 to-[#1B3B5F]/60"></div>
           

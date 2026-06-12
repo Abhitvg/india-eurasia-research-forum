@@ -98,7 +98,7 @@ function EurasiaMapComponent() {
 
       <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         {/* Map Container */}
-        <div className="lg:col-span-8 relative aspect-[5/4] bg-gray-50 rounded-[3rem] border border-gray-200/50 shadow-2xl overflow-hidden p-4 flex items-center justify-center group/map">
+        <div className="lg:col-span-8 relative aspect-[5/4] bg-gray-50 rounded-xl border border-gray-200/50 shadow-2xl overflow-hidden p-4 flex items-center justify-center group/map">
           <svg 
             viewBox="0 0 1000 800" 
             className="w-full h-full preserve-3d"
@@ -178,7 +178,7 @@ function EurasiaMapComponent() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="h-full flex flex-col justify-center p-12 bg-white border border-gray-100 rounded-[3rem] shadow-2xl relative overflow-hidden"
+                className="h-full flex flex-col justify-center p-12 bg-white border border-gray-100 rounded-xl shadow-2xl relative overflow-hidden"
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#E87722]/5 rounded-full -translate-y-12 translate-x-12 blur-2xl"></div>
                 
@@ -211,7 +211,7 @@ function EurasiaMapComponent() {
                 </button>
               </motion.div>
             ) : (
-              <div className="h-full flex flex-col justify-center p-12 bg-gray-50/50 border border-dashed border-gray-200 rounded-[3rem] text-center">
+              <div className="h-full flex flex-col justify-center p-12 bg-gray-50/50 border border-dashed border-gray-200 rounded-xl text-center">
                 <motion.div 
                   animate={{ 
                     rotate: [0, 5, -5, 0],

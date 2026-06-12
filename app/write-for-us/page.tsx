@@ -39,7 +39,7 @@ export default function WriteForUs() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32">
             {c.categories?.map((cat: any, idx: number) => (
               <ScrollReveal key={idx} delay={idx * 0.1}>
-                 <div className="group h-full flex flex-col p-10 bg-white border border-gray-100 rounded-[2.5rem] hover:shadow-2xl hover:shadow-[#0A192F]/5 transition-all duration-500 relative overflow-hidden">
+                 <div className="group h-full flex flex-col p-10 bg-white border border-gray-100 rounded-xl hover:shadow-2xl hover:shadow-[#0A192F]/5 transition-all duration-500 relative overflow-hidden">
                    <div className="w-20 h-20 rounded-3xl bg-gray-50 flex items-center justify-center mb-8 shadow-inner group-hover:scale-110 group-hover:bg-[#0A192F] group-hover:text-white transition-all duration-500">
                      <span className={`group-hover:text-white transition-colors ${categoryColors[idx % categoryColors.length]}`}>
                         {categoryIcons[idx % categoryIcons.length]}
@@ -59,7 +59,7 @@ export default function WriteForUs() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
             <ScrollReveal className="lg:col-span-7">
-               <div className="bg-white rounded-[3rem] p-10 md:p-16 border border-gray-100 shadow-sm h-full">
+               <div className="bg-white rounded-xl p-10 md:p-16 border border-gray-100 shadow-sm h-full">
                   <h3 className="text-3xl font-black text-[#0A192F] mb-10 tracking-tighter font-display flex items-center gap-4">
                      <Edit3 className="text-[#E87722]" size={32} /> Submission Guidelines
                   </h3>
@@ -77,7 +77,7 @@ export default function WriteForUs() {
             </ScrollReveal>
 
             <ScrollReveal delay={0.2} className="lg:col-span-5 flex flex-col justify-center">
-               <div className="bg-[#0A192F] rounded-[3rem] p-12 text-white relative overflow-hidden shadow-2xl h-full flex flex-col justify-center">
+               <div className="bg-[#0A192F] rounded-xl p-12 text-white relative overflow-hidden shadow-2xl h-full flex flex-col justify-center">
                   <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#E87722]/10 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
                   <h3 className="text-[#E87722] text-[10px] font-black uppercase tracking-[0.4em] mb-4 relative z-10">Contribute</h3>
                   <h4 className="text-4xl font-black mb-8 tracking-tighter font-display relative z-10 leading-tight">{c.ctaHeading}</h4>

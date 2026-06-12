@@ -113,8 +113,8 @@ function PublicationsContent() {
 
         {/* ── Publications Grid ── */}
         {filteredPubs.length === 0 ? (
-          <div className="py-32 text-center bg-white rounded-[3rem] border border-gray-100 shadow-sm px-6">
-            <div className="w-20 h-20 bg-gray-50 rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-inner">
+          <div className="py-32 text-center bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+            <div className="w-20 h-20 bg-gray-50 rounded-xl flex items-center justify-center mx-auto mb-8 shadow-inner">
                <Search className="text-gray-300" size={32} />
             </div>
             <h3 className="text-3xl font-black text-[#0A192F] mb-4 font-display">No results found</h3>
@@ -140,7 +140,7 @@ function PublicationsContent() {
               delay={(index % 3) * 0.1}
             >
               <div 
-                className="group flex flex-col h-full bg-white rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-2xl hover:border-gray-200 transition-all duration-500 overflow-hidden"
+                className="group flex flex-col h-full bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-2xl hover:border-gray-200 transition-all duration-500 overflow-hidden"
               >
                 <div className="h-56 relative overflow-hidden">
                   <img 

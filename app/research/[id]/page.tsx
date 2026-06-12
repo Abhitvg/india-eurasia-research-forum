@@ -122,7 +122,7 @@ export default function PublicationDetail() {
 
       {/* Article Content */}
       <section className="py-16 md:py-24 relative z-40 max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 -mt-20">
-        <div className="bg-white rounded-[3rem] shadow-2xl shadow-[#0A192F]/5 overflow-hidden border border-gray-100">
+        <div className="bg-white rounded-xl shadow-2xl shadow-[#0A192F]/5 overflow-hidden border border-gray-100">
           {/* Featured Image */}
           <div className="h-[300px] md:h-[500px] w-full relative">
             <img 
@@ -187,9 +187,9 @@ export default function PublicationDetail() {
 
             {/* Author Bio Section */}
             {(bio || authorImg) && (
-              <div className="mt-20 pt-12 border-t border-gray-100 flex flex-col md:flex-row items-center md:items-start gap-8 bg-gray-50 rounded-[2rem] p-8 md:p-10">
+              <div className="mt-20 pt-12 border-t border-gray-100 flex flex-col md:flex-row items-center md:items-start gap-8 bg-gray-50 rounded-xl p-8 md:p-10">
                  {authorImg && (
-                   <div className="w-24 h-24 rounded-[1.5rem] bg-gray-200 overflow-hidden flex-shrink-0 shadow-md">
+                   <div className="w-24 h-24 rounded-xl bg-gray-200 overflow-hidden flex-shrink-0 shadow-md">
                       <img 
                         src={authorImg} 
                         alt={publication.author} 

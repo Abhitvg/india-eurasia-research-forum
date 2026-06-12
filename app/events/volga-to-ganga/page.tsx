@@ -27,7 +27,7 @@ export default function VolgaToGanga() {
       <section className="py-24 relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mt-16">
           <ScrollReveal>
-             <div className="bg-white rounded-[4rem] p-12 md:p-24 shadow-2xl shadow-[#0A192F]/5 border border-gray-100 relative overflow-hidden">
+             <div className="bg-white rounded-xl p-12 md:p-24 shadow-2xl shadow-[#0A192F]/5 border border-gray-100 relative overflow-hidden">
                 {/* Decorative background elements */}
                 <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#E87722]/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
                 
@@ -49,14 +49,14 @@ export default function VolgaToGanga() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-gray-500 font-medium leading-relaxed text-lg max-w-5xl mx-auto mb-24 z-10 relative">
                   {c.paragraphs?.map((p: string, i: number) => (
-                    <div key={i} className="bg-gray-50 rounded-[2rem] p-8 border border-gray-100 shadow-sm">
+                    <div key={i} className="bg-gray-50 rounded-xl p-8 border border-gray-100 shadow-sm">
                       <p>{p}</p>
                     </div>
                   ))}
                 </div>
 
                 <div className="flex justify-center relative z-10">
-                   <div className="bg-[#0A192F] text-white p-16 md:p-20 rounded-[3rem] shadow-2xl relative overflow-hidden w-full max-w-3xl text-center group">
+                   <div className="bg-[#0A192F] text-white p-16 md:p-20 rounded-xl shadow-2xl relative overflow-hidden w-full max-w-3xl text-center group">
                       <div className="absolute inset-0 bg-[#E87722] opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
                       <h3 className="text-[#E87722] text-[10px] font-black uppercase tracking-[0.4em] mb-6">{c.ctaPhase}</h3>
                       <h4 className="text-4xl md:text-5xl font-black mb-8 tracking-tighter font-display">{c.ctaHeading}</h4>

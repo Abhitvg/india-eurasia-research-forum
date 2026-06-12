@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from 'motion/react';
-import { Search, BookOpen, MessageCircle, Handshake, Target, ArrowRight, MoveRight, Compass } from 'lucide-react';
+import { Search, BookOpen, MessageCircle, Handshake, Target, ArrowRight, Compass } from 'lucide-react';
 import Link from 'next/link';
 
 import SubHero from '@/src/components/SubHero';
@@ -13,7 +13,7 @@ export default function About() {
   const { content } = useContent();
   const c = content.about;
   return (
-    <div className="flex flex-col min-h-screen bg-[#FAFAFA] pb-24">
+    <div className="flex flex-col min-h-screen bg-white pb-24">
       <SEOHead
         title="About Us"
         description="Learn about IERF's mission to bridge India and Eurasia through academic research, strategic dialogue, and collaborative engagement across civilizational, economic, and security domains."
@@ -30,15 +30,15 @@ export default function About() {
         {/* ── WHO WE ARE ── */}
         <section>
           <ScrollReveal>
-            <div className="bg-white rounded-[3rem] p-10 md:p-16 shadow-sm border border-gray-100 flex flex-col md:flex-row gap-12 items-center hover:shadow-xl transition-all duration-500">
+            <div className="bg-gray-50 rounded-lg p-10 md:p-16 border border-gray-100 flex flex-col md:flex-row gap-12 items-center">
                <div className="md:w-1/3">
-                  <h2 className="text-4xl md:text-5xl font-black text-[#0A192F] tracking-tighter leading-tight font-display mb-4">
+                  <h2 className="text-3xl md:text-5xl font-bold text-[#0A192F] leading-tight mb-4">
                      Who We <br/><span className="text-[#E87722]">Are.</span>
                   </h2>
-                  <div className="w-16 h-2 bg-[#E87722] rounded-full"></div>
+                  <div className="w-16 h-1.5 bg-[#E87722] rounded-full"></div>
                </div>
                <div className="md:w-2/3">
-                  <p className="text-gray-500 text-xl leading-relaxed font-medium">
+                  <p className="text-gray-600 text-lg md:text-xl leading-relaxed">
                      {c.whoWeAre}
                   </p>
                </div>
@@ -46,19 +46,19 @@ export default function About() {
           </ScrollReveal>
         </section>
 
-        {/* ── WHAT WE DO (BENTO) ── */}
+        {/* ── WHAT WE DO ── */}
         <section>
           <ScrollReveal>
             <div className="text-center mb-12">
-               <h2 className="text-[#E87722] font-black text-[10px] uppercase tracking-[0.4em] mb-4">Core Mission</h2>
-               <h3 className="text-4xl md:text-5xl font-black text-[#0A192F] tracking-tighter font-display mb-6">What We Do</h3>
-               <p className="text-gray-500 text-lg max-w-3xl mx-auto font-medium">
+               <h2 className="text-[#E87722] font-bold text-sm uppercase tracking-widest mb-3">Core Mission</h2>
+               <h3 className="text-3xl md:text-4xl font-bold text-[#0A192F] mb-6">What We Do</h3>
+               <p className="text-gray-600 text-lg max-w-3xl mx-auto">
                   {c.whatWeDoIntro}
                </p>
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {c.pillars?.map((pillar: any, index: number) => {
               const icons = [
                 <Search size={32} className="text-blue-500" />,
@@ -68,12 +68,12 @@ export default function About() {
               ];
               return (
                 <ScrollReveal key={pillar.title} delay={index * 0.1}>
-                   <div className="bg-white rounded-[2rem] p-10 border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 group h-full flex flex-col">
-                      <div className="w-20 h-20 bg-gray-50 rounded-[1.5rem] flex items-center justify-center mb-8 group-hover:scale-110 group-hover:shadow-md transition-all duration-500">
+                   <div className="bg-white rounded-lg p-8 border border-gray-200 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
+                      <div className="mb-6">
                          {icons[index % icons.length]}
                       </div>
-                      <h3 className="text-2xl font-black text-[#0A192F] mb-4">{pillar.title}</h3>
-                      <p className="text-gray-500 leading-relaxed font-medium">{pillar.description}</p>
+                      <h3 className="text-xl font-bold text-[#0A192F] mb-3">{pillar.title}</h3>
+                      <p className="text-gray-600 leading-relaxed">{pillar.description}</p>
                    </div>
                 </ScrollReveal>
               );
@@ -84,16 +84,16 @@ export default function About() {
         {/* ── OUR VISION ── */}
         <section>
           <ScrollReveal>
-             <div className="bg-[#0A192F] rounded-[3rem] p-10 md:p-16 lg:p-20 text-white relative overflow-hidden shadow-2xl">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#E87722]/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3"></div>
-                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/3"></div>
+             <div className="bg-[#0A192F] rounded-lg p-10 md:p-16 lg:p-20 text-white relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#E87722]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+                <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-blue-500/10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3"></div>
                 
                 <div className="relative z-10 max-w-4xl mx-auto text-center">
-                   <div className="w-20 h-20 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-10 border border-white/20">
-                      <Compass size={36} className="text-[#E87722]" />
+                   <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-white/20">
+                      <Compass size={32} className="text-[#E87722]" />
                    </div>
-                   <h2 className="text-4xl md:text-6xl font-black mb-10 tracking-tighter font-display">Our Vision</h2>
-                   <div className="space-y-8 text-white/80 text-xl md:text-2xl leading-relaxed font-medium">
+                   <h2 className="text-3xl md:text-5xl font-bold mb-8">Our Vision</h2>
+                   <div className="space-y-6 text-gray-300 text-lg md:text-xl leading-relaxed">
                      {c.visionParagraphs?.map((p: string, i: number) => (
                        <p key={i}>{p}</p>
                      ))}
@@ -106,15 +106,15 @@ export default function About() {
         {/* ── FOCUS AREAS ── */}
         <section>
            <ScrollReveal>
-              <div className="text-center mb-12">
-                 <h2 className="text-[#E87722] font-black text-[10px] uppercase tracking-[0.4em] mb-4">Research Domains</h2>
-                 <h3 className="text-4xl md:text-5xl font-black text-[#0A192F] tracking-tighter font-display mb-6">Focus Areas</h3>
+              <div className="text-center mb-10">
+                 <h2 className="text-[#E87722] font-bold text-sm uppercase tracking-widest mb-3">Research Domains</h2>
+                 <h3 className="text-3xl md:text-4xl font-bold text-[#0A192F] mb-6">Focus Areas</h3>
               </div>
            </ScrollReveal>
            <div className="flex flex-wrap justify-center gap-4">
               {c.focusAreas?.map((area: string, index: number) => (
                  <ScrollReveal key={index} delay={index * 0.05}>
-                    <div className="bg-white px-8 py-4 rounded-full border border-gray-200 shadow-sm font-bold text-[#0A192F] hover:border-[#E87722] hover:text-[#E87722] hover:-translate-y-1 transition-all cursor-default">
+                    <div className="bg-gray-50 px-6 py-3 rounded text-sm font-bold text-[#0A192F] border border-gray-200">
                        {area}
                     </div>
                  </ScrollReveal>
@@ -125,10 +125,10 @@ export default function About() {
         {/* ── WHY IERF ── */}
         <section>
            <ScrollReveal>
-             <div className="bg-gradient-to-br from-gray-50 to-white rounded-[3rem] p-10 md:p-16 border border-gray-100 shadow-sm">
+             <div className="bg-white rounded-lg p-10 md:p-16 border border-gray-200 shadow-sm">
                 <div className="max-w-4xl mx-auto">
-                   <h2 className="text-4xl md:text-5xl font-black text-[#0A192F] tracking-tighter font-display mb-10 text-center">Why IERF</h2>
-                   <div className="space-y-8 text-gray-600 text-lg md:text-xl leading-relaxed font-medium text-center">
+                   <h2 className="text-3xl md:text-4xl font-bold text-[#0A192F] mb-8 text-center">Why IERF</h2>
+                   <div className="space-y-6 text-gray-600 text-lg leading-relaxed text-center">
                      {c.whyIerfParagraphs?.map((p: string, i: number) => (
                        <p key={i}>{p}</p>
                      ))}
@@ -139,21 +139,21 @@ export default function About() {
         </section>
 
         {/* ── CTA ── */}
-        <section className="text-center">
+        <section className="text-center pt-8 border-t border-gray-100">
            <ScrollReveal>
-             <h3 className="text-4xl md:text-5xl font-black text-[#0A192F] tracking-tighter font-display mb-10">Connect With Us</h3>
-             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+             <h3 className="text-3xl md:text-4xl font-bold text-[#0A192F] mb-8">Connect With Us</h3>
+             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   href="/our-people"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 bg-[#E87722] text-white text-sm font-black uppercase tracking-[0.2em] rounded-full hover:bg-orange-600 transition-all shadow-[0_8px_30px_rgba(232,119,34,0.3)] hover:-translate-y-1 group"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#E87722] text-white text-sm font-bold uppercase tracking-wider rounded hover:bg-orange-600 transition-colors"
                 >
-                  Meet Our People <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                  Meet Our People <ArrowRight size={18} />
                 </Link>
                 <Link
-                  href="/research"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 bg-white text-[#0A192F] border border-gray-200 text-sm font-black uppercase tracking-[0.2em] rounded-full hover:border-[#0A192F] transition-all shadow-sm hover:-translate-y-1 group"
+                  href="/contact"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-[#0A192F] border border-gray-300 text-sm font-bold uppercase tracking-wider rounded hover:bg-gray-50 hover:border-gray-400 transition-colors"
                 >
-                  Read Research <MoveRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                  Contact Us
                 </Link>
              </div>
            </ScrollReveal>

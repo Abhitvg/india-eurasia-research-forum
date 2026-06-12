@@ -51,18 +51,18 @@ export default function DigiEurasia() {
             <ScrollReveal delay={0.2} className="lg:col-span-7">
                <div className="grid grid-cols-2 gap-4 h-full">
                   <div className="space-y-4 h-full flex flex-col">
-                     <div className="rounded-[2.5rem] overflow-hidden flex-grow shadow-lg hover:shadow-2xl transition-all group">
+                     <div className="rounded-xl overflow-hidden flex-grow shadow-lg hover:shadow-2xl transition-all group">
                        <img src="/images/digieurasia/landscape-1.webp" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Architecture" />
                      </div>
-                     <div className="rounded-[2.5rem] overflow-hidden h-40 shadow-lg hover:shadow-2xl transition-all group">
+                     <div className="rounded-xl overflow-hidden h-40 shadow-lg hover:shadow-2xl transition-all group">
                        <img src="/images/digieurasia/landscape-3.webp" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Motifs" />
                      </div>
                   </div>
                   <div className="space-y-4 pt-12 h-full flex flex-col">
-                     <div className="rounded-[2.5rem] overflow-hidden h-40 shadow-lg hover:shadow-2xl transition-all group">
+                     <div className="rounded-xl overflow-hidden h-40 shadow-lg hover:shadow-2xl transition-all group">
                        <img src="/images/digieurasia/landscape-2.webp" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Detail" />
                      </div>
-                     <div className="rounded-[2.5rem] overflow-hidden flex-grow shadow-lg hover:shadow-2xl transition-all group">
+                     <div className="rounded-xl overflow-hidden flex-grow shadow-lg hover:shadow-2xl transition-all group">
                        <img src="/images/digieurasia/landscape-4.webp" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Aerial" />
                      </div>
                   </div>
@@ -79,7 +79,7 @@ export default function DigiEurasia() {
              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                {c.images?.map((img: any, idx: number) => (
                  <ScrollReveal key={idx} delay={idx * 0.1}>
-                   <div className="group relative rounded-[3rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 bg-white border border-gray-100">
+                   <div className="group relative rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 bg-white border border-gray-100">
                      <div className="aspect-[4/3] w-full overflow-hidden">
                         <img 
                            src={img.url} 
@@ -109,7 +109,7 @@ export default function DigiEurasia() {
           {/* ── CALL TO ACTION ── */}
           <div className="max-w-5xl mx-auto">
              <ScrollReveal>
-               <div className="bg-[#0A192F] rounded-[4rem] p-12 md:p-20 text-white relative overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-between gap-12">
+               <div className="bg-[#0A192F] rounded-xl p-12 md:p-20 text-white relative overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-between gap-12">
                   <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#E87722]/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
                   
                   <div className="md:w-3/5 relative z-10 text-center md:text-left">

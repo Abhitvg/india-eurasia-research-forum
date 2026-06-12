@@ -49,13 +49,13 @@ function ProfileCard({ person, large = false }: { person: PersonData; large?: bo
     <motion.div
       variants={itemVariants}
       whileHover={{ y: -5, transition: { duration: 0.3, ease: 'easeOut' } }}
-      className={`bg-white rounded-[2rem] border border-gray-100 shadow-sm transition-all group relative overflow-hidden hover:border-[#E87722]/30 hover:shadow-2xl flex flex-col h-full ${
+      className={`bg-white rounded-xl border border-gray-100 shadow-sm transition-all group relative overflow-hidden hover:border-[#E87722]/30 hover:shadow-2xl flex flex-col h-full ${
         large ? 'p-8 sm:p-12' : 'p-6 sm:p-8'
       }`}
     >
       <div className={`flex flex-col ${large ? 'items-center text-center' : 'items-center text-center'} gap-6 relative z-10 flex-grow`}>
         <div 
-          className={`${large ? 'w-48 h-48 sm:w-56 sm:h-56' : 'w-32 h-32'} rounded-[2rem] overflow-hidden flex-shrink-0 border border-gray-100 shadow-md group-hover:shadow-xl transition-all duration-500 flex items-center justify-center bg-gray-50 group-hover:scale-105`}
+          className={`${large ? 'w-48 h-48 sm:w-56 sm:h-56' : 'w-32 h-32'} rounded-xl overflow-hidden flex-shrink-0 border border-gray-100 shadow-md group-hover:shadow-xl transition-all duration-500 flex items-center justify-center bg-gray-50 group-hover:scale-105`}
         >
           {!imageError ? (
             <img 

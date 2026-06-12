@@ -78,9 +78,9 @@ export default function Contact() {
                   <ScrollReveal key={idx} delay={idx * 0.1}>
                      <a
                        href={info.href}
-                       className="flex items-center p-6 sm:p-8 transition-all duration-500 group bg-white border border-gray-100 hover:border-[#E87722]/30 rounded-[2.5rem] shadow-sm hover:shadow-2xl hover:shadow-[#E87722]/10"
+                       className="flex items-center p-6 sm:p-8 transition-all duration-500 group bg-white border border-gray-100 hover:border-[#E87722]/30 rounded-xl shadow-sm hover:shadow-2xl hover:shadow-[#E87722]/10"
                      >
-                       <div className="w-16 h-16 bg-gray-50 rounded-[1.5rem] flex items-center justify-center text-[#0A192F] group-hover:bg-[#E87722] group-hover:text-white transition-all duration-500 mr-6 flex-shrink-0 shadow-inner group-hover:shadow-[0_0_20px_rgba(232,119,34,0.4)] group-hover:scale-110">
+                       <div className="w-16 h-16 bg-gray-50 rounded-xl flex items-center justify-center text-[#0A192F] group-hover:bg-[#E87722] group-hover:text-white transition-all duration-500 mr-6 flex-shrink-0 shadow-inner group-hover:shadow-[0_0_20px_rgba(232,119,34,0.4)] group-hover:scale-110">
                          {contactIcons[idx % contactIcons.length]}
                        </div>
                        <div>
@@ -96,7 +96,7 @@ export default function Contact() {
 
             {/* ── CONTACT FORM ── */}
             <ScrollReveal delay={0.2} className="lg:col-span-7 h-full">
-               <div className="p-10 md:p-16 relative overflow-hidden bg-white rounded-[3rem] shadow-2xl shadow-[#0A192F]/5 border border-gray-100 h-full">
+               <div className="p-10 md:p-16 relative overflow-hidden bg-white rounded-xl shadow-2xl shadow-[#0A192F]/5 border border-gray-100 h-full">
                  <div className="absolute top-0 right-0 p-12 opacity-[0.02] pointer-events-none">
                     <MessageSquare size={250} />
                  </div>
