@@ -21,7 +21,7 @@ export default function Header() {
 
   return (
     <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
-      <header className={`transition-all duration-300 w-full max-w-5xl ${scrolled ? 'glass-navbar shadow-2xl bg-[#0A192F]/80 text-white' : 'glass-navbar bg-[#0A192F]/40 text-white'}`}>
+      <header className={`transition-all duration-300 w-full max-w-5xl rounded-full backdrop-blur-xl border ${scrolled ? 'bg-[#0A192F]/95 border-white/20 shadow-2xl' : 'bg-[#0A192F]/85 border-white/10 shadow-lg'} text-white`}>
         <div className="flex justify-between items-center px-6 py-3">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 shrink-0">
