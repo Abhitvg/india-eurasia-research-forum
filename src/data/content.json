@@ -1,0 +1,106 @@
+{
+  "home": {
+    "heroTagline": "Researching Eurasia, Bridging Continents.",
+    "heroSubtitle": "India Eurasia Research Forum (IERF) is an independent initiative dedicated to promoting research, dialogue and people to people cooperation between India and Eurasia.",
+    "heroButton1": "Our Vision",
+    "heroButton2": "Read Research",
+    "visionBadge": "Institutional Vision",
+    "visionHeading": "Welcome to IERF",
+    "visionBody": "",
+    "stat1Value": "15+",
+    "stat1Label": "Countries Covered",
+    "stat2Value": "50+",
+    "stat2Label": "Policy Insights",
+    "visionQuote": "",
+    "welcomeImage": "/images/welcome_opt.webp",
+    "focusAreasTitle": "Strategic Pillars",
+    "focusAreas": [],
+    "ierfWayTitle": "The IERF Way",
+    "ierfWaySubtitle": "",
+    "ierfWayPillars": [],
+    "volgaTeaserHeading": "Volga to Ganga",
+    "volgaTeaserBody": "",
+    "digiTeaserHeading": "DigiEurasia",
+    "digiTeaserBody": "",
+    "ctaHeading": "",
+    "ctaBody": ""
+  },
+  "about": {
+    "subtitle": "",
+    "whoWeAre": "",
+    "whatWeDoIntro": "",
+    "pillars": [],
+    "visionParagraphs": [],
+    "focusAreas": [],
+    "whyIerfParagraphs": []
+  },
+  "team": {
+    "leadership": [],
+    "technicalTeam": [],
+    "advisor": {
+      "name": "",
+      "image": "",
+      "bio": "",
+      "linkedin": ""
+    },
+    "scholarlyNetwork": []
+  },
+  "publications": [],
+  "events": {
+    "subtitle": "",
+    "items": []
+  },
+  "writeForUs": {
+    "subtitle": "",
+    "categories": [],
+    "guidelines": [],
+    "ctaHeading": "",
+    "ctaBody": "",
+    "submissionEmail": ""
+  },
+  "contact": {
+    "subtitle": "",
+    "heading": "",
+    "subheading": "",
+    "body": "",
+    "info": []
+  },
+  "volgaToGanga": {
+    "subtitle": "",
+    "mainQuote": "",
+    "paragraphs": [],
+    "ctaPhase": "",
+    "ctaHeading": "",
+    "ctaBody": ""
+  },
+  "digieurasia": {
+    "subtitle": "",
+    "heading": "",
+    "quote": "",
+    "images": [],
+    "ctaHeading": "",
+    "ctaBody": "",
+    "submissionEmail": ""
+  },
+  "ierfTalks": {
+    "subtitle": "",
+    "heading": "",
+    "body": ""
+  },
+  "footer": {
+    "description": "",
+    "newsletterTitle": "",
+    "newsletterBody": ""
+  },
+  "settings": {
+    "siteName": "India Eurasia Research Forum",
+    "siteLogo": "/ierf_normal.png",
+    "socials": {
+      "x": "",
+      "instagram": "",
+      "linkedin": "",
+      "youtube": ""
+    },
+    "footerCopyright": "© 2026 India Eurasia Research Forum. All rights reserved."
+  }
+}

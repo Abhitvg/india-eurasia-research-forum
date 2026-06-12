@@ -3,6 +3,8 @@
   "/_not-found/page": "/_not-found",
   "/about/page": "/about",
   "/admin/page": "/admin",
+  "/api/github/content/route": "/api/github/content",
+  "/api/github/upload/route": "/api/github/upload",
   "/api/images/route": "/api/images",
   "/contact/page": "/contact",
   "/digieurasia/page": "/digieurasia",
@@ -13,5 +15,7 @@
   "/page": "/",
   "/research/[id]/page": "/research/[id]",
   "/research/page": "/research",
+  "/robots.txt/route": "/robots.txt",
+  "/sitemap.xml/route": "/sitemap.xml",
   "/write-for-us/page": "/write-for-us"
 }

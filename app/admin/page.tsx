@@ -5,8 +5,7 @@ import { useContent } from '@/src/context/ContentContext';
 import { SiteContent, PersonData, PublicationData, EventData, GalleryImageData, ContactInfoData, PillarData, CategoryData } from '@/src/data/siteContent';
 import { Save, Download, Upload, RotateCcw, Lock, Eye, Plus, Trash2, ChevronDown, ChevronRight, Home, Info, Users, BookOpen, Calendar, PenLine, Mail, MessageSquare, Camera, Mic, LayoutDashboard, X, Search, Send, Menu, AlertTriangle } from 'lucide-react';
 import { DefaultEditor } from 'react-simple-wysiwyg';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { storage } from '@/src/firebase';
+
 
 const ADMIN_PASSWORD = '65002 u171749519@145.223.17.93';
 
@@ -209,35 +208,39 @@ function ImageField({ label, value, onChange }: { label: string; value: string; 
     if (!file) return;
 
     setUploading(true);
-    setUploadProgress(0);
+    setUploadProgress(10); // initial progress
     try {
       // Compress image before upload
       const compressed = await compressImage(file);
       const ext = 'webp';
       const safeName = file.name.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9.\-_]/g, '_');
-      const storageRef = ref(storage, `images/${Date.now()}_${safeName}.${ext}`);
+      const filename = `${Date.now()}_${safeName}.${ext}`;
       
-      // Use resumable upload for progress tracking
-      const uploadTask = uploadBytesResumable(storageRef, compressed, { contentType: 'image/webp' });
-      
-      uploadTask.on('state_changed',
-        (snapshot) => {
-          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-          setUploadProgress(progress);
-        },
-        (error) => {
-          console.error("Upload error:", error);
-          alert(`Upload failed: ${error.message}`);
-          setUploading(false);
-          setUploadProgress(0);
-        },
-        async () => {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          onChange(downloadURL);
-          setUploading(false);
-          setUploadProgress(0);
+      // Read Blob as Base64
+      const reader = new FileReader();
+      reader.readAsDataURL(compressed);
+      reader.onloadend = async () => {
+        const base64Data = (reader.result as string).split(',')[1];
+        setUploadProgress(50);
+        
+        const res = await fetch('/api/github/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filename, base64Data }),
+        });
+        
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.message || 'Unknown error');
         }
-      );
+        
+        setUploadProgress(100);
+        onChange(data.url);
+        setTimeout(() => {
+          setUploading(false);
+          setUploadProgress(0);
+        }, 500);
+      };
     } catch (err: any) {
       console.error("Error compressing/uploading image:", err);
       alert(`Upload failed: ${err.message}`);

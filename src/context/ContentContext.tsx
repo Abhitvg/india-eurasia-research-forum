@@ -1,9 +1,7 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
 import { SiteContent, defaultContent } from '../data/siteContent';
-import { db } from '../firebase';
-import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 
 const STORAGE_KEY = 'ierf_site_content';
 
@@ -46,7 +44,9 @@ function deepMerge(defaults: any, saved: any): any {
 }
 
 export function ContentProvider({ children }: { children: ReactNode }) {
-  // Initialize with cached local data for instant paint, then upgrade from Firestore
+  // Initialize with perfectly SSR'd JSON content.
+  // Use localStorage as an optimistic UI cache so the user sees changes immediately after saving
+  // while waiting for Vercel to rebuild.
   const [content, setContent] = useState<SiteContent>(() => {
     try {
       const saved = (typeof window !== 'undefined' ? localStorage.getItem.bind(localStorage) : () => null)(STORAGE_KEY);
@@ -60,57 +60,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     return defaultContent;
   });
 
-  const [loading, setLoading] = useState(() => {
-    // Only show loading screen for first-time visitors without cache
-    return !(typeof window !== 'undefined' ? localStorage.getItem.bind(localStorage) : () => null)(STORAGE_KEY);
-  });
-
-  // Real-time Firestore listener — content updates instantly everywhere
-  useEffect(() => {
-    // Failsafe: never block the UI for more than 2.5 seconds
-    // This prevents infinite loaders if the new Firebase project doesn't have Firestore enabled yet
-    const fallbackTimer = setTimeout(() => {
-      setLoading(false);
-    }, 2500);
-
-    const docRef = doc(db, 'site_data', 'content');
-    
-    // First, try a one-time fetch for faster initial load
-    getDoc(docRef).then((docSnap) => {
-      if (docSnap.exists()) {
-        const remoteData = docSnap.data() as SiteContent;
-        const merged = deepMerge(defaultContent, remoteData);
-        setContent(merged);
-        (typeof window !== 'undefined' ? localStorage.setItem.bind(localStorage) : () => {})(STORAGE_KEY, JSON.stringify(merged));
-      } else {
-        // Initialize Firestore with defaultContent if document doesn't exist
-        setDoc(docRef, defaultContent).catch(console.error);
-      }
-    }).catch((err) => {
-      console.error('Failed to load content from Firestore:', err);
-    }).finally(() => {
-      clearTimeout(fallbackTimer);
-      setLoading(false);
-    });
-
-    // Then set up real-time listener for live updates
-    const unsubscribe = onSnapshot(docRef, (docSnap) => {
-      if (docSnap.exists()) {
-        const remoteData = docSnap.data() as SiteContent;
-        const merged = deepMerge(defaultContent, remoteData);
-        setContent(merged);
-        try {
-          (typeof window !== 'undefined' ? localStorage.setItem.bind(localStorage) : () => {})(STORAGE_KEY, JSON.stringify(merged));
-        } catch (e) {
-          // localStorage full — silently ignore
-        }
-      }
-    }, (err) => {
-      console.warn('Firestore real-time listener error:', err);
-    });
-
-    return () => unsubscribe();
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   const updateContent = (newContent: SiteContent) => {
     setContent(newContent);
@@ -153,17 +103,28 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // Save to Firestore (named saveToGitHub for API compat)
+  // Save to GitHub via Next.js API Route
   const saveToGitHub = async (contentToSave: SiteContent): Promise<SaveToGitHubResult> => {
     try {
-      const docRef = doc(db, 'site_data', 'content');
-      await setDoc(docRef, contentToSave);
-      // Update local state and storage as well
+      const res = await fetch('/api/github/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: contentToSave }),
+      });
+      
+      const data = await res.json();
+      
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || 'Unknown error');
+      }
+
+      // Optimistically update local state and storage
       updateContent(contentToSave);
-      return { success: true, message: 'Content saved to Firebase successfully! Changes are live immediately.' };
+      
+      return { success: true, message: 'Content saved to GitHub! Vercel is deploying the changes automatically. They will be live in ~45 seconds.' };
     } catch (err: any) {
-      console.error('Failed to save content to Firestore:', err);
-      return { success: false, message: `Firebase Save Error: ${err.message}` };
+      console.error('Failed to save content to GitHub:', err);
+      return { success: false, message: `Save Error: ${err.message}` };
     }
   };
 
