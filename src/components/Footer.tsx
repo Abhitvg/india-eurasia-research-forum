@@ -1,5 +1,8 @@
+"use client";
+
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { Mail, MapPin, Facebook, Twitter, Instagram, Linkedin, Send, Check } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 
@@ -24,8 +27,8 @@ export default function Footer() {
       date: new Date().toISOString()
     };
 
-    const existing = JSON.parse(localStorage.getItem('ierf_inquiries') || '[]');
-    localStorage.setItem('ierf_inquiries', JSON.stringify([...existing, newInquiry]));
+    const existing = JSON.parse((typeof window !== 'undefined' ? localStorage.getItem.bind(localStorage) : () => null)('ierf_inquiries') || '[]');
+    (typeof window !== 'undefined' ? localStorage.setItem.bind(localStorage) : () => {})('ierf_inquiries', JSON.stringify([...existing, newInquiry]));
 
     setStatus('success');
     setEmail('');
@@ -42,7 +45,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
           {/* Brand Column */}
           <div className="lg:col-span-4">
-            <Link to="/" className="flex items-center space-x-3 mb-8 group">
+            <Link href="/" className="flex items-center space-x-3 mb-8 group">
               <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center p-2.5 group-hover:scale-110 transition-all duration-500 shadow-lg group-hover:shadow-[#E87722]/40 border border-white/10 relative overflow-hidden">
                  {/* Golden hover glow */}
                  <div className="absolute inset-0 bg-gradient-to-tr from-[#E87722]/0 to-[#E87722]/0 group-hover:from-[#E87722]/5 group-hover:to-[#E87722]/10 transition-all duration-500"></div>
@@ -79,12 +82,12 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-8">Navigation</h3>
             <ul className="space-y-4 text-sm text-gray-400">
-              <li><Link to="/" className="hover:text-[#E87722] transition-colors flex items-center">Home</Link></li>
-              <li><Link to="/about" className="hover:text-[#E87722] transition-colors">About Us</Link></li>
-              <li><Link to="/research" className="hover:text-[#E87722] transition-colors">Research & Analysis</Link></li>
-              <li><Link to="/digieurasia" className="hover:text-[#E87722] transition-colors">DigiEurasia</Link></li>
-              <li><Link to="/our-people" className="hover:text-[#E87722] transition-colors">Our People</Link></li>
-              <li><Link to="/write-for-us" className="hover:text-[#E87722] transition-colors">Write for Us</Link></li>
+              <li><Link href="/" className="hover:text-[#E87722] transition-colors flex items-center">Home</Link></li>
+              <li><Link href="/about" className="hover:text-[#E87722] transition-colors">About Us</Link></li>
+              <li><Link href="/research" className="hover:text-[#E87722] transition-colors">Research & Analysis</Link></li>
+              <li><Link href="/digieurasia" className="hover:text-[#E87722] transition-colors">DigiEurasia</Link></li>
+              <li><Link href="/our-people" className="hover:text-[#E87722] transition-colors">Our People</Link></li>
+              <li><Link href="/write-for-us" className="hover:text-[#E87722] transition-colors">Write for Us</Link></li>
             </ul>
           </div>
 

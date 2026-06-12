@@ -1,7 +1,9 @@
+"use client";
+
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { SiteContent, defaultContent } from '../data/siteContent';
 import { db } from '../firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 
 const STORAGE_KEY = 'ierf_site_content';
 
@@ -44,9 +46,10 @@ function deepMerge(defaults: any, saved: any): any {
 }
 
 export function ContentProvider({ children }: { children: ReactNode }) {
+  // Initialize with cached local data for instant paint, then upgrade from Firestore
   const [content, setContent] = useState<SiteContent>(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = (typeof window !== 'undefined' ? localStorage.getItem.bind(localStorage) : () => null)(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
         return deepMerge(defaultContent, parsed);
@@ -57,44 +60,69 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     return defaultContent;
   });
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => {
+    // Only show loading screen for first-time visitors without cache
+    return !(typeof window !== 'undefined' ? localStorage.getItem.bind(localStorage) : () => null)(STORAGE_KEY);
+  });
 
-  // Load content from Firestore on mount
+  // Real-time Firestore listener — content updates instantly everywhere
   useEffect(() => {
-    async function loadFirestoreContent() {
-      try {
-        const docRef = doc(db, 'site_data', 'content');
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const remoteData = docSnap.data() as SiteContent;
-          const merged = deepMerge(defaultContent, remoteData);
-          setContent(merged);
-          // Sync with local storage
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
-        } else {
-          // Initialize Firestore with defaultContent if document doesn't exist
-          await setDoc(docRef, defaultContent);
-        }
-      } catch (err) {
-        console.error('Failed to load content from Firestore:', err);
-      } finally {
-        setLoading(false);
+    // Failsafe: never block the UI for more than 2.5 seconds
+    // This prevents infinite loaders if the new Firebase project doesn't have Firestore enabled yet
+    const fallbackTimer = setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+
+    const docRef = doc(db, 'site_data', 'content');
+    
+    // First, try a one-time fetch for faster initial load
+    getDoc(docRef).then((docSnap) => {
+      if (docSnap.exists()) {
+        const remoteData = docSnap.data() as SiteContent;
+        const merged = deepMerge(defaultContent, remoteData);
+        setContent(merged);
+        (typeof window !== 'undefined' ? localStorage.setItem.bind(localStorage) : () => {})(STORAGE_KEY, JSON.stringify(merged));
+      } else {
+        // Initialize Firestore with defaultContent if document doesn't exist
+        setDoc(docRef, defaultContent).catch(console.error);
       }
-    }
-    loadFirestoreContent();
+    }).catch((err) => {
+      console.error('Failed to load content from Firestore:', err);
+    }).finally(() => {
+      clearTimeout(fallbackTimer);
+      setLoading(false);
+    });
+
+    // Then set up real-time listener for live updates
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const remoteData = docSnap.data() as SiteContent;
+        const merged = deepMerge(defaultContent, remoteData);
+        setContent(merged);
+        try {
+          (typeof window !== 'undefined' ? localStorage.setItem.bind(localStorage) : () => {})(STORAGE_KEY, JSON.stringify(merged));
+        } catch (e) {
+          // localStorage full — silently ignore
+        }
+      }
+    }, (err) => {
+      console.warn('Firestore real-time listener error:', err);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const updateContent = (newContent: SiteContent) => {
     setContent(newContent);
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(newContent));
+      (typeof window !== 'undefined' ? localStorage.setItem.bind(localStorage) : () => {})(STORAGE_KEY, JSON.stringify(newContent));
     } catch (e) {
       console.warn('Failed to save content:', e);
     }
   };
 
   const resetToDefaults = () => {
-    localStorage.removeItem(STORAGE_KEY);
+    (typeof window !== 'undefined' ? localStorage.removeItem.bind(localStorage) : () => {})(STORAGE_KEY);
     setContent(defaultContent);
   };
 
@@ -114,7 +142,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
       const merged = deepMerge(defaultContent, parsed);
       setContent(merged);
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+        (typeof window !== 'undefined' ? localStorage.setItem.bind(localStorage) : () => {})(STORAGE_KEY, JSON.stringify(merged));
       } catch (e) {
         console.warn('Failed to save content:', e);
       }
@@ -125,7 +153,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // We keep the signature saveToGitHub but save to Firestore instead to prevent compile/runtime errors
+  // Save to Firestore (named saveToGitHub for API compat)
   const saveToGitHub = async (contentToSave: SiteContent): Promise<SaveToGitHubResult> => {
     try {
       const docRef = doc(db, 'site_data', 'content');
@@ -151,4 +179,3 @@ export function useContent(): ContentContextType {
   if (!ctx) throw new Error('useContent must be used within a ContentProvider');
   return ctx;
 }
-

@@ -1,0 +1,17 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/about/page": "/about",
+  "/admin/page": "/admin",
+  "/api/images/route": "/api/images",
+  "/contact/page": "/contact",
+  "/digieurasia/page": "/digieurasia",
+  "/events/ierf-talks/page": "/events/ierf-talks",
+  "/events/page": "/events",
+  "/events/volga-to-ganga/page": "/events/volga-to-ganga",
+  "/our-people/page": "/our-people",
+  "/page": "/",
+  "/research/[id]/page": "/research/[id]",
+  "/research/page": "/research",
+  "/write-for-us/page": "/write-for-us"
+}

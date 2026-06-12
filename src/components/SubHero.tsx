@@ -1,5 +1,8 @@
+"use client";
+
 import { motion } from 'motion/react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { ChevronRight } from 'lucide-react';
 
 interface SubHeroProps {
@@ -24,12 +27,12 @@ export default function SubHero({ title, subtitle, breadcrumb }: SubHeroProps) {
             animate={{ opacity: 1, y: 0 }}
             className="flex items-center justify-center space-x-2 mb-8"
           >
-            <Link to="/" className="text-gray-400 hover:text-[#E87722] text-xs font-bold transition-colors uppercase tracking-widest">Home</Link>
+            <Link href="/" className="text-gray-400 hover:text-[#E87722] text-xs font-bold transition-colors uppercase tracking-widest">Home</Link>
             {breadcrumb.map((item, idx) => (
               <div key={idx} className="flex items-center space-x-2">
                 <ChevronRight size={12} className="text-gray-600" />
                 {item.href ? (
-                  <Link to={item.href} className="text-gray-400 hover:text-[#E87722] text-xs font-bold transition-colors uppercase tracking-widest">
+                  <Link href={item.href} className="text-gray-400 hover:text-[#E87722] text-xs font-bold transition-colors uppercase tracking-widest">
                     {item.label}
                   </Link>
                 ) : (

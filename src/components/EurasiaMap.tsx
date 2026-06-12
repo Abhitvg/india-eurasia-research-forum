@@ -1,14 +1,23 @@
+"use client";
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Globe, ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import eurasiaPaths from '../data/eurasia_paths.json';
+import { useRouter } from 'next/navigation';
+
+import eurasiaPathsData from '../data/eurasia_paths.json';
+
+interface EurasiaPathsData {
+  [key: string]: string;
+}
+
+const paths: EurasiaPathsData = eurasiaPathsData;
 
 const regions = [
   {
     id: 'russia',
     name: 'Russia & Arctic',
-    path: eurasiaPaths.russia,
+    pathKey: 'russia',
     description: 'The vast northern frontier, serving as Eurasia\'s primary land bridge and a critical theatre for Arctic geopolitics.',
     countries: ['Russia', 'Arctic Circle'],
     labelPos: { x: 450, y: 150 }
@@ -16,7 +25,7 @@ const regions = [
   {
     id: 'central-asia',
     name: 'Central Asia',
-    path: eurasiaPaths['central-asia'],
+    pathKey: 'central-asia',
     description: 'The strategic heartland, vital for continental connectivity and energy security across the Silk Road corridors.',
     countries: ['Kazakhstan', 'Uzbekistan', 'Kyrgyzstan', 'Tajikistan', 'Turkmenistan'],
     labelPos: { x: 460, y: 320 }
@@ -24,7 +33,7 @@ const regions = [
   {
     id: 'south-asia',
     name: 'South Asia & India',
-    path: eurasiaPaths['south-asia'],
+    pathKey: 'south-asia',
     description: 'Deep analysis of India\'s central role in the Indian Ocean Region and its expanding footprint in the Eurasian landmass.',
     countries: ['India', 'Afghanistan', 'Pakistan', 'Iran', 'Himalayan States'],
     labelPos: { x: 480, y: 550 }
@@ -32,7 +41,7 @@ const regions = [
   {
     id: 'east-asia',
     name: 'East Asia',
-    path: eurasiaPaths['east-asia'],
+    pathKey: 'east-asia',
     description: 'Economic powerhouses and maritime strategic hubs driving the global shift towards the Indo-Pacific century.',
     countries: ['China', 'Mongolia', 'Japan', 'Korean Peninsula', 'ASEAN Frontier'],
     labelPos: { x: 780, y: 400 }
@@ -40,7 +49,7 @@ const regions = [
   {
     id: 'caucasus-caspian',
     name: 'Caucasus & Caspian',
-    path: eurasiaPaths['caucasus-caspian'],
+    pathKey: 'caucasus-caspian',
     description: 'The essential energy and transit corridor linking the Black Sea to the heart of the Eurasian continent.',
     countries: ['Armenia', 'Azerbaijan', 'Georgia', 'Turkey', 'Caspian Littoral'],
     labelPos: { x: 330, y: 380 }
@@ -49,11 +58,11 @@ const regions = [
 
 function EurasiaMapComponent() {
   const [hoveredRegion, setHoveredRegion] = useState<typeof regions[0] | null>(null);
-  const navigate = useNavigate();
+  const navigate = useRouter();
 
   const handleRegionClick = (regionId: string) => {
-    navigate(`/research?region=${regionId}`);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate.push(`/research?region=${regionId}`);
+    // window.scrollTo() removed for Next.js
   };
 
   return (
@@ -99,7 +108,7 @@ function EurasiaMapComponent() {
             {regions.map((region) => (
               <path
                 key={`base-${region.id}`}
-                d={region.path}
+                d={paths[region.pathKey] || ''}
                 fill="#1B3B5F"
                 opacity="0.03"
                 transform="translate(2, 2)"
@@ -109,7 +118,7 @@ function EurasiaMapComponent() {
             {regions.map((region) => (
               <motion.path
                 key={region.id}
-                d={region.path}
+                d={paths[region.pathKey] || ''}
                 fill={hoveredRegion?.id === region.id ? '#E87722' : '#1B3B5F'}
                 stroke="none"
                 opacity={hoveredRegion ? (hoveredRegion.id === region.id ? 1 : 0.4) : 0.8}
@@ -125,7 +134,7 @@ function EurasiaMapComponent() {
               />
             ))}
 
-            {/* Labels - only visible on map hover or specific region hover */}
+            {/* Labels */}
             {regions.map((region) => (
               <motion.g 
                 key={`label-${region.id}`} 

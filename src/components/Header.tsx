@@ -1,18 +1,23 @@
+"use client";
+
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
 import { Mail, Facebook, Twitter, Instagram, Menu, X, ChevronDown, Send, BookOpen, CalendarDays, Globe, Users, PenLine, MessageSquare, Compass, ChevronRight, Camera } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function Header() {
-  const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const pathname = usePathname() || '/';
+  const isHomePage = pathname === '/';
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isEventsOpen, setIsEventsOpen] = useState(false);
   const [isResearchOpen, setIsResearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   // Detect current language from googtrans cookie on initial load
   const getLangFromCookie = (): 'EN' | 'HI' | 'RU' => {
+    if (typeof document === 'undefined') return 'EN';
     const match = document.cookie.match(/googtrans=\/en\/(\w+)/);
     if (!match) return 'EN';
     if (match[1] === 'hi') return 'HI';
@@ -73,7 +78,7 @@ export default function Header() {
       >
         {/* ── Logo & Wordmark ── */}
         <div className="flex shrink-0 items-center">
-          <Link to="/" className="flex items-center gap-2 md:gap-3 group">
+          <Link href="/" className="flex items-center gap-2 md:gap-3 group">
             <div className={`relative flex-shrink-0 transition-all duration-500 flex items-center justify-center ${scrolled ? 'w-12 h-12 md:w-14 md:h-14' : 'w-14 h-14 md:w-16 md:h-16'}`}>
               <img
                 src="/ierf_normal.png"
@@ -223,7 +228,7 @@ export default function Header() {
             className="hidden md:flex items-center gap-4 pl-4 pr-1 py-1 rounded-full"
           >
             <Link
-              to="/write-for-us"
+              href="/write-for-us"
               className={`text-sm font-semibold transition-all ${
                 isLight ? 'text-white hover:text-[#E87722]' : 'text-[#1B3B5F] hover:text-[#E87722]'
               }`}
@@ -231,7 +236,7 @@ export default function Header() {
               Write for Us
             </Link>
             <Link
-              to="/contact"
+              href="/contact"
               aria-label="Navigate to contact page"
               className={`px-5 py-2 rounded-full text-[13px] font-bold transition-all shadow-sm ${scrolled
                   ? 'bg-[#E87722] text-white hover:bg-orange-600 hover:shadow-[0_0_15px_rgba(232,119,34,0.4)]'
@@ -273,7 +278,7 @@ export default function Header() {
               className="absolute right-0 top-0 bottom-0 w-[300px] bg-white flex flex-col pointer-events-auto shadow-2xl"
             >
               <div className="p-6 flex items-center justify-between border-b border-gray-50">
-                <Link to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-3 group">
+                <Link href="/" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-3 group">
                   <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
                     <img src="/ierf_normal.png" className="w-full h-full object-contain" alt="IERF" />
                   </div>
@@ -337,14 +342,14 @@ export default function Header() {
               <div className="p-6 border-t border-gray-50 bg-gray-50/50 space-y-6">
                 <div className="grid grid-cols-2 gap-3">
                   <Link
-                    to="/write-for-us"
+                    href="/write-for-us"
                     onClick={() => setIsMenuOpen(false)}
                     className="flex items-center justify-center py-4 rounded-2xl bg-white border border-gray-100 text-[#1B3B5F] font-bold text-xs hover:border-[#1B3B5F]/30 transition-all"
                   >
                     Write for Us
                   </Link>
                   <Link
-                    to="/contact"
+                    href="/contact"
                     onClick={() => setIsMenuOpen(false)}
                     className="flex items-center justify-center py-4 rounded-2xl bg-[#E87722] text-white font-bold text-xs shadow-lg shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all"
                   >
@@ -374,7 +379,7 @@ export default function Header() {
 function MobileNavLink({ to, label, icon, onClick }: { to: string; label: string; icon: React.ReactNode; onClick: () => void }) {
   return (
     <Link
-      to={to}
+      href={to}
       onClick={onClick}
       className="flex items-center gap-4 px-4 py-3.5 rounded-xl text-[#1B3B5F] font-bold text-sm hover:bg-gray-100/50 transition-all group"
     >
@@ -387,7 +392,7 @@ function MobileNavLink({ to, label, icon, onClick }: { to: string; label: string
 function NavLink({ to, label, scrolled, isLight }: { to: string; label: string; scrolled: boolean; isLight: boolean }) {
   return (
     <Link
-      to={to}
+      href={to}
       className={`px-3 py-2 rounded-full text-[13px] font-semibold whitespace-nowrap transition-all duration-200 ${
         isLight ? 'text-white' : 'text-[#1B3B5F]'
       } hover:text-[#E87722] hover:bg-[#E87722]/5`}
@@ -400,7 +405,7 @@ function NavLink({ to, label, scrolled, isLight }: { to: string; label: string; 
 function DropdownItem({ to, title, desc }: { to: string; title: string; desc: string }) {
   return (
     <Link
-      to={to}
+      href={to}
       className="block px-4 py-3 rounded-xl hover:bg-[#1B3B5F]/5 transition-all group"
     >
       <div className="transform group-hover:translate-x-1 transition-transform duration-300">

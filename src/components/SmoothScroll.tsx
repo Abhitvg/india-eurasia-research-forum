@@ -1,6 +1,9 @@
+"use client";
+
 import React, { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
-import { useLocation } from 'react-router-dom';
+import { usePathname } from 'next/navigation';
+
 
 interface SmoothScrollProps {
   children: React.ReactNode;
@@ -8,7 +11,7 @@ interface SmoothScrollProps {
 
 export default function SmoothScroll({ children }: SmoothScrollProps) {
   const lenisRef = useRef<Lenis | null>(null);
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
     // Initialize Lenis
@@ -41,7 +44,7 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     if (lenisRef.current) {
       lenisRef.current.scrollTo(0, { immediate: true });
     }
-  }, [location.pathname]);
+  }, [pathname]);
 
   return <>{children}</>;
 }
