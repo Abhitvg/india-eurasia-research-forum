@@ -7,6 +7,7 @@ import SubHero from '@/src/components/SubHero';
 import { useContent } from '@/src/context/ContentContext';
 import { PersonData } from '@/src/data/siteContent';
 import SEOHead from '@/src/components/SEOHead';
+import ScrollReveal from '@/src/components/ScrollReveal';
 
 const containerVariants: any = {
   hidden: { opacity: 0 },
@@ -47,85 +48,77 @@ function ProfileCard({ person, large = false }: { person: PersonData; large?: bo
   return (
     <motion.div
       variants={itemVariants}
-      whileHover={{ y: -10, transition: { duration: 0.3, ease: 'easeOut' } }}
-      className={`bg-white/80 backdrop-blur-xl ${
-        large 
-          ? 'rounded-3xl p-8 sm:p-12 shadow-[0_20px_50px_-15px_rgba(27,59,95,0.15)] border-white/60' 
-          : 'rounded-2xl p-6 shadow-[0_10px_30px_-10px_rgba(27,59,95,0.1)] border-white/40'
-      } border border-white/60 transition-all group relative overflow-hidden hover:border-[#E87722]/30 hover:shadow-2xl hover:shadow-[#E87722]/10`}
+      whileHover={{ y: -5, transition: { duration: 0.3, ease: 'easeOut' } }}
+      className={`bg-white rounded-[2rem] border border-gray-100 shadow-sm transition-all group relative overflow-hidden hover:border-[#E87722]/30 hover:shadow-2xl flex flex-col h-full ${
+        large ? 'p-8 sm:p-12' : 'p-6 sm:p-8'
+      }`}
     >
-      {/* Subtle Background Glow */}
-      <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#E87722]/5 rounded-full blur-3xl group-hover:bg-[#E87722]/10 transition-colors duration-500" />
-      
-      <div className={`flex ${large ? 'flex-col items-center text-center' : 'items-center'} gap-6 relative z-10`}>
-        <motion.div 
-          whileHover={{ scale: 1.05 }}
-          className={`${large ? 'w-40 h-40 sm:w-48 sm:h-48' : 'w-20 h-20'} rounded-full overflow-hidden flex-shrink-0 border-4 border-white shadow-xl group-hover:shadow-2xl group-hover:border-[#E87722]/30 transition-all duration-300 flex items-center justify-center bg-gray-50`}
+      <div className={`flex flex-col ${large ? 'items-center text-center' : 'items-center text-center'} gap-6 relative z-10 flex-grow`}>
+        <div 
+          className={`${large ? 'w-48 h-48 sm:w-56 sm:h-56' : 'w-32 h-32'} rounded-[2rem] overflow-hidden flex-shrink-0 border border-gray-100 shadow-md group-hover:shadow-xl transition-all duration-500 flex items-center justify-center bg-gray-50 group-hover:scale-105`}
         >
           {!imageError ? (
             <img 
               src={person.image} 
               alt={person.name} 
               loading="lazy"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+              className="w-full h-full object-cover transition-transform duration-700 grayscale group-hover:grayscale-0" 
               onError={() => setImageError(true)}
             />
           ) : (
-            <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br from-[#1B3B5F] to-[#2A528A] text-white ${large ? 'text-4xl' : 'text-xl'} font-black tracking-tighter`}>
+            <div className={`w-full h-full flex items-center justify-center bg-[#0A192F] text-white ${large ? 'text-5xl' : 'text-3xl'} font-black tracking-tighter`}>
               {initials}
             </div>
           )}
-        </motion.div>
+        </div>
         
-        <div className={large ? 'mt-4' : 'flex-1 min-w-0'}>
-          <h4 className={`${large ? 'text-3xl' : 'text-xl'} font-black text-[#1B3B5F] leading-tight tracking-tight mb-2 group-hover:text-[#E87722] transition-colors`}>
+        <div className="flex flex-col items-center flex-grow w-full">
+          <h4 className={`${large ? 'text-3xl sm:text-4xl' : 'text-2xl'} font-black text-[#0A192F] leading-tight tracking-tight mb-4 group-hover:text-[#E87722] transition-colors font-display`}>
             {person.name}
           </h4>
           
           {person.linkedin && (
             <motion.a
-              whileHover={{ scale: 1.05, backgroundColor: '#E87722', color: '#ffffff' }}
+              whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               href={person.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gray-50 text-gray-400 hover:text-white transition-all duration-300 shadow-sm"
+              className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-50 text-gray-400 hover:bg-[#0077b5] hover:text-white transition-all duration-300 shadow-sm mb-6"
             >
-              <Linkedin size={12} fill="currentColor" />
+              <Linkedin size={16} fill="currentColor" />
             </motion.a>
           )}
-        </div>
-      </div>
 
-      {/* Expandable Bio Section */}
-      <div className="mt-8 relative z-10">
-        <motion.button
-          whileHover={{ x: 4 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => setExpanded(!expanded)}
-          className="flex items-center gap-2 text-[10px] font-black text-[#1B3B5F]/60 uppercase tracking-[0.2em] hover:text-[#E87722] transition-colors bg-gray-50/50 hover:bg-[#E87722]/5 px-4 py-2 rounded-lg"
-        >
-          {expanded ? 'Collapse Details' : 'View Full Profile'}
-          <ChevronDown size={14} className={`transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`} />
-        </motion.button>
-        
-        <AnimatePresence>
-          {expanded && (
-            <motion.div
-              initial={{ height: 0, opacity: 0, marginTop: 0 }}
-              animate={{ height: 'auto', opacity: 1, marginTop: 16 }}
-              exit={{ height: 0, opacity: 0, marginTop: 0 }}
-              transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-              className="overflow-hidden"
-            >
-              <div className="pt-2 space-y-4 border-t border-gray-100/50">
-                {person.bio.split('\n\n').map((p, i) => (
-                  <p key={i} className="text-gray-500 text-[13px] leading-[1.8] font-medium">{p}</p>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+          {/* Expandable Bio Section */}
+          <div className="w-full mt-auto">
+             <button
+               onClick={() => setExpanded(!expanded)}
+               className="w-full flex items-center justify-center gap-2 text-[10px] font-black text-[#0A192F] uppercase tracking-[0.2em] hover:text-[#E87722] transition-colors bg-gray-50 hover:bg-orange-50 px-4 py-3 rounded-xl border border-gray-100"
+             >
+               {expanded ? 'Hide Bio' : 'Read Bio'}
+               <ChevronDown size={14} className={`transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`} />
+             </button>
+             
+             <AnimatePresence>
+               {expanded && (
+                 <motion.div
+                   initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                   animate={{ height: 'auto', opacity: 1, marginTop: 16 }}
+                   exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                   transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+                   className="overflow-hidden"
+                 >
+                   <div className="pt-4 pb-2 space-y-4 text-left border-t border-gray-100">
+                     {person.bio.split('\n\n').map((p, i) => (
+                       <p key={i} className="text-gray-500 text-sm leading-relaxed font-medium">{p}</p>
+                     ))}
+                   </div>
+                 </motion.div>
+               )}
+             </AnimatePresence>
+          </div>
+        </div>
       </div>
     </motion.div>
   );
@@ -137,8 +130,9 @@ export default function Team() {
   const technicalTeamData = content.team.technicalTeam;
   const advisorData = content.team.advisor;
   const scholarlyNetworkData = content.team.scholarlyNetwork;
+  
   return (
-    <div className="flex flex-col min-h-screen bg-[#F8FAFC]">
+    <div className="flex flex-col min-h-screen bg-[#FAFAFA]">
       <SEOHead
         title="Our People"
         description="Meet the leadership, research advisors, scholarly network, and digital strategy team behind the India Eurasia Research Forum."
@@ -150,29 +144,23 @@ export default function Team() {
         breadcrumb={[{ label: 'Our People' }]}
       />
 
-      <section className="py-20 sm:py-32 relative overflow-hidden">
-        {/* Subtle page-level decorative elements */}
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-100/20 rounded-full blur-[120px] -z-10 translate-x-1/2 -translate-y-1/4" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-orange-50/20 rounded-full blur-[100px] -z-10 -translate-x-1/2 translate-y-1/4" />
-
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mt-16">
 
           {/* Leadership */}
-          <div className="mb-24">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center text-4xl sm:text-5xl font-black text-[#1B3B5F] mb-16 tracking-tighter"
-            >
-              Leadership
-            </motion.h2>
+          <div className="mb-32">
+            <ScrollReveal>
+               <div className="text-center mb-16">
+                 <h2 className="text-[#E87722] font-black text-[10px] uppercase tracking-[0.4em] mb-4">Core Team</h2>
+                 <h3 className="text-4xl md:text-5xl font-black text-[#0A192F] tracking-tighter font-display">Leadership</h3>
+               </div>
+            </ScrollReveal>
             <motion.div 
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-10"
+              className="grid grid-cols-1 md:grid-cols-2 gap-8"
             >
               {leadershipData.map((person) => (
                 <ProfileCard key={person.name} person={person} large />
@@ -182,20 +170,18 @@ export default function Team() {
 
           {/* Research Advisor */}
           <div className="mb-32">
-            <motion.h2 
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               className="text-center text-4xl sm:text-5xl font-black text-[#1B3B5F] mb-16 tracking-tighter"
-            >
-              Research Advisor
-            </motion.h2>
+            <ScrollReveal>
+               <div className="text-center mb-16">
+                 <h2 className="text-[#E87722] font-black text-[10px] uppercase tracking-[0.4em] mb-4">Advisory Board</h2>
+                 <h3 className="text-4xl md:text-5xl font-black text-[#0A192F] tracking-tighter font-display">Research Advisor</h3>
+               </div>
+            </ScrollReveal>
             <motion.div
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
-              className="max-w-3xl mx-auto"
+              className="max-w-2xl mx-auto"
             >
               <ProfileCard person={advisorData} large />
             </motion.div>
@@ -203,14 +189,12 @@ export default function Team() {
 
           {/* Scholarly Network */}
           <div className="mb-32">
-            <motion.h2 
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               className="text-center text-4xl sm:text-5xl font-black text-[#1B3B5F] mb-16 tracking-tighter"
-            >
-              Scholarly Network
-            </motion.h2>
+            <ScrollReveal>
+               <div className="text-center mb-16">
+                 <h2 className="text-[#E87722] font-black text-[10px] uppercase tracking-[0.4em] mb-4">Experts</h2>
+                 <h3 className="text-4xl md:text-5xl font-black text-[#0A192F] tracking-tighter font-display">Scholarly Network</h3>
+               </div>
+            </ScrollReveal>
             <motion.div 
               variants={containerVariants}
               initial="hidden"
@@ -226,14 +210,12 @@ export default function Team() {
 
           {/* Technical Team */}
           <div className="mb-12">
-            <motion.h2 
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               className="text-center text-4xl sm:text-5xl font-black text-[#1B3B5F] mb-16 tracking-tighter"
-            >
-              Digital Strategy
-            </motion.h2>
+            <ScrollReveal>
+               <div className="text-center mb-16">
+                 <h2 className="text-[#E87722] font-black text-[10px] uppercase tracking-[0.4em] mb-4">Technology</h2>
+                 <h3 className="text-4xl md:text-5xl font-black text-[#0A192F] tracking-tighter font-display">Digital Strategy</h3>
+               </div>
+            </ScrollReveal>
             <motion.div
               variants={containerVariants}
               initial="hidden"

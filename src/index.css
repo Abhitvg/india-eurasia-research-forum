@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Playfair Display", Georgia, serif;
-  --color-primary: #1B3B5F;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --color-primary: #0A192F;
   --color-accent: #E87722;
-  --color-bg-light: #F4F6F8;
+  --color-bg-light: #FAFAFA;
 }
 
 h1, h2, h3, h4, .font-display {

@@ -1,13 +1,12 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display, Outfit } from 'next/font/google';
+import { Inter, Outfit } from 'next/font/google';
 import '../src/index.css';
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
 import { ContentProvider } from '../src/context/ContentContext';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
-const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 'swap' });
 
 export const metadata: Metadata = {
   title: 'India Eurasia Research Forum (IERF) | Connecting India and Eurasia',
@@ -39,12 +38,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} ${outfit.variable}`}>
-      <body className="font-sans text-gray-900 bg-white min-h-screen flex flex-col">
+    <html lang="en" className={`${inter.variable} ${outfit.variable} scroll-smooth`}>
+      <body className="font-sans text-slate-900 bg-[#FAFAFA] min-h-screen flex flex-col antialiased selection:bg-[#E87722] selection:text-white">
         <ContentProvider>
           <Header />
-          <main className="flex-grow flex flex-col relative text-gray-900 bg-white min-h-[60vh]">
-            <div className="absolute top-0 left-0 w-full h-[500px] z-40 pointer-events-none bg-gradient-to-b from-white from-[96px] via-white/40 via-[250px] to-white/0"></div>
+          <main className="flex-grow flex flex-col relative min-h-[60vh] mt-20">
             {children}
           </main>
           <Footer />

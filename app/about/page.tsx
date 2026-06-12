@@ -1,26 +1,19 @@
 "use client";
 
 import { motion } from 'motion/react';
-import { Search, BookOpen, MessageCircle, Handshake, Target, ArrowRight } from 'lucide-react';
+import { Search, BookOpen, MessageCircle, Handshake, Target, ArrowRight, MoveRight, Compass } from 'lucide-react';
 import Link from 'next/link';
 
 import SubHero from '@/src/components/SubHero';
 import { useContent } from '@/src/context/ContentContext';
 import SEOHead from '@/src/components/SEOHead';
-
-const pillarIcons = [
-  <Search size={28} />,
-  <MessageCircle size={28} />,
-  <Handshake size={28} />,
-  <Target size={28} />,
-];
-const pillarColors = ['from-blue-500 to-blue-700', 'from-[#E87722] to-orange-700', 'from-emerald-500 to-emerald-700', 'from-purple-500 to-purple-700'];
+import ScrollReveal from '@/src/components/ScrollReveal';
 
 export default function About() {
   const { content } = useContent();
   const c = content.about;
   return (
-    <div className="flex flex-col min-h-screen bg-[#F8FAFC] pb-24">
+    <div className="flex flex-col min-h-screen bg-[#FAFAFA] pb-24">
       <SEOHead
         title="About Us"
         description="Learn about IERF's mission to bridge India and Eurasia through academic research, strategic dialogue, and collaborative engagement across civilizational, economic, and security domains."
@@ -32,132 +25,140 @@ export default function About() {
         breadcrumb={[{ label: 'About Us' }]}
       />
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-20 w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 relative z-20 w-full space-y-24">
 
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="p-8 sm:p-12 mb-12 bg-white/50 backdrop-blur-sm rounded-[3rem] transition-all hover:bg-white"
-        >
-          <h2 className="text-3xl font-black text-[#1B3B5F] mb-8 tracking-tighter">Who We Are</h2>
-          <p className="text-gray-600 text-lg leading-relaxed font-medium">
-             {c.whoWeAre}
-          </p>
-        </motion.section>
+        {/* ── WHO WE ARE ── */}
+        <section>
+          <ScrollReveal>
+            <div className="bg-white rounded-[3rem] p-10 md:p-16 shadow-sm border border-gray-100 flex flex-col md:flex-row gap-12 items-center hover:shadow-xl transition-all duration-500">
+               <div className="md:w-1/3">
+                  <h2 className="text-4xl md:text-5xl font-black text-[#0A192F] tracking-tighter leading-tight font-display mb-4">
+                     Who We <br/><span className="text-[#E87722]">Are.</span>
+                  </h2>
+                  <div className="w-16 h-2 bg-[#E87722] rounded-full"></div>
+               </div>
+               <div className="md:w-2/3">
+                  <p className="text-gray-500 text-xl leading-relaxed font-medium">
+                     {c.whoWeAre}
+                  </p>
+               </div>
+            </div>
+          </ScrollReveal>
+        </section>
 
-        {/* What We Do — Four Pillars */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-12"
-        >
-          <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-black text-[#1B3B5F] mb-4 tracking-tight">What We Do</h2>
-            <p className="text-gray-500 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
-              {c.whatWeDoIntro}
-            </p>
+        {/* ── WHAT WE DO (BENTO) ── */}
+        <section>
+          <ScrollReveal>
+            <div className="text-center mb-12">
+               <h2 className="text-[#E87722] font-black text-[10px] uppercase tracking-[0.4em] mb-4">Core Mission</h2>
+               <h3 className="text-4xl md:text-5xl font-black text-[#0A192F] tracking-tighter font-display mb-6">What We Do</h3>
+               <p className="text-gray-500 text-lg max-w-3xl mx-auto font-medium">
+                  {c.whatWeDoIntro}
+               </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {c.pillars?.map((pillar: any, index: number) => {
+              const icons = [
+                <Search size={32} className="text-blue-500" />,
+                <MessageCircle size={32} className="text-[#E87722]" />,
+                <Handshake size={32} className="text-emerald-500" />,
+                <Target size={32} className="text-purple-500" />
+              ];
+              return (
+                <ScrollReveal key={pillar.title} delay={index * 0.1}>
+                   <div className="bg-white rounded-[2rem] p-10 border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 group h-full flex flex-col">
+                      <div className="w-20 h-20 bg-gray-50 rounded-[1.5rem] flex items-center justify-center mb-8 group-hover:scale-110 group-hover:shadow-md transition-all duration-500">
+                         {icons[index % icons.length]}
+                      </div>
+                      <h3 className="text-2xl font-black text-[#0A192F] mb-4">{pillar.title}</h3>
+                      <p className="text-gray-500 leading-relaxed font-medium">{pillar.description}</p>
+                   </div>
+                </ScrollReveal>
+              );
+            })}
           </div>
+        </section>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {c.pillars.map((pillar, index) => (
-              <motion.div
-                key={pillar.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 group"
-              >
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${pillarColors[index % pillarColors.length]} flex items-center justify-center text-white mb-5 group-hover:scale-110 transition-transform`}>
-                  {pillarIcons[index % pillarIcons.length]}
+        {/* ── OUR VISION ── */}
+        <section>
+          <ScrollReveal>
+             <div className="bg-[#0A192F] rounded-[3rem] p-10 md:p-16 lg:p-20 text-white relative overflow-hidden shadow-2xl">
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#E87722]/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3"></div>
+                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/3"></div>
+                
+                <div className="relative z-10 max-w-4xl mx-auto text-center">
+                   <div className="w-20 h-20 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-10 border border-white/20">
+                      <Compass size={36} className="text-[#E87722]" />
+                   </div>
+                   <h2 className="text-4xl md:text-6xl font-black mb-10 tracking-tighter font-display">Our Vision</h2>
+                   <div className="space-y-8 text-white/80 text-xl md:text-2xl leading-relaxed font-medium">
+                     {c.visionParagraphs?.map((p: string, i: number) => (
+                       <p key={i}>{p}</p>
+                     ))}
+                   </div>
                 </div>
-                <h3 className="text-xl font-black text-[#1B3B5F] mb-3">{pillar.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{pillar.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
+             </div>
+          </ScrollReveal>
+        </section>
 
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-gradient-to-br from-[#1B3B5F] to-[#0A192F] rounded-2xl sm:rounded-[2.5rem] shadow-xl p-6 sm:p-10 lg:p-14 mb-12 text-white relative overflow-hidden"
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1B3B5F]/60 via-[#1B3B5F]/0 to-[#1B3B5F]/80 z-10"></div>
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#E87722]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-          <h2 className="text-2xl sm:text-3xl font-black mb-6 tracking-tight relative z-10">Our Vision</h2>
-          {c.visionParagraphs.map((p, i) => (
-            <p key={i} className={`text-white/80 text-base sm:text-lg leading-relaxed relative z-10 ${i < c.visionParagraphs.length - 1 ? 'mb-6' : ''}`}>
-              {p}
-            </p>
-          ))}
-        </motion.section>
+        {/* ── FOCUS AREAS ── */}
+        <section>
+           <ScrollReveal>
+              <div className="text-center mb-12">
+                 <h2 className="text-[#E87722] font-black text-[10px] uppercase tracking-[0.4em] mb-4">Research Domains</h2>
+                 <h3 className="text-4xl md:text-5xl font-black text-[#0A192F] tracking-tighter font-display mb-6">Focus Areas</h3>
+              </div>
+           </ScrollReveal>
+           <div className="flex flex-wrap justify-center gap-4">
+              {c.focusAreas?.map((area: string, index: number) => (
+                 <ScrollReveal key={index} delay={index * 0.05}>
+                    <div className="bg-white px-8 py-4 rounded-full border border-gray-200 shadow-sm font-bold text-[#0A192F] hover:border-[#E87722] hover:text-[#E87722] hover:-translate-y-1 transition-all cursor-default">
+                       {area}
+                    </div>
+                 </ScrollReveal>
+              ))}
+           </div>
+        </section>
 
-        {/* Focus Areas */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="p-8 sm:p-12 mb-12"
-        >
-          <h2 className="text-3xl font-black text-[#1B3B5F] mb-10 tracking-tighter">Focus Areas</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {c.focusAreas.map((area, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="flex items-start gap-4 p-5 rounded-2xl bg-white hover:bg-[#E87722]/5 transition-all group"
-              >
-                <div className="w-2.5 h-2.5 rounded-full bg-[#E87722] mt-2 flex-shrink-0 group-hover:scale-125 transition-transform" />
-                <span className="text-gray-700 text-base font-bold leading-relaxed">{area}</span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
+        {/* ── WHY IERF ── */}
+        <section>
+           <ScrollReveal>
+             <div className="bg-gradient-to-br from-gray-50 to-white rounded-[3rem] p-10 md:p-16 border border-gray-100 shadow-sm">
+                <div className="max-w-4xl mx-auto">
+                   <h2 className="text-4xl md:text-5xl font-black text-[#0A192F] tracking-tighter font-display mb-10 text-center">Why IERF</h2>
+                   <div className="space-y-8 text-gray-600 text-lg md:text-xl leading-relaxed font-medium text-center">
+                     {c.whyIerfParagraphs?.map((p: string, i: number) => (
+                       <p key={i}>{p}</p>
+                     ))}
+                   </div>
+                </div>
+             </div>
+           </ScrollReveal>
+        </section>
 
-        {/* Why IERF */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="p-8 sm:p-12 mb-12 bg-white/50 backdrop-blur-sm rounded-[3rem] transition-all hover:bg-white"
-        >
-          <h2 className="text-3xl font-black text-[#1B3B5F] mb-8 tracking-tighter">Why IERF</h2>
-          {c.whyIerfParagraphs.map((p, i) => (
-            <p key={i} className={`text-gray-600 text-lg leading-relaxed font-medium ${i < c.whyIerfParagraphs.length - 1 ? 'mb-6' : ''}`}>
-              {p}
-            </p>
-          ))}
-        </motion.section>
+        {/* ── CTA ── */}
+        <section className="text-center">
+           <ScrollReveal>
+             <h3 className="text-4xl md:text-5xl font-black text-[#0A192F] tracking-tighter font-display mb-10">Connect With Us</h3>
+             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                <Link
+                  href="/our-people"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 bg-[#E87722] text-white text-sm font-black uppercase tracking-[0.2em] rounded-full hover:bg-orange-600 transition-all shadow-[0_8px_30px_rgba(232,119,34,0.3)] hover:-translate-y-1 group"
+                >
+                  Meet Our People <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                </Link>
+                <Link
+                  href="/research"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 bg-white text-[#0A192F] border border-gray-200 text-sm font-black uppercase tracking-[0.2em] rounded-full hover:border-[#0A192F] transition-all shadow-sm hover:-translate-y-1 group"
+                >
+                  Read Research <MoveRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                </Link>
+             </div>
+           </ScrollReveal>
+        </section>
 
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Link
-              href="/our-people"
-              className="inline-flex items-center gap-3 px-10 py-5 bg-[#1B3B5F] text-white text-sm font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-[#E87722] transition-all shadow-xl hover:-translate-y-1 group"
-            >
-              Meet Our People <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
-            </Link>
-            <Link
-              href="/research"
-              className="inline-flex items-center gap-3 px-10 py-5 bg-white text-[#1B3B5F] border border-gray-200 text-sm font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-gray-50 transition-all shadow-xl hover:-translate-y-1 group"
-            >
-              Read Research <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
-            </Link>
-          </div>
-        </motion.div>
       </div>
     </div>
   );
