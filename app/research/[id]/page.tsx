@@ -189,7 +189,7 @@ export default function PublicationDetail() {
             {(bio || authorImg) && (
               <div className="mt-20 pt-12 border-t border-gray-100 flex flex-col md:flex-row items-center md:items-start gap-8 bg-gray-50 rounded-xl p-8 md:p-10">
                  {authorImg && (
-                   <div className="w-24 h-24 rounded-xl bg-gray-200 overflow-hidden flex-shrink-0 shadow-md">
+                   <div className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 shadow-md">
                       <img 
                         src={authorImg} 
                         alt={publication.author} 
