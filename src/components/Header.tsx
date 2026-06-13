@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -28,7 +29,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 shrink-0">
             <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-md">
-              <img src="/ierf_normal.png" alt="IERF Logo" className="w-7 h-7 object-contain" />
+              <Image src="/ierf_normal.png" alt="IERF Logo" width={28} height={28} className="object-contain" />
             </div>
             <span className="font-display font-bold tracking-wide text-white text-xs lg:text-sm xl:text-base uppercase leading-tight hidden md:block">
               India Eurasia Research Forum<span className="text-[#E87722]">.</span>
@@ -56,6 +57,7 @@ export default function Header() {
           <div className="lg:hidden flex items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle Navigation Menu"
               className="p-2 rounded-full text-white hover:bg-white/10 focus:outline-none"
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}

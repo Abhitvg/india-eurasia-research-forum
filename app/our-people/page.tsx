@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Linkedin, ChevronDown } from 'lucide-react';
+import { Linkedin, Mail, ArrowRight, User, GraduationCap, Award, ChevronDown } from 'lucide-react';
 import SubHero from '@/src/components/SubHero';
+import Image from 'next/image';
 import { useContent } from '@/src/context/ContentContext';
 import { PersonData } from '@/src/data/siteContent';
 import SEOHead from '@/src/components/SEOHead';
@@ -55,14 +56,14 @@ function ProfileCard({ person, large = false }: { person: PersonData; large?: bo
     >
       <div className={`flex flex-col ${large ? 'items-center text-center' : 'items-center text-center'} gap-6 relative z-10 flex-grow`}>
         <div 
-          className={`${large ? 'w-48 h-48 sm:w-56 sm:h-56' : 'w-32 h-32'} rounded-xl overflow-hidden flex-shrink-0 border border-gray-100 shadow-md group-hover:shadow-xl transition-all duration-500 flex items-center justify-center bg-gray-50 group-hover:scale-105`}
+          className={`relative ${large ? 'w-48 h-48 sm:w-56 sm:h-56' : 'w-32 h-32'} rounded-xl overflow-hidden flex-shrink-0 border border-gray-100 shadow-md group-hover:shadow-xl transition-all duration-500 flex items-center justify-center bg-gray-50 group-hover:scale-105`}
         >
           {!imageError ? (
-            <img 
+            <Image 
               src={person.image} 
               alt={person.name} 
-              loading="lazy"
-              className="w-full h-full object-cover transition-transform duration-700 grayscale group-hover:grayscale-0" 
+              fill
+              className="object-cover transition-transform duration-700 grayscale group-hover:grayscale-0" 
               onError={() => setImageError(true)}
             />
           ) : (
@@ -84,6 +85,7 @@ function ProfileCard({ person, large = false }: { person: PersonData; large?: bo
               href={person.linkedin}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`${person.name}'s LinkedIn profile`}
               className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-50 text-gray-400 hover:bg-[#0077b5] hover:text-white transition-all duration-300 shadow-sm mb-6"
             >
               <Linkedin size={16} fill="currentColor" />

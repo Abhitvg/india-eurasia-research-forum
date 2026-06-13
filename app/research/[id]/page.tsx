@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
 import { motion, useScroll, useSpring } from 'motion/react';
@@ -125,10 +126,11 @@ export default function PublicationDetail() {
         <div className="bg-white rounded-xl shadow-2xl shadow-[#0A192F]/5 overflow-hidden border border-gray-100">
           {/* Featured Image */}
           <div className="h-[300px] md:h-[500px] w-full relative">
-            <img 
+            <Image 
               src={publication.image} 
               alt={publication.title}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A192F]/20 to-transparent"></div>
           </div>
@@ -189,12 +191,12 @@ export default function PublicationDetail() {
             {(bio || authorImg) && (
               <div className="mt-20 pt-12 border-t border-gray-100 flex flex-col md:flex-row items-center md:items-start gap-8 bg-gray-50 rounded-xl p-8 md:p-10">
                  {authorImg && (
-                   <div className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 shadow-md">
-                      <img 
+                   <div className="relative w-24 h-24 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 shadow-md">
+                      <Image 
                         src={authorImg} 
                         alt={publication.author} 
-                        loading="lazy"
-                        className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" 
+                        fill
+                        className="object-cover grayscale hover:grayscale-0 transition-all duration-500" 
                       />
                    </div>
                  )}

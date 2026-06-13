@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { BookOpen, Calendar, ArrowRight, Search, Globe, MoveRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSearchParams, useRouter } from 'next/navigation';
 
 import SubHero from '@/src/components/SubHero';
@@ -143,11 +144,11 @@ function PublicationsContent() {
                 className="group flex flex-col h-full bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-2xl hover:border-gray-200 transition-all duration-500 overflow-hidden"
               >
                 <div className="h-56 relative overflow-hidden">
-                  <img 
+                  <Image 
                     src={pub.image} 
                     alt={pub.title} 
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A192F]/60 to-transparent"></div>
                   <div className="absolute top-4 left-4 z-20">

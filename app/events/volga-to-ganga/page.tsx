@@ -2,6 +2,7 @@
 
 import { motion } from 'motion/react';
 import { Calendar, Quote, ArrowRight, Anchor } from 'lucide-react';
+import Image from 'next/image';
 import SubHero from '@/src/components/SubHero';
 import { useContent } from '@/src/context/ContentContext';
 import React from 'react';
@@ -32,8 +33,8 @@ export default function VolgaToGanga() {
                 <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#E87722]/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
                 
                 <div className="flex justify-center mb-20 relative z-10">
-                  <div className="w-64 md:w-96 h-64 md:h-96 flex items-center justify-center mix-blend-multiply">
-                    <img src="/volga_to_ganga_final.png" alt="Volga to Ganga Logo" className="w-full h-full object-contain" />
+                  <div className="w-64 md:w-96 h-64 md:h-96 flex items-center justify-center mix-blend-multiply relative">
+                    <Image src="/volga_to_ganga_final.png" alt="Volga to Ganga Logo" fill className="object-contain" />
                   </div>
                 </div>
                 

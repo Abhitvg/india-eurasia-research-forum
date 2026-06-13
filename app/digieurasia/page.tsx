@@ -2,6 +2,7 @@
 
 import { Camera, Mail, ArrowRight, MapPin, MoveRight } from 'lucide-react';
 import { motion } from 'motion/react';
+import Image from 'next/image';
 import SubHero from '@/src/components/SubHero';
 import { useContent } from '@/src/context/ContentContext';
 import SEOHead from '@/src/components/SEOHead';
@@ -50,20 +51,20 @@ export default function DigiEurasia() {
             
             <ScrollReveal delay={0.2} className="lg:col-span-7">
                <div className="grid grid-cols-2 gap-4 h-full">
-                  <div className="space-y-4 h-full flex flex-col">
-                     <div className="rounded-xl overflow-hidden flex-grow shadow-lg hover:shadow-2xl transition-all group">
-                       <img src="/images/digieurasia/landscape-1.webp" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Architecture" />
+                   <div className="space-y-4 h-full flex flex-col">
+                     <div className="relative rounded-xl overflow-hidden flex-grow shadow-lg hover:shadow-2xl transition-all group">
+                       <Image src="/images/digieurasia/landscape-1.webp" fill className="object-cover group-hover:scale-105 transition-transform duration-700" alt="Architecture" />
                      </div>
-                     <div className="rounded-xl overflow-hidden h-40 shadow-lg hover:shadow-2xl transition-all group">
-                       <img src="/images/digieurasia/landscape-3.webp" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Motifs" />
+                     <div className="relative rounded-xl overflow-hidden h-40 shadow-lg hover:shadow-2xl transition-all group">
+                       <Image src="/images/digieurasia/landscape-3.webp" fill className="object-cover group-hover:scale-105 transition-transform duration-700" alt="Motifs" />
                      </div>
                   </div>
                   <div className="space-y-4 pt-12 h-full flex flex-col">
-                     <div className="rounded-xl overflow-hidden h-40 shadow-lg hover:shadow-2xl transition-all group">
-                       <img src="/images/digieurasia/landscape-2.webp" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Detail" />
+                     <div className="relative rounded-xl overflow-hidden h-40 shadow-lg hover:shadow-2xl transition-all group">
+                       <Image src="/images/digieurasia/landscape-2.webp" fill className="object-cover group-hover:scale-105 transition-transform duration-700" alt="Detail" />
                      </div>
-                     <div className="rounded-xl overflow-hidden flex-grow shadow-lg hover:shadow-2xl transition-all group">
-                       <img src="/images/digieurasia/landscape-4.webp" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Aerial" />
+                     <div className="relative rounded-xl overflow-hidden flex-grow shadow-lg hover:shadow-2xl transition-all group">
+                       <Image src="/images/digieurasia/landscape-4.webp" fill className="object-cover group-hover:scale-105 transition-transform duration-700" alt="Aerial" />
                      </div>
                   </div>
                </div>
@@ -80,12 +81,12 @@ export default function DigiEurasia() {
                {c.images?.map((img: any, idx: number) => (
                  <ScrollReveal key={idx} delay={idx * 0.1}>
                    <div className="group relative rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 bg-white border border-gray-100">
-                     <div className="aspect-[4/3] w-full overflow-hidden">
-                        <img 
+                     <div className="aspect-[4/3] w-full overflow-hidden relative">
+                        <Image 
                            src={img.url} 
-                           loading="lazy"
-                           className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" 
-                           alt={img.caption} 
+                           fill
+                           className="object-cover transition-transform duration-[2s] group-hover:scale-110" 
+                           alt={img.caption || "Exhibition Image"} 
                         />
                      </div>
                      <div className="absolute inset-0 bg-gradient-to-t from-[#0A192F]/90 via-[#0A192F]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

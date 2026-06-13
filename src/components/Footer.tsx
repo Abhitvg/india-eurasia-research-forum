@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Mail, MapPin, Facebook, Twitter, Instagram, Linkedin, Send, Check } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
@@ -46,7 +47,7 @@ export default function Footer() {
           <div className="lg:col-span-5 md:pr-8">
             <Link href="/" className="flex items-center space-x-4 mb-8">
               <div className="w-14 h-14 bg-white rounded-lg flex items-center justify-center p-2">
-                 <img src="/ierf_normal.png" alt="IERF Logo" className="w-full h-full object-contain" />
+                 <Image src="/ierf_normal.png" alt="IERF Logo" width={40} height={40} className="object-contain" />
               </div>
               <div className="flex flex-col">
                 <span className="font-display font-bold text-2xl text-white tracking-wide">{content.settings?.siteName || "IERF"}</span>
@@ -58,16 +59,17 @@ export default function Footer() {
             </p>
             <div className="flex items-center space-x-4">
               {[
-                { icon: <Twitter size={18} />, href: content.settings?.socials.x },
-                { icon: <Instagram size={18} />, href: content.settings?.socials.instagram },
-                { icon: <Linkedin size={18} />, href: content.settings?.socials.linkedin },
-                { icon: <Facebook size={18} />, href: "https://facebook.com/indiaeurasia" },
+                { icon: <Twitter size={18} />, href: content.settings?.socials.x, label: "Twitter" },
+                { icon: <Instagram size={18} />, href: content.settings?.socials.instagram, label: "Instagram" },
+                { icon: <Linkedin size={18} />, href: content.settings?.socials.linkedin, label: "LinkedIn" },
+                { icon: <Facebook size={18} />, href: "https://facebook.com/indiaeurasia", label: "Facebook" },
               ].filter(s => s.href).map((social, idx) => (
                 <a 
                   key={idx} 
                   href={social.href} 
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={social.label}
                   className="w-10 h-10 rounded bg-white/5 flex items-center justify-center text-gray-400 hover:bg-[#E87722] hover:text-white transition-colors"
                 >
                   {social.icon}
