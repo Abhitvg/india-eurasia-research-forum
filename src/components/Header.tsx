@@ -29,7 +29,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 shrink-0">
             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden shrink-0">
-              <Image src="/ierf_normal.png" alt="IERF Logo" width={48} height={48} className="w-full h-full object-contain scale-[1.35]" />
+              <Image src="/ierf-logo.svg" alt="IERF Logo" width={48} height={48} className="w-full h-full object-contain" />
             </div>
             <span className="font-display font-bold tracking-wide text-white text-xs lg:text-sm xl:text-base leading-tight hidden md:block">
               India Eurasia Research Forum

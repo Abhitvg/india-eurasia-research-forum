@@ -56,7 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     '@type': 'Organization',
     name: 'India Eurasia Research Forum',
     url: 'https://www.indiaeurasia.org',
-    logo: 'https://www.indiaeurasia.org/images/logo_final.png',
+    logo: 'https://www.indiaeurasia.org/ierf-logo.svg',
   };
 
   return (

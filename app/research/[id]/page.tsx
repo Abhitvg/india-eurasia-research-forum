@@ -75,7 +75,7 @@ export default async function PublicationDetail({ params }: { params: Promise<{ 
       name: 'India Eurasia Research Forum',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://www.indiaeurasia.org/images/logo_final.png',
+        url: 'https://www.indiaeurasia.org/ierf-logo.svg',
       },
     },
     datePublished: new Date(publication.date).toISOString(),
