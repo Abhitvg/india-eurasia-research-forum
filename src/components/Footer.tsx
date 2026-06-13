@@ -2,10 +2,12 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Mail, MapPin, Facebook, Twitter, Instagram, Linkedin, Send, Check } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 
 export default function Footer() {
+  const pathname = usePathname() || '/';
   const { content } = useContent();
   const c = content.footer || {} as any;
   const [email, setEmail] = useState('');
@@ -33,6 +35,8 @@ export default function Footer() {
     setEmail('');
     setTimeout(() => setStatus('idle'), 3000);
   };
+
+  if (pathname.startsWith('/admin')) return null;
 
   return (
     <footer className="bg-[#0A192F] text-white pt-20 pb-10">

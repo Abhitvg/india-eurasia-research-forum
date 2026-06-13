@@ -19,6 +19,8 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  if (pathname.startsWith('/admin')) return null;
+
   return (
     <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
       <header className={`transition-all duration-300 w-full max-w-5xl rounded-full backdrop-blur-xl border ${scrolled ? 'bg-[#0A192F]/95 border-white/20 shadow-2xl' : 'bg-[#0A192F]/85 border-white/10 shadow-lg'} text-white`}>
