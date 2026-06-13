@@ -3,6 +3,7 @@ import { Inter, Outfit } from 'next/font/google';
 import '../src/index.css';
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
+import MainWrapper from '../src/components/MainWrapper';
 import { ContentProvider } from '../src/context/ContentContext';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
@@ -42,9 +43,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-sans text-slate-900 bg-[#FAFAFA] min-h-screen flex flex-col antialiased selection:bg-[#E87722] selection:text-white">
         <ContentProvider>
           <Header />
-          <main className="flex-grow flex flex-col relative min-h-[60vh] mt-20">
+          <MainWrapper>
             {children}
-          </main>
+          </MainWrapper>
           <Footer />
         </ContentProvider>
       </body>
