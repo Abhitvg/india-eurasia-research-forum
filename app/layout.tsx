@@ -1,15 +1,28 @@
 import type { Metadata } from 'next';
-import { Inter, Outfit } from 'next/font/google';
+import { Playfair_Display, Outfit } from 'next/font/google';
 import '../src/index.css';
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
 import MainWrapper from '../src/components/MainWrapper';
 import { ContentProvider } from '../src/context/ContentContext';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
-const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 'swap' });
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+  variable: '--font-playfair',
+  display: 'swap',
+});
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  variable: '--font-outfit',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.indiaeurasia.org'),
   title: 'India Eurasia Research Forum (IERF) | Connecting India and Eurasia',
   description: 'India Eurasia Research Forum (IERF) is a premier academic platform promoting research, dialogue, and trans-regional connectivity between India and the Eurasian region.',
   keywords: ['India Eurasia', 'IERF', 'Geopolitics', 'Central Asia', 'Connectivity', 'Research Forum', 'Volga to Ganga', 'India Russia Relations', 'Eurasian Studies'],
@@ -38,8 +51,22 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const orgJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'India Eurasia Research Forum',
+    url: 'https://www.indiaeurasia.org',
+    logo: 'https://www.indiaeurasia.org/images/logo_final.png',
+  };
+
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable} scroll-smooth`}>
+    <html lang="en" className={`${playfair.variable} ${outfit.variable} scroll-smooth`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+        />
+      </head>
       <body className="font-sans text-slate-900 bg-[#FAFAFA] min-h-screen flex flex-col antialiased selection:bg-[#E87722] selection:text-white">
         <ContentProvider>
           <Header />

@@ -1,24 +1,20 @@
-"use client";
-
 import React from 'react';
-import { motion } from 'motion/react';
 import { MessageSquare, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
 import SubHero from '@/src/components/SubHero';
-import { useContent } from '@/src/context/ContentContext';
-import SEOHead from '@/src/components/SEOHead';
+import { defaultContent } from '@/src/data/siteContent';
+import ScrollReveal from '@/src/components/ScrollReveal';
+
+export const metadata = {
+  title: 'IERF Talks | Events',
+  description: "IERF Talks — a platform for expert-led discussions on India-Eurasia geopolitics, connectivity, and emerging strategic partnerships.",
+};
 
 export default function IERFTalks() {
-  const { content } = useContent();
-  const c = content.ierfTalks;
+  const c = defaultContent.ierfTalks;
   return (
     <div className="flex flex-col min-h-screen bg-[#F8FAFC]">
-      <SEOHead
-        title="IERF Talks"
-        description="IERF Talks — a platform for expert-led discussions on India-Eurasia geopolitics, connectivity, and emerging strategic partnerships."
-        path="/events/ierf-talks"
-      />
       <SubHero 
         title="IERF Talks" 
         subtitle={c.subtitle}
@@ -26,9 +22,7 @@ export default function IERFTalks() {
       />
 
       <section className="flex-1 flex items-center justify-center py-24 px-4">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+        <ScrollReveal 
           className="max-w-xl w-full bg-white rounded-xl p-12 text-center shadow-[0_20px_50px_-15px_rgba(27,59,95,0.1)] border border-gray-100 relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-b from-[#1B3B5F]/40 via-[#1B3B5F]/0 to-[#1B3B5F]/60"></div>
@@ -48,7 +42,7 @@ export default function IERFTalks() {
           >
             <ArrowLeft size={16} /> Back to Home
           </Link>
-        </motion.div>
+        </ScrollReveal>
       </section>
     </div>
   );

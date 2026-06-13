@@ -1,44 +1,46 @@
-"use client";
-
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
-
-import { motion, useScroll, useSpring } from 'motion/react';
-import { Calendar, User, ArrowLeft, Download, Share2, Printer, Clock } from 'lucide-react';
-import { useContent } from '@/src/context/ContentContext';
+import { Calendar, User, ArrowLeft, Clock } from 'lucide-react';
 import { defaultContent } from '@/src/data/siteContent';
-import SEOHead from '@/src/components/SEOHead';
+import ScrollReveal from '@/src/components/ScrollReveal';
+import ReadingProgressBar from '@/src/components/ReadingProgressBar';
+import ShareButtons from '@/src/components/ShareButtons';
+import { Metadata } from 'next';
 
-export default function PublicationDetail() {
-  const { content } = useContent();
-  const { id } = useParams<{ id: string }>();
-  const [readingTime, setReadingTime] = useState(0);
+export const dynamicParams = false;
 
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
+export async function generateStaticParams() {
+  return defaultContent.publications.map((pub) => ({
+    id: pub.id,
+  }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const publication = defaultContent.publications.find(p => p.id === id);
   
-  // Get publication from current state
-  const publication = content.publications.find(p => p.id === id);
-  
-  // Robust data fallback
-  const defaultPub = defaultContent.publications.find(p => p.id === id);
-  const bio = publication?.authorBio || defaultPub?.authorBio;
-  const authorImg = publication?.authorImage || defaultPub?.authorImage;
+  if (!publication) {
+    return { title: 'Not Found' };
+  }
 
-  useEffect(() => {
-    if (publication?.content) {
-      const words = publication.content.replace(/<[^>]*>?/gm, '').split(/\s+/).length;
-      const time = Math.ceil(words / 200); // Average 200 wpm
-      setReadingTime(time);
+  return {
+    title: `${publication.title} | IERF`,
+    description: publication.description,
+    openGraph: {
+      type: 'article',
+      title: publication.title,
+      description: publication.description,
+      publishedTime: new Date(publication.date).toISOString(),
+      authors: [publication.author],
+      tags: [publication.type],
     }
-  }, [publication]);
+  };
+}
 
+export default async function PublicationDetail({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const publication = defaultContent.publications.find(p => p.id === id);
+  
   if (!publication) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -52,25 +54,40 @@ export default function PublicationDetail() {
     );
   }
 
+  const bio = publication.authorBio;
+  const authorImg = publication.authorImage;
+  const words = publication.content ? publication.content.replace(/<[^>]*>?/gm, '').split(/\s+/).length : 0;
+  const readingTime = Math.ceil(words / 200) || 1;
+
+  // JSON-LD Schema
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: publication.title,
+    description: publication.description,
+    image: publication.image?.startsWith('http') ? publication.image : `https://www.indiaeurasia.org${publication.image}`,
+    author: {
+      '@type': 'Person',
+      name: publication.author,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'India Eurasia Research Forum',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.indiaeurasia.org/images/logo_final.png',
+      },
+    },
+    datePublished: new Date(publication.date).toISOString(),
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-[#FAFAFA]">
-      <SEOHead
-        title={publication.title}
-        description={publication.description}
-        path={`/research/${publication.id}`}
-        type="article"
-        image={publication.image?.startsWith('http') ? publication.image : `https://indiaeurasia.org${publication.image}`}
-        articleData={{
-          publishedTime: new Date(publication.date).toISOString() || new Date().toISOString(),
-          author: publication.author,
-          section: publication.type
-        }}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {/* Reading Progress Bar */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1.5 bg-[#E87722] z-[100] origin-left shadow-[0_0_10px_rgba(232,119,34,0.5)]"
-        style={{ scaleX }}
-      />
+      <ReadingProgressBar />
 
       {/* Detail Header */}
       <section className="bg-[#0A192F] pt-24 md:pt-32 pb-16 md:pb-24 text-white relative overflow-hidden rounded-b-[3rem] md:rounded-b-[4rem] m-2 md:m-4 mt-0">
@@ -79,21 +96,15 @@ export default function PublicationDetail() {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\\'40\\' height=\\'40\\' viewBox=\\'0 0 40 40\\' xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Cg fill=\\'%23ffffff\\' fill-opacity=\\'0.02\\' fill-rule=\\'evenodd\\'%3E%3Cpath d=\\'M0 40L40 0H20L0 20M40 40V20L20 40\\'/\\%3E%3C/g\\%3E%3C/svg\\%3E')] pointer-events-none opacity-50"></div>
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-50">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-10"
-          >
-            <Link href="/research" className="inline-flex items-center text-gray-400 hover:text-white transition-colors text-[10px] font-black tracking-[0.2em] uppercase group bg-white/5 border border-white/10 px-4 py-2 rounded-full">
-              <ArrowLeft size={14} className="mr-2 group-hover:-translate-x-1 transition-transform" /> Research
-            </Link>
-          </motion.div>
+          <ScrollReveal direction="up" delay={0}>
+            <div className="mb-10">
+              <Link href="/research" className="inline-flex items-center text-gray-400 hover:text-white transition-colors text-[10px] font-black tracking-[0.2em] uppercase group bg-white/5 border border-white/10 px-4 py-2 rounded-full">
+                <ArrowLeft size={14} className="mr-2 group-hover:-translate-x-1 transition-transform" /> Research
+              </Link>
+            </div>
+          </ScrollReveal>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
+          <ScrollReveal direction="up" delay={0.1}>
             <div className="flex items-center gap-4 mb-8">
               <span className="inline-block bg-[#E87722] text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest shadow-md">
                 {publication.type}
@@ -117,7 +128,7 @@ export default function PublicationDetail() {
                 {publication.date}
               </div>
             </div>
-          </motion.div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -155,31 +166,7 @@ export default function PublicationDetail() {
           )}
 
           <div className="p-8 md:p-16">
-            {/* Share & Actions */}
-            <div className="flex justify-end gap-3 mb-12 pb-8 border-b border-gray-100">
-              <button 
-                onClick={() => {
-                  if (navigator.share) {
-                    navigator.share({
-                      title: publication.title,
-                      url: window.location.href,
-                    }).catch(console.error);
-                  } else {
-                    navigator.clipboard.writeText(window.location.href);
-                    alert('Link copied to clipboard!');
-                  }
-                }}
-                className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:bg-[#0A192F] hover:text-white transition-all shadow-sm" title="Share Article"
-              >
-                <Share2 size={18} />
-              </button>
-              <button onClick={() => window.print()} className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:bg-[#0A192F] hover:text-white transition-all shadow-sm" title="Print">
-                <Printer size={18} />
-              </button>
-              <button onClick={() => window.print()} className="flex items-center space-x-2 px-6 py-3 rounded-full bg-[#E87722] text-white hover:bg-orange-600 transition-colors shadow-lg shadow-[#E87722]/30 font-bold text-sm tracking-wide">
-                <Download size={18} /> <span>Save PDF</span>
-              </button>
-            </div>
+            <ShareButtons title={publication.title} />
 
             {/* Main Text Content */}
             <div 

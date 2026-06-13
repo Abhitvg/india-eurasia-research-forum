@@ -78,6 +78,8 @@ const RichTextField: React.FC<{ label: string; value: string; onChange: (v: stri
     const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
     if (match && match[1]) {
       const fileId = match[1];
+      // Standard <img> is intentional here — CMS accepts arbitrary user-provided URLs
+      // that cannot be statically whitelisted in next.config.mjs remote patterns.
       const imgTag = `<img src="https://drive.google.com/uc?export=view&id=${fileId}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 1rem 0;" />`;
       onChange(value ? value + '<br/>' + imgTag : imgTag);
     } else {

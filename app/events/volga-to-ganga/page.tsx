@@ -1,24 +1,19 @@
-"use client";
-
-import { motion } from 'motion/react';
 import { Calendar, Quote, ArrowRight, Anchor } from 'lucide-react';
 import Image from 'next/image';
 import SubHero from '@/src/components/SubHero';
-import { useContent } from '@/src/context/ContentContext';
+import { defaultContent } from '@/src/data/siteContent';
 import React from 'react';
-import SEOHead from '@/src/components/SEOHead';
 import ScrollReveal from '@/src/components/ScrollReveal';
 
+export const metadata = {
+  title: 'Volga to Ganga | Events',
+  description: "IERF's flagship civilizational dialogue series connecting the historical and cultural narratives flowing from the Volga to the Ganga, exploring shared heritage and future partnerships.",
+};
+
 export default function VolgaToGanga() {
-  const { content } = useContent();
-  const c = content.volgaToGanga;
+  const c = defaultContent.volgaToGanga;
   return (
     <div className="flex flex-col min-h-screen bg-[#FAFAFA]">
-      <SEOHead
-        title="Volga to Ganga"
-        description="IERF's flagship civilizational dialogue series connecting the historical and cultural narratives flowing from the Volga to the Ganga, exploring shared heritage and future partnerships."
-        path="/events/volga-to-ganga"
-      />
       <SubHero 
         title="Volga to Ganga" 
         subtitle={c.subtitle}

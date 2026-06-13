@@ -18,12 +18,11 @@ The IERF platform has been meticulously crafted to project a premium, authoritat
 
 ## 🛠️ Technology Stack
 
-- **Framework**: React 19 + TypeScript
-- **Build Tool**: Vite 6
-- **Styling**: Tailwind CSS v4
+- **Framework**: Next.js (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
-- **Routing**: React Router DOM v7
 
 ## 🚀 Getting Started
 
@@ -50,7 +49,7 @@ To run this project locally, follow these steps:
    ```bash
    npm run dev
    ```
-   *The application will be available at `http://localhost:3000` (or `http://localhost:5173` depending on your Vite config).*
+   *The application will be available at `http://localhost:3000`.*
 
 ### Building for Production
 
@@ -58,16 +57,17 @@ To generate a highly optimized production build:
 ```bash
 npm run build
 ```
-You can preview the built static files locally using:
+You can start the built application locally using:
 ```bash
-npm run preview
+npm run start
 ```
 
 ## 📂 Project Structure
 
-- `/src/components` - Reusable UI widgets (Header, Footer, SubHero, scroll utilities).
-- `/src/pages` - Top-level route components (Home, About, Contact, Team, Publications, Write For Us, Volga to Ganga).
-- `/src/data` - Local JSON/TS data structures powering the content.
+- `/app` - Top-level App Router routes and layouts (Home, About, Contact, Our People, Research, Write For Us, Events).
+- `/src/components` - Reusable UI widgets and client components (Header, Footer, SubHero, scroll utilities).
+- `/src/data` - Local TypeScript data structures powering the content.
+- `/src/context` - React context providers.
 - `/public` - Static optimized assets (WebP backgrounds, SVG logos).
 
 ## 📄 License & Copyright

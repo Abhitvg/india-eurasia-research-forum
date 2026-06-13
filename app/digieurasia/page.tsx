@@ -1,23 +1,18 @@
-"use client";
-
 import { Camera, Mail, ArrowRight, MapPin, MoveRight } from 'lucide-react';
-import { motion } from 'motion/react';
 import Image from 'next/image';
 import SubHero from '@/src/components/SubHero';
-import { useContent } from '@/src/context/ContentContext';
-import SEOHead from '@/src/components/SEOHead';
+import { defaultContent } from '@/src/data/siteContent';
 import ScrollReveal from '@/src/components/ScrollReveal';
 
+export const metadata = {
+  title: 'DigiEurasia | IERF',
+  description: "DigiEurasia — IERF's digital heritage initiative capturing the living fabric of India-Eurasia civilizational connections through community photography and regional documentation.",
+};
+
 export default function DigiEurasia() {
-  const { content } = useContent();
-  const c = content.digieurasia;
+  const c = defaultContent.digieurasia;
   return (
     <div className="flex flex-col min-h-screen bg-[#FAFAFA]">
-      <SEOHead
-        title="DigiEurasia"
-        description="DigiEurasia — IERF's digital heritage initiative capturing the living fabric of India-Eurasia civilizational connections through community photography and regional documentation."
-        path="/digieurasia"
-      />
       <SubHero 
         title="DigiEurasia" 
         subtitle={c.subtitle}

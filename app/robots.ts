@@ -5,8 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/admin/'],
     },
-    sitemap: 'https://indiaeurasia.org/sitemap.xml',
+    sitemap: 'https://www.indiaeurasia.org/sitemap.xml',
   };
 }

@@ -1,10 +1,9 @@
 import { MetadataRoute } from 'next';
+import { defaultContent } from '@/src/data/siteContent';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://indiaeurasia.org';
+  const baseUrl = 'https://www.indiaeurasia.org';
   
-  // You can dynamically fetch publications from Firebase if you want,
-  // but for a static sitemap, we define the main routes.
   const routes = [
     '',
     '/about',
@@ -24,5 +23,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === '' ? 1 : 0.8,
   }));
 
-  return sitemapRoutes;
+  const publicationRoutes: MetadataRoute.Sitemap = defaultContent.publications.map((pub) => ({
+    url: `${baseUrl}/research/${pub.id}`,
+    lastModified: new Date(pub.date),
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }));
+
+  return [...sitemapRoutes, ...publicationRoutes];
 }

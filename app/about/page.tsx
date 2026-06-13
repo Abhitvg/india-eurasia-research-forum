@@ -1,24 +1,19 @@
-"use client";
-
-import { motion } from 'motion/react';
 import { Search, BookOpen, MessageCircle, Handshake, Target, ArrowRight, Compass } from 'lucide-react';
 import Link from 'next/link';
 
 import SubHero from '@/src/components/SubHero';
-import { useContent } from '@/src/context/ContentContext';
-import SEOHead from '@/src/components/SEOHead';
+import { defaultContent } from '@/src/data/siteContent';
 import ScrollReveal from '@/src/components/ScrollReveal';
 
+export const metadata = {
+  title: 'About Us | IERF',
+  description: "Learn about IERF's mission to bridge India and Eurasia through academic research, strategic dialogue, and collaborative engagement across civilizational, economic, and security domains.",
+};
+
 export default function About() {
-  const { content } = useContent();
-  const c = content.about;
+  const c = defaultContent.about;
   return (
     <div className="flex flex-col min-h-screen bg-white pb-24">
-      <SEOHead
-        title="About Us"
-        description="Learn about IERF's mission to bridge India and Eurasia through academic research, strategic dialogue, and collaborative engagement across civilizational, economic, and security domains."
-        path="/about"
-      />
       <SubHero
         title="About Us"
         subtitle={c.subtitle}

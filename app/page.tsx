@@ -1,16 +1,18 @@
-"use client";
-
 import React from 'react';
 import Link from 'next/link';
-import { useContent } from '@/src/context/ContentContext';
+import { defaultContent } from '@/src/data/siteContent';
 import ScrollReveal from '@/src/components/ScrollReveal';
 import ActionButton from '@/src/components/ActionButton';
 import GlassStatCard from '@/src/components/GlassStatCard';
 import { ArrowRight, BookOpen, Globe, Users, Target, MoveRight, Layers, BarChart, Shield, Activity } from 'lucide-react';
 
+export const metadata = {
+  title: 'India Eurasia Research Forum | IERF',
+  description: 'Advancing research, policy dialogue, and strategic analysis on India-Eurasia relations, regional connectivity, and geopolitical dynamics.',
+};
+
 export default function Home() {
-  const { content } = useContent();
-  const c = content?.home || ({} as any);
+  const c = defaultContent?.home || ({} as any);
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F4F4F5] pb-24">

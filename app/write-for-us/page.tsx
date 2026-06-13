@@ -1,26 +1,21 @@
-"use client";
-
 import { Mail, Edit3, BookOpen, Globe2, FileText, CheckCircle2, ArrowRight } from 'lucide-react';
-import { motion } from 'motion/react';
 import SubHero from '@/src/components/SubHero';
-import { useContent } from '@/src/context/ContentContext';
-import SEOHead from '@/src/components/SEOHead';
+import { defaultContent } from '@/src/data/siteContent';
 import ScrollReveal from '@/src/components/ScrollReveal';
 
-export default function WriteForUs() {
-  const { content } = useContent();
-  const c = content?.writeForUs || ({} as any);
+export const metadata = {
+  title: 'Write For Us | IERF',
+  description: 'Submit your research papers, commentaries, and policy briefs on India-Eurasia relations. IERF welcomes scholarly contributions on geopolitics, connectivity, and strategic studies.',
+};
 
-  const categoryIcons = [<BookOpen size={32} />, <FileText size={32} />, <Globe2 size={32} />];
+export default function WriteForUs() {
+  const c = defaultContent?.writeForUs || ({} as any);
+
+  const categoryIcons = [<BookOpen size={32} key="1" />, <FileText size={32} key="2" />, <Globe2 size={32} key="3" />];
   const categoryColors = ['text-blue-500', 'text-[#E87722]', 'text-emerald-500'];
 
   return (
     <div className="flex flex-col min-h-screen bg-[#FAFAFA]">
-      <SEOHead
-        title="Write For Us"
-        description="Submit your research papers, commentaries, and policy briefs on India-Eurasia relations. IERF welcomes scholarly contributions on geopolitics, connectivity, and strategic studies."
-        path="/write-for-us"
-      />
       <SubHero 
         title="Write For Us" 
         subtitle={c.subtitle}

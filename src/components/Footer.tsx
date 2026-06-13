@@ -130,6 +130,7 @@ export default function Footer() {
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     placeholder="Enter your email" 
+                    aria-label="Email address"
                     disabled={status === 'submitting'}
                     className="w-full bg-black/20 text-sm px-4 py-3 rounded outline-none text-white placeholder:text-gray-500 border border-white/10 focus:border-[#E87722] transition-colors mb-3 disabled:opacity-50"
                   />
