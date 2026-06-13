@@ -28,4 +28,5 @@ src/*.json
 
 # Firebase Cache
 .firebase/
+.next/
 

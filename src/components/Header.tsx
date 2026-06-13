@@ -28,8 +28,8 @@ export default function Header() {
             <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-md">
               <img src="/ierf_normal.png" alt="IERF Logo" className="w-7 h-7 object-contain" />
             </div>
-            <span className="font-display font-bold tracking-wide text-white text-base uppercase leading-tight hidden sm:block">
-              India Eurasia<span className="text-[#E87722]">.</span>
+            <span className="font-display font-bold tracking-wide text-white text-xs lg:text-sm xl:text-base uppercase leading-tight hidden md:block">
+              India Eurasia Research Forum<span className="text-[#E87722]">.</span>
             </span>
           </Link>
 
@@ -40,6 +40,7 @@ export default function Header() {
             <NavLink to="/research" label="Research" active={pathname === '/research' || pathname.includes('/digieurasia')} />
             <NavLink to="/events/volga-to-ganga" label="Events" active={pathname.includes('/events')} />
             <NavLink to="/our-people" label="People" active={pathname === '/our-people'} />
+            <NavLink to="/write-for-us" label="Write For Us" active={pathname === '/write-for-us'} />
           </nav>
 
           {/* Desktop CTA */}
@@ -76,6 +77,7 @@ export default function Header() {
               <MobileNavLink to="/events/volga-to-ganga" label="Events" active={pathname.includes('/events')} onClick={() => setIsMenuOpen(false)} />
               <MobileNavLink to="/research" label="Research" active={pathname.includes('/research')} onClick={() => setIsMenuOpen(false)} />
               <MobileNavLink to="/our-people" label="Our People" active={pathname === '/our-people'} onClick={() => setIsMenuOpen(false)} />
+              <MobileNavLink to="/write-for-us" label="Write For Us" active={pathname === '/write-for-us'} onClick={() => setIsMenuOpen(false)} />
               <div className="pt-4 mt-4 border-t border-white/10">
                 <Link href="/contact" onClick={() => setIsMenuOpen(false)} className="block w-full text-center bg-[#E87722] text-white py-3 rounded-full font-bold">
                   Contact Us
