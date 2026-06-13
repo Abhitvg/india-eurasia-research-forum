@@ -46,8 +46,8 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-5 md:pr-8">
             <Link href="/" className="flex items-center space-x-4 mb-8">
-              <div className="w-14 h-14 bg-white rounded-lg flex items-center justify-center p-2">
-                 <Image src="/ierf_normal.png" alt="IERF Logo" width={40} height={40} className="object-contain" />
+              <div className="w-14 h-14 bg-white rounded-lg flex items-center justify-center overflow-hidden shrink-0">
+                 <Image src="/ierf_normal.png" alt="IERF Logo" width={56} height={56} className="w-full h-full object-contain scale-[1.35]" />
               </div>
               <div className="flex flex-col">
                 <span className="font-display font-bold text-2xl text-white tracking-wide">{content.settings?.siteName || "IERF"}</span>

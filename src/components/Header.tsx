@@ -28,8 +28,8 @@ export default function Header() {
         <div className="flex justify-between items-center px-6 py-3">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 shrink-0">
-            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden">
-              <Image src="/ierf_normal.png" alt="IERF Logo" width={28} height={28} className="object-contain" />
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden shrink-0">
+              <Image src="/ierf_normal.png" alt="IERF Logo" width={48} height={48} className="w-full h-full object-contain scale-[1.35]" />
             </div>
             <span className="font-display font-bold tracking-wide text-white text-xs lg:text-sm xl:text-base uppercase leading-tight hidden md:block">
               India Eurasia Research Forum<span className="text-[#E87722]">.</span>
