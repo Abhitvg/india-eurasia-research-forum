@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { defaultContent } from '@/src/data/siteContent';
 import ScrollReveal from '@/src/components/ScrollReveal';
 import ActionButton from '@/src/components/ActionButton';
@@ -20,10 +21,17 @@ export default function Home() {
       <section className="px-4 pt-4">
         <div className="relative h-[92vh] min-h-[700px] rounded-[2.5rem] bg-[#0A192F] overflow-hidden flex items-center grain-overlay">
           {/* Background Image & Gradient */}
-          <div 
-            className="absolute inset-0 bg-cover bg-center opacity-60 mix-blend-overlay"
-            style={{ backgroundImage: 'url("/images/hero1_new_opt.webp")' }}
-          />
+          <div className="absolute inset-0 opacity-60 mix-blend-overlay">
+            <Image 
+              src="/images/hero1_new_opt.webp"
+              alt="Eurasia Landscape"
+              fill
+              priority
+              quality={85}
+              className="object-cover object-center"
+              sizes="100vw"
+            />
+          </div>
           <div className="absolute inset-0 gradient-overlay" />
           
           {/* Massive Background Text */}
