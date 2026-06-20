@@ -44,6 +44,46 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function PublicationDetail() {
-  return <PublicationDetailClient />;
+export default async function PublicationDetail({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  const publication = publications.find(p => p.id === resolvedParams.id);
+
+  if (!publication) {
+    return <PublicationDetailClient />;
+  }
+
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: publication.title,
+    image: [
+      publication.image || 'https://www.indiaeurasia.org/og-image.webp'
+    ],
+    datePublished: new Date(publication.date).toISOString(),
+    dateModified: new Date(publication.date).toISOString(),
+    author: [{
+      '@type': 'Person',
+      name: publication.author,
+      url: 'https://www.indiaeurasia.org/our-people'
+    }],
+    publisher: {
+      '@type': 'Organization',
+      name: 'India Eurasia Research Forum',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.indiaeurasia.org/ierf-logo.svg'
+      }
+    },
+    description: publication.description
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <PublicationDetailClient />
+    </>
+  );
 }

@@ -7,5 +7,21 @@ export const metadata = {
 };
 
 export default function Home() {
-  return <HomeClient />;
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'India Eurasia Research Forum',
+    url: 'https://www.indiaeurasia.org/',
+    description: 'Advancing research, policy dialogue, and strategic analysis on India-Eurasia relations.',
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
+      <HomeClient />
+    </>
+  );
 }

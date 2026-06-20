@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Playfair_Display, Outfit } from 'next/font/google';
 import '../src/index.css';
 import Header from '../src/components/Header';
@@ -65,8 +65,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'India Eurasia Research Forum',
+    alternateName: 'IERF',
     url: 'https://www.indiaeurasia.org',
     logo: 'https://www.indiaeurasia.org/ierf-logo.svg',
+    sameAs: [
+      'https://x.com/IndiaEurasia',
+      'https://linkedin.com/company/india-eurasia-research-forum'
+    ]
   };
 
   return (
