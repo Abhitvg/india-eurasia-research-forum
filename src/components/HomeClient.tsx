@@ -4,10 +4,11 @@ import { ArrowRight, Globe, BookOpen, Users, Calendar, ChevronRight, Send, Camer
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { defaultContent } from '@/src/data/siteContent';
-import ScrollReveal from './ScrollReveal';
+import { useContent } from '../context/ContentContext';
+import ScrollReveal from '../components/ScrollReveal';
 import React from 'react';
-import EurasiaMap from './EurasiaMap';
+import EurasiaMap from '../components/EurasiaMap';
+
 
 const heroImages = [
   '/images/hero1_new_opt.webp',
@@ -16,7 +17,8 @@ const heroImages = [
 ];
 
 export default function HomeClient() {
-  const c = defaultContent?.home || ({} as any);
+  const { content } = useContent();
+  const c = content?.home || ({} as any);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
@@ -28,6 +30,7 @@ export default function HomeClient() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      
       {/* Hero Section */}
       <section className="relative h-[90vh] min-h-[700px] flex items-center justify-center overflow-hidden">
         {/* Cinematic Background Slider */}
@@ -46,15 +49,15 @@ export default function HomeClient() {
               scale: { duration: 8, ease: "linear" }, // Cinematic slow zoom
               filter: { duration: 1.5 }
             }}
-            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 contrast-[1.1] brightness-[0.7] saturate-[1.2]"
+            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 contrast-[1.1] brightness-[0.5] saturate-[1.2]"
             style={{ backgroundImage: `url("${heroImages[currentImageIndex]}")` }}
           />
         </AnimatePresence>
 
         {/* Cinematic Overlays */}
         <div className="absolute inset-0 z-[1] pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1B3B5F]/40 via-[#1B3B5F]/0 to-[#1B3B5F]/60"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0),rgba(0,0,0,0.4)_100%)]"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1B3B5F]/80 via-[#1B3B5F]/40 to-[#1B3B5F]/80"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.2),rgba(0,0,0,0.6)_100%)]"></div>
           {/* Internal Noise Overlay */}
           <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay bg-[url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E')]"></div>
         </div>
@@ -65,18 +68,18 @@ export default function HomeClient() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/80 text-[10px] font-black uppercase tracking-[0.4em] mb-10 shadow-2xl">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/30 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-black uppercase tracking-[0.4em] mb-10 shadow-2xl">
               <Globe size={12} className="text-[#E87722]" /> India-Eurasian Research Forum
             </div>
             <h1
-              className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tight mb-10 leading-[1] max-w-6xl mx-auto"
+              className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tight mb-10 leading-[1] max-w-6xl mx-auto drop-shadow-2xl"
               style={{ 
                 fontFamily: '"Playfair Display", Georgia, serif',
-                textShadow: '0 10px 40px rgba(0,0,0,0.5)'
+                textShadow: '0 4px 30px rgba(0,0,0,0.8)'
               }}
             >
-              Researching <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E87722] to-orange-400">Eurasia</span>, <br className="hidden sm:block" />
-              Bridging <span className="text-white/80 italic font-medium">Continents.</span>
+              Researching <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E87722] to-orange-400 drop-shadow-sm">Eurasia</span>, <br className="hidden sm:block" />
+              Bridging <span className="text-white italic font-medium">Continents.</span>
             </h1>
           </motion.div>
           
@@ -84,8 +87,8 @@ export default function HomeClient() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
-            className="text-lg md:text-2xl text-white/90 mb-16 max-w-3xl mx-auto font-medium leading-relaxed"
-            style={{ textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}
+            className="text-lg md:text-2xl text-white mb-16 max-w-3xl mx-auto font-medium leading-relaxed drop-shadow-xl"
+            style={{ textShadow: '0 2px 15px rgba(0,0,0,0.8)' }}
           >
             {c.heroSubtitle}
           </motion.p>
@@ -223,7 +226,7 @@ export default function HomeClient() {
                   </div>
                   <h4 className="text-4xl font-black text-[#1B3B5F] group-hover:text-white mb-10 transition-colors">Core Research <span className="text-[#E87722]">Domains</span></h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                    {(c.focusAreas || []).map((area: string, idx: number) => (
+                    {c.focusAreas.map((area, idx) => (
                       <div key={idx} className="flex items-center space-x-5 group/item cursor-default">
                         <div className="w-3 h-3 rounded-full border-2 border-[#E87722] group-hover/item:bg-[#E87722] transition-all duration-300"></div>
                         <span className="text-gray-500 group-hover:text-white/80 font-bold text-sm tracking-tight transition-colors">{area}</span>
@@ -304,7 +307,7 @@ export default function HomeClient() {
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {(c.ierfWayPillars || []).map((pill: any, idx: number) => {
+            {c.ierfWayPillars.map((pill, idx) => {
               const icons = [
                 <BookOpen className="text-blue-600" size={32} />, 
                 <Users className="text-[#E87722]" size={32} />, 

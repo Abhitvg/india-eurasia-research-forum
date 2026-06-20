@@ -2,15 +2,12 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import { Mail, MapPin, Facebook, Twitter, Instagram, Linkedin, Send, Check } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 
 export default function Footer() {
-  const pathname = usePathname() || '/';
   const { content } = useContent();
-  const c = content.footer || {} as any;
+  const c = content.footer;
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
 
@@ -29,48 +26,50 @@ export default function Footer() {
       date: new Date().toISOString()
     };
 
-    const existing = JSON.parse((typeof window !== 'undefined' ? localStorage.getItem.bind(localStorage) : () => null)('ierf_inquiries') || '[]');
-    (typeof window !== 'undefined' ? localStorage.setItem.bind(localStorage) : () => {})('ierf_inquiries', JSON.stringify([...existing, newInquiry]));
+    const existing = JSON.parse(localStorage.getItem('ierf_inquiries') || '[]');
+    localStorage.setItem('ierf_inquiries', JSON.stringify([...existing, newInquiry]));
 
     setStatus('success');
     setEmail('');
     setTimeout(() => setStatus('idle'), 3000);
   };
 
-  if (pathname.startsWith('/admin')) return null;
-
   return (
-    <footer className="bg-[#0A192F] text-white pt-20 pb-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
+    <footer className="bg-[#1B3B5F] text-white pt-20 pb-10 overflow-hidden relative">
+      {/* Dynamic Background Elements */}
+      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-[#E87722] opacity-5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-96 h-96 bg-blue-400 opacity-5 rounded-full blur-3xl"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
           {/* Brand Column */}
-          <div className="lg:col-span-5 md:pr-8">
-            <Link href="/" className="flex items-center space-x-4 mb-8">
-              <div className="w-14 h-14 bg-white rounded-lg flex items-center justify-center overflow-hidden shrink-0">
-                 <Image src="/ierf-logo.svg" alt="IERF Logo" width={56} height={56} className="w-full h-full object-contain" />
+          <div className="lg:col-span-4">
+            <Link href="/" className="flex items-center space-x-3 mb-8 group">
+              <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center p-2.5 group-hover:scale-110 transition-all duration-500 shadow-lg group-hover:shadow-[#E87722]/40 border border-white/10 relative overflow-hidden">
+                 {/* Golden hover glow */}
+                 <div className="absolute inset-0 bg-gradient-to-tr from-[#E87722]/0 to-[#E87722]/0 group-hover:from-[#E87722]/5 group-hover:to-[#E87722]/10 transition-all duration-500"></div>
+                 <img src="/ierf-logo.svg" alt="IERF Logo" className="w-full h-full object-contain relative z-10" />
               </div>
-              <div className="flex flex-col">
-                <span className="font-display font-bold text-2xl text-white tracking-wide">{content.settings?.siteName || "IERF"}</span>
-                <span className="text-[10px] text-gray-400 uppercase tracking-widest font-semibold">Research Forum</span>
+              <div className="flex items-center">
+                <span className="text-white font-bold text-[15px] tracking-wider" style={{ fontFamily: '"Playfair Display", serif', letterSpacing: '0.05em' }}>{content.settings?.siteName || "India Eurasia Research Forum"}</span>
               </div>
             </Link>
-            <p className="text-gray-400 text-base leading-relaxed mb-8">
-              {c.description || "India Eurasia Research Forum is a premier academic platform promoting research, dialogue, and trans-regional connectivity."}
+            <p className="text-gray-400 text-sm leading-relaxed mb-8 max-w-sm">
+              {c.description}
             </p>
             <div className="flex items-center space-x-4">
               {[
-                { icon: <Twitter size={18} />, href: content.settings?.socials.x, label: "Twitter" },
-                { icon: <Instagram size={18} />, href: content.settings?.socials.instagram, label: "Instagram" },
-                { icon: <Linkedin size={18} />, href: content.settings?.socials.linkedin, label: "LinkedIn" },
-                { icon: <Facebook size={18} />, href: "https://facebook.com/indiaeurasia", label: "Facebook" },
+                { icon: <Twitter size={18} />, href: content.settings?.socials.x },
+                { icon: <Instagram size={18} />, href: content.settings?.socials.instagram },
+                { icon: <Linkedin size={18} />, href: content.settings?.socials.linkedin },
+                { icon: <Facebook size={18} />, href: "https://facebook.com/indiaeurasia" }, // Keeping one fallback for now as it's not in the main settings yet
               ].filter(s => s.href).map((social, idx) => (
                 <a 
                   key={idx} 
                   href={social.href} 
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="w-10 h-10 rounded bg-white/5 flex items-center justify-center text-gray-400 hover:bg-[#E87722] hover:text-white transition-colors"
+                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:bg-[#E87722] hover:text-white hover:border-[#E87722] transition-all"
                 >
                   {social.icon}
                 </a>
@@ -80,32 +79,36 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="lg:col-span-2">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-6">Platform</h3>
-            <ul className="space-y-4 text-gray-400 text-sm">
-              <li><Link href="/" className="hover:text-[#E87722] transition-colors">Home</Link></li>
+            <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-8">Navigation</h3>
+            <ul className="space-y-4 text-sm text-gray-400">
+              <li><Link href="/" className="hover:text-[#E87722] transition-colors flex items-center">Home</Link></li>
               <li><Link href="/about" className="hover:text-[#E87722] transition-colors">About Us</Link></li>
-              <li><Link href="/research" className="hover:text-[#E87722] transition-colors">Research</Link></li>
-              <li><Link href="/events/volga-to-ganga" className="hover:text-[#E87722] transition-colors">Volga to Ganga</Link></li>
+              <li><Link href="/research" className="hover:text-[#E87722] transition-colors">Research & Analysis</Link></li>
+              <li><Link href="/digieurasia" className="hover:text-[#E87722] transition-colors">DigiEurasia</Link></li>
               <li><Link href="/our-people" className="hover:text-[#E87722] transition-colors">Our People</Link></li>
-              <li><Link href="/write-for-us" className="hover:text-[#E87722] transition-colors">Submit Analysis</Link></li>
+              <li><Link href="/write-for-us" className="hover:text-[#E87722] transition-colors">Write for Us</Link></li>
             </ul>
           </div>
 
           {/* Contact Info */}
-          <div className="lg:col-span-2">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-6">Reach Out</h3>
-            <ul className="space-y-6 text-gray-400 text-sm">
-              <li className="flex items-start space-x-3">
-                <MapPin size={18} className="text-[#E87722] shrink-0 mt-0.5" />
+          <div className="lg:col-span-3">
+            <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-8">Get in Touch</h3>
+            <ul className="space-y-6 text-sm text-gray-400">
+              <li className="flex items-start space-x-4 group">
+                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-[#E87722] group-hover:bg-[#E87722] group-hover:text-white group-hover:shadow-[0_0_15px_rgba(232,119,34,0.4)] transition-all">
+                  <MapPin size={18} />
+                </div>
                 <div>
-                  <p className="text-white font-semibold mb-1">Location</p>
+                  <p className="text-white font-semibold mb-1">Our Location</p>
                   <p>New Delhi, India</p>
                 </div>
               </li>
-              <li className="flex items-start space-x-3">
-                <Mail size={18} className="text-[#E87722] shrink-0 mt-0.5" />
+              <li className="flex items-start space-x-4 group">
+                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-[#E87722] group-hover:bg-[#E87722] group-hover:text-white group-hover:shadow-[0_0_15px_rgba(232,119,34,0.4)] transition-all">
+                  <Mail size={18} />
+                </div>
                 <div>
-                  <p className="text-white font-semibold mb-1">Email</p>
+                  <p className="text-white font-semibold mb-1">Email Us</p>
                   <a href="mailto:connect@indiaeurasia.org" className="hover:text-[#E87722] transition-colors">connect@indiaeurasia.org</a>
                 </div>
               </li>
@@ -114,35 +117,34 @@ export default function Footer() {
 
           {/* Newsletter Column */}
           <div className="lg:col-span-3">
-            <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-              <h3 className="text-white font-bold text-xl mb-2">{c.newsletterTitle || "Stay Informed"}</h3>
-              <p className="text-gray-400 text-sm mb-6">{c.newsletterBody || "Get the latest analysis and insights on Eurasian geopolitics delivered to your inbox."}</p>
+            <div className="bg-white/5 rounded-2xl p-6 border border-white/10 backdrop-blur-sm">
+              <h3 className="text-white font-bold mb-2">{c.newsletterTitle}</h3>
+              <p className="text-gray-400 text-xs mb-6">{c.newsletterBody}</p>
               {status === 'success' ? (
-                <div className="flex items-center justify-center gap-2 bg-green-500/20 text-green-400 p-3 rounded font-bold text-sm">
+                <div className="flex items-center justify-center gap-2 bg-green-500/20 text-green-400 p-3 rounded-full border border-green-500/30 font-bold text-sm">
                   <Check size={16} />
-                  Subscription Confirmed
+                  Subscribed!
                 </div>
               ) : (
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="flex items-center bg-white/10 rounded-full p-1 border border-white/10 focus-within:border-[#E87722] transition-colors">
                   <input 
                     type="email" 
                     required
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    placeholder="Enter your email" 
-                    aria-label="Email address"
+                    placeholder="Enter email" 
                     disabled={status === 'submitting'}
-                    className="w-full bg-black/20 text-sm px-4 py-3 rounded outline-none text-white placeholder:text-gray-500 border border-white/10 focus:border-[#E87722] transition-colors mb-3 disabled:opacity-50"
+                    className="bg-transparent text-sm w-full px-4 outline-none text-white placeholder:text-gray-500 disabled:opacity-50"
                   />
                   <button 
                     type="submit"
                     disabled={status === 'submitting' || !email}
-                    className="w-full bg-[#E87722] text-white py-3 rounded font-bold text-sm hover:bg-orange-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                    className="bg-[#E87722] text-white p-2 rounded-full hover:bg-orange-600 transition-colors disabled:opacity-50"
                   >
                     {status === 'submitting' ? (
                       <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     ) : (
-                      <>Subscribe <Send size={16} /></>
+                      <Send size={16} />
                     )}
                   </button>
                 </form>
@@ -151,14 +153,23 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Footer Bottom */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} India Eurasia Research Forum. All rights reserved.
-          </p>
-          <div className="flex space-x-6 text-sm text-gray-500">
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+        {/* Affiliate Section */}
+        <div className="border-t border-white/10 pt-10 pb-6">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0 text-center md:text-left">
+            <div className="flex flex-wrap justify-center md:justify-start gap-8">
+               <div className="flex items-center space-x-4 cursor-default group/ganga">
+                  <div className="w-16 h-16 bg-white rounded-2xl shadow-lg group-hover/ganga:shadow-[#E87722]/40 p-3 flex items-center justify-center transition-all duration-500 border border-white/10 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-[#E87722]/0 to-[#E87722]/0 group-hover/ganga:from-[#E87722]/5 group-hover/ganga:to-[#E87722]/10 transition-all duration-500"></div>
+                    <div className="w-10 h-10 relative z-10 transition-all group-hover/ganga:scale-105 flex items-center justify-center">
+                      <img src="/volga_to_ganga_final.png" alt="Volga to Ganga Logo" className="w-full h-full object-contain" />
+                    </div>
+                  </div>
+                  <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 group-hover/ganga:text-white transition-colors">Volga to Ganga</span>
+               </div>
+            </div>
+            <div className="text-gray-500 text-xs font-medium">
+               {content.settings?.footerCopyright || `© ${new Date().getFullYear()} India Eurasia Research Forum. All rights reserved.`}
+            </div>
           </div>
         </div>
       </div>

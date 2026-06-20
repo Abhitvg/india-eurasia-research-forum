@@ -1,25 +1,15 @@
-import React from 'react';
-import SubHero from '@/src/components/SubHero';
-import { defaultContent } from '@/src/data/siteContent';
-import ResearchClient from '@/src/components/ResearchClient';
+import { Suspense } from 'react';
+import PublicationsClient from '@/src/components/PublicationsClient';
 
 export const metadata = {
-  title: 'Research and Analysis | IERF',
-  description: 'Read IERF\'s latest research papers, policy commentaries, perspectives, and strategic analysis on India-Eurasia relations, Central Asian geopolitics, and trans-regional connectivity.',
+  title: 'Research & Analysis | IERF',
+  description: 'Explore in-depth publications, strategic briefs, and geopolitical analysis on India-Eurasia relations.',
 };
 
-export default function Publications() {
-  const pubs = defaultContent?.publications || [];
+export default function Research() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#FAFAFA] pb-24 overflow-x-hidden">
-      <SubHero 
-        title="Research & Analysis" 
-        subtitle="Insights and analysis from our network on the shifting dynamics of Eurasia."
-        breadcrumb={[{ label: 'Research' }]}
-      />
-      <React.Suspense fallback={<div className="min-h-screen bg-[#FAFAFA] pb-24" />}>
-        <ResearchClient pubs={pubs} />
-      </React.Suspense>
-    </div>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center pt-20"><div className="w-8 h-8 border-4 border-[#1B3B5F] border-t-transparent rounded-full animate-spin"></div></div>}>
+      <PublicationsClient />
+    </Suspense>
   );
 }
