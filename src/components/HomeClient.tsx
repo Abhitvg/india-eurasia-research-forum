@@ -1,8 +1,9 @@
 "use client";
 
-import { ArrowRight, Globe, BookOpen, Users, Calendar, ChevronRight, Send, Camera } from 'lucide-react';
+import { ArrowRight, BookOpen, Globe, Users, Camera, PlayCircle, MapPin, Calendar, ChevronRight, Send } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useContent } from '../context/ContentContext';
 import ScrollReveal from '../components/ScrollReveal';
@@ -39,7 +40,7 @@ export default function HomeClient() {
         <AnimatePresence mode="popLayout">
           <motion.div 
             key={currentImageIndex}
-            initial={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+            initial={{ opacity: currentImageIndex === 0 ? 1 : 0, scale: 1.1, filter: currentImageIndex === 0 ? 'blur(0px)' : 'blur(10px)' }}
             animate={{ 
               opacity: 1, 
               scale: [1, 1.05], 
@@ -176,7 +177,7 @@ export default function HomeClient() {
                 <div className="relative pb-12 pr-12">
                   <div className="absolute -bottom-8 -right-8 w-64 h-64 bg-[#E87722]/5 rounded-3xl border border-[#E87722]/10 -z-10 rotate-6"></div>
                   <div className="relative rounded-3xl md:rounded-[4rem] overflow-hidden shadow-2xl group border-4 md:border-8 border-white">
-                    <img src={c.welcomeImage} alt="Strategic analysis" loading="lazy" className="w-full h-[600px] object-cover group-hover:scale-105 transition-transform duration-[4s]" />
+                    <Image src={c.welcomeImage} alt="Strategic analysis" width={1000} height={600} className="w-full h-[600px] object-cover group-hover:scale-105 transition-transform duration-[4s]" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1B3B5F]/40 to-[#1B3B5F]/0 mix-blend-multiply opacity-60"></div>
                   </div>
                   <div className="absolute -top-10 -right-4 md:-right-10 glass-luxe p-8 rounded-[2rem] w-48 text-center animate-bounce-slow">
@@ -307,7 +308,7 @@ export default function HomeClient() {
               {recentPubs.map((pub: any, idx: number) => (
                 <Link href={`/research/${pub.id}`} key={idx} className="group flex flex-col bg-white rounded-[2rem] border border-gray-100 overflow-hidden hover:shadow-2xl transition-all hover:-translate-y-2">
                   <div className="h-48 overflow-hidden relative">
-                    <img src={pub.image || '/images/hero1_new_opt.webp'} alt={pub.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <Image src={pub.image || '/images/hero1_new_opt.webp'} alt={pub.title} width={600} height={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur-sm text-[#1B3B5F] text-[10px] font-black uppercase tracking-widest rounded-full">
                       {pub.category || "Research"}
                     </div>
@@ -338,7 +339,7 @@ export default function HomeClient() {
                 <div className="absolute inset-0 bg-[#E87722]/20 rounded-full blur-[100px] transition-all duration-700 group-hover:bg-[#E87722]/30"></div>
                 <div className="relative rounded-[3rem] md:rounded-[5rem] bg-white/5 backdrop-blur-3xl p-10 md:p-16 border border-white/10 shadow-3xl flex flex-col items-center justify-center min-h-[360px] md:min-h-[480px] transform transition-all duration-1000 hover:rotate-2 hover:scale-[1.02]">
                   <div className="w-64 md:w-80 h-auto">
-                    <img src="/volga_to_ganga_final.png" alt="Volga to Ganga Logo" className="w-full h-full object-contain" />
+                    <Image src="/volga_to_ganga_final.png" alt="Volga to Ganga Logo" width={400} height={400} className="w-full h-full object-contain" />
                   </div>
                   <div className="mt-8 inline-block px-8 py-3 rounded-full bg-[#E87722] text-white text-[10px] font-black uppercase tracking-[0.5em] shadow-2xl">
                     Global Flagship
@@ -423,7 +424,7 @@ export default function HomeClient() {
                       <Camera className="text-[#E87722]" size={32} />
                    </div>
                    <p className="text-gray-400 font-black uppercase tracking-[0.3em] text-[10px] mb-4 text-center">Community Repository</p>
-                   <h4 className="text-2xl font-black text-[#1B3B5F]">Advancing Digital Heritage</h4>
+                   <h3 className="text-2xl font-black text-[#1B3B5F]">Advancing Digital Heritage</h3>
                 </div>
               </div>
             </div>
