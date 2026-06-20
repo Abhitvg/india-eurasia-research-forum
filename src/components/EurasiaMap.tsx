@@ -221,7 +221,7 @@ function EurasiaMapComponent() {
                 >
                   <Globe className="text-[#1B3B5F]/20" size={40} />
                 </motion.div>
-                <h4 className="text-[#1B3B5F] font-black text-xl mb-4 tracking-tighter uppercase">Interactive Geographic Discovery</h4>
+                <h3 className="text-[#1B3B5F] font-black text-xl mb-4 tracking-tighter uppercase">Interactive Geographic Discovery</h3>
                 <p className="text-gray-400 font-medium leading-relaxed">
                   The Eurasian landmass is a complex matrix of emerging corridors and strategic competition. <br/><br/>
                   <span className="text-[#E87722]/60 font-bold">Select a region to initialize the strategic analysis module.</span>

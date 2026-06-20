@@ -24,7 +24,6 @@ const outfit = Outfit({
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
   themeColor: '#1B3B5F',
 };
 
@@ -77,7 +76,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${playfair.variable} ${outfit.variable} scroll-smooth`}>
       <head>
-        <link rel="preload" href="/images/hero1_new_opt.webp" as="image" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}

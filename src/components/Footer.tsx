@@ -55,7 +55,7 @@ export default function Footer() {
                 <span className="text-white font-bold text-[15px] tracking-wider" style={{ fontFamily: '"Playfair Display", serif', letterSpacing: '0.05em' }}>{content.settings?.siteName || "India Eurasia Research Forum"}</span>
               </div>
             </Link>
-            <p className="text-gray-300 text-sm leading-relaxed mb-8 max-w-sm">
+            <p className="text-gray-200 text-sm leading-relaxed mb-8 max-w-sm">
               {c.description}
             </p>
             <div className="flex items-center space-x-4">
@@ -82,7 +82,7 @@ export default function Footer() {
           {/* Quick Links */}
           <div className="lg:col-span-2">
             <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-8">Navigation</h3>
-            <ul className="space-y-4 text-sm text-gray-300">
+            <ul className="space-y-4 text-sm text-gray-200">
               <li><Link href="/" className="hover:text-[#E87722] transition-colors flex items-center">Home</Link></li>
               <li><Link href="/about" className="hover:text-[#E87722] transition-colors">About Us</Link></li>
               <li><Link href="/research" className="hover:text-[#E87722] transition-colors">Research & Analysis</Link></li>
@@ -95,14 +95,14 @@ export default function Footer() {
           {/* Contact Info */}
           <div className="lg:col-span-3">
             <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-8">Get in Touch</h3>
-            <ul className="space-y-6 text-sm text-gray-300">
+            <ul className="space-y-6 text-sm text-gray-200">
               <li className="flex items-start space-x-4 group">
                 <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-[#E87722] group-hover:bg-[#E87722] group-hover:text-white group-hover:shadow-[0_0_15px_rgba(232,119,34,0.4)] transition-all">
                   <MapPin size={18} />
                 </div>
                 <div>
-                  <p className="text-white font-semibold mb-1">Our Location</p>
-                  <p>New Delhi, India</p>
+                  <p className="text-gray-200 font-semibold mb-1">Our Location</p>
+                  <p className="text-gray-300">New Delhi, India</p>
                 </div>
               </li>
               <li className="flex items-start space-x-4 group">
@@ -110,8 +110,8 @@ export default function Footer() {
                   <Mail size={18} />
                 </div>
                 <div>
-                  <p className="text-white font-semibold mb-1">Email Us</p>
-                  <a href="mailto:connect@indiaeurasia.org" className="hover:text-[#E87722] transition-colors">connect@indiaeurasia.org</a>
+                  <p className="text-gray-200 font-semibold mb-1">Email Us</p>
+                  <a href="mailto:connect@indiaeurasia.org" className="text-gray-300 hover:text-[#E87722] transition-colors">connect@indiaeurasia.org</a>
                 </div>
               </li>
             </ul>
@@ -121,7 +121,7 @@ export default function Footer() {
           <div className="lg:col-span-3">
             <div className="bg-white/5 rounded-2xl p-6 border border-white/10 backdrop-blur-sm">
               <h3 className="text-white font-bold mb-2">{c.newsletterTitle}</h3>
-              <p className="text-gray-300 text-xs mb-6">{c.newsletterBody}</p>
+              <p className="text-gray-200 text-xs mb-6">{c.newsletterBody}</p>
               {status === 'success' ? (
                 <div className="flex items-center justify-center gap-2 bg-green-500/20 text-green-400 p-3 rounded-full border border-green-500/30 font-bold text-sm">
                   <Check size={16} />
@@ -170,7 +170,7 @@ export default function Footer() {
                   <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-300 group-hover/ganga:text-white transition-colors">Volga to Ganga</span>
                </div>
             </div>
-            <div className="text-gray-400 text-xs font-medium">
+            <div className="text-gray-300 text-xs font-medium">
                {content.settings?.footerCopyright || `© ${new Date().getFullYear()} India Eurasia Research Forum. All rights reserved.`}
             </div>
           </div>

@@ -52,9 +52,17 @@ export default function HomeClient() {
               scale: { duration: 8, ease: "linear" }, // Cinematic slow zoom
               filter: { duration: 1.5 }
             }}
-            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 contrast-[1.1] brightness-[0.5] saturate-[1.2]"
-            style={{ backgroundImage: `url("${heroImages[currentImageIndex]}")` }}
-          />
+            className="absolute inset-0 z-0"
+          >
+            <Image
+              src={heroImages[currentImageIndex]}
+              alt="Eurasian Geopolitics"
+              fill
+              priority={currentImageIndex === 0}
+              className="object-cover object-center contrast-[1.1] brightness-[0.5] saturate-[1.2]"
+              sizes="100vw"
+            />
+          </motion.div>
         </AnimatePresence>
 
         {/* Cinematic Overlays */}
