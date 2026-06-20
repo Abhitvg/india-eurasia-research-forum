@@ -1,0 +1,37 @@
+# India Eurasia Research Forum (IERF)
+
+> The India Eurasia Research Forum provides evidence‑based policy research and analysis on geopolitics, security, economics, and civilizational ties across Eurasia.
+
+The platform hosts research papers, regional analysis, a digital heritage archive, dialogue events, and invites contributors to submit writings on Indo‑Eurasian affairs.
+
+## Home
+- [Home – overview of IERF](https://indiaeurasia.org): Landing page with summary of research focus and latest updates.
+
+## About & Team
+- [About – mission and background](https://www.indiaeurasia.org/about): Information on IERF’s purpose, history, and objectives.  
+- [Our People – staff and scholars](https://www.indiaeurasia.org/our-people): Profiles of researchers and contributors.
+
+## Research
+- [Research – publications overview](https://www.indiaeurasia.org/research): Collection of research papers and analysis across topics.  
+- [Digital Silk Road](https://www.indiaeurasia.org/research/digital-silk-road): Paper on digital infrastructure linking Eurasia.  
+- [Russian State Propaganda](https://www.indiaeurasia.org/research/russian-state-propaganda): Analysis of Russian propaganda mechanisms.  
+- [India‑Chabahar](https://www.indiaeurasia.org/research/india-chabahar-final): Study of India’s involvement in the Chabahar port project.  
+- [NUR Stories from Eurasia](https://www.indiaeurasia.org/research/nur-stories-from-eurasia): Collection of narratives on Eurasian cultural ties.  
+- [Calculus of Eurasia](https://www.indiaeurasia.org/research/calculus-of-eurasia): Analytical paper on Eurasian geopolitical dynamics.  
+- [Special Research Note – Gupta](https://www.indiaeurasia.org/research/special-research-note-gupta): Focused note on Gupta‑era influences in Eurasia.
+
+## Digital Archive
+- [DigiEurasia – digital heritage archive](https://www.indiaeurasia.org/digieurasia): Archive of historical documents and digital resources.
+
+## Events
+- [Volga to Ganga event](https://www.indiaeurasia.org/events/volga-to-ganga): Details of the Volga‑to‑Ganga dialogue series.  
+- [IERF Talks](https://www.indiaeurasia.org/events/ierf-talks): Series of talks and seminars hosted by IERF.
+
+## Contribute
+- [Write for Us – contribution guidelines](https://www.indiaeurasia.org/write-for-us): Guidelines for submitting articles and research.
+
+## Contact
+- [Contact – reach IERF](https://www.indiaeurasia.org/contact): Contact information and inquiry form.
+
+## Optional
+- [Sitemap (XML)](https://www.indiaeurasia.org/sitemap.xml): Structured list of site URLs for navigation.

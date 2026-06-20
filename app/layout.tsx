@@ -21,8 +21,18 @@ const outfit = Outfit({
   display: 'swap',
 });
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: '#1B3B5F',
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.indiaeurasia.org'),
+  alternates: {
+    canonical: '/',
+  },
   title: 'India Eurasia Research Forum (IERF) | Connecting India and Eurasia',
   description: 'India Eurasia Research Forum (IERF) is a premier academic platform promoting research, dialogue, and trans-regional connectivity between India and the Eurasian region.',
   keywords: ['India Eurasia', 'IERF', 'Geopolitics', 'Central Asia', 'Connectivity', 'Research Forum', 'Volga to Ganga', 'India Russia Relations', 'Eurasian Studies'],
@@ -62,12 +72,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${playfair.variable} ${outfit.variable} scroll-smooth`}>
       <head>
+        <link rel="preload" href="/images/hero1_new_opt.webp" as="image" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
       </head>
-      <body className="font-sans text-slate-900 bg-[#FAFAFA] min-h-screen flex flex-col antialiased selection:bg-[#E87722] selection:text-white">
+      <body className="font-sans text-slate-900 bg-[#FAFAFA] min-h-screen flex flex-col antialiased selection:bg-[#E87722] selection:text-white overflow-x-hidden">
         <ContentProvider>
           <Header />
           <MainWrapper>

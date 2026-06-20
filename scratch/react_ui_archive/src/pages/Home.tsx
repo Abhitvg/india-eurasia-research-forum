@@ -1,14 +1,12 @@
-"use client";
-
 import { ArrowRight, Globe, BookOpen, Users, Calendar, ChevronRight, Send, Camera } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useContent } from '../context/ContentContext';
 import ScrollReveal from '../components/ScrollReveal';
 import React from 'react';
 import EurasiaMap from '../components/EurasiaMap';
-
+import SEOHead from '../components/SEOHead';
 
 const heroImages = [
   '/images/hero1_new_opt.webp',
@@ -16,11 +14,9 @@ const heroImages = [
   '/images/hero3_new_opt.webp'
 ];
 
-export default function HomeClient() {
+export default function Home() {
   const { content } = useContent();
   const c = content?.home || ({} as any);
-  const publications = content?.publications || [];
-  const recentPubs = publications.slice(0, 3);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
@@ -32,7 +28,11 @@ export default function HomeClient() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      
+      <SEOHead
+        title="India Eurasia Research Forum (IERF) | Connecting India and Eurasia"
+        description="India Eurasia Research Forum (IERF) is a premier academic platform promoting research, dialogue, and trans-regional connectivity between India and the Eurasian region."
+        path="/"
+      />
       {/* Hero Section */}
       <section className="relative h-[90vh] min-h-[700px] flex items-center justify-center overflow-hidden">
         {/* Cinematic Background Slider */}
@@ -51,15 +51,15 @@ export default function HomeClient() {
               scale: { duration: 8, ease: "linear" }, // Cinematic slow zoom
               filter: { duration: 1.5 }
             }}
-            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 contrast-[1.1] brightness-[0.5] saturate-[1.2]"
+            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 contrast-[1.1] brightness-[0.7] saturate-[1.2]"
             style={{ backgroundImage: `url("${heroImages[currentImageIndex]}")` }}
           />
         </AnimatePresence>
 
         {/* Cinematic Overlays */}
         <div className="absolute inset-0 z-[1] pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1B3B5F]/80 via-[#1B3B5F]/40 to-[#1B3B5F]/80"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.2),rgba(0,0,0,0.6)_100%)]"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1B3B5F]/40 via-[#1B3B5F]/0 to-[#1B3B5F]/60"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0),rgba(0,0,0,0.4)_100%)]"></div>
           {/* Internal Noise Overlay */}
           <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay bg-[url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E')]"></div>
         </div>
@@ -70,18 +70,18 @@ export default function HomeClient() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/30 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-black uppercase tracking-[0.4em] mb-10 shadow-2xl">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/80 text-[10px] font-black uppercase tracking-[0.4em] mb-10 shadow-2xl">
               <Globe size={12} className="text-[#E87722]" /> India-Eurasian Research Forum
             </div>
             <h1
-              className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tight mb-10 leading-[1] max-w-6xl mx-auto drop-shadow-2xl"
+              className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tight mb-10 leading-[1] max-w-6xl mx-auto"
               style={{ 
                 fontFamily: '"Playfair Display", Georgia, serif',
-                textShadow: '0 4px 30px rgba(0,0,0,0.8)'
+                textShadow: '0 10px 40px rgba(0,0,0,0.5)'
               }}
             >
-              Researching <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E87722] to-orange-400 drop-shadow-sm">Eurasia</span>, <br className="hidden sm:block" />
-              Bridging <span className="text-white italic font-medium">Continents.</span>
+              Researching <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E87722] to-orange-400">Eurasia</span>, <br className="hidden sm:block" />
+              Bridging <span className="text-white/80 italic font-medium">Continents.</span>
             </h1>
           </motion.div>
           
@@ -89,8 +89,8 @@ export default function HomeClient() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
-            className="text-lg md:text-2xl text-white mb-16 max-w-3xl mx-auto font-medium leading-relaxed drop-shadow-xl"
-            style={{ textShadow: '0 2px 15px rgba(0,0,0,0.8)' }}
+            className="text-lg md:text-2xl text-white/90 mb-16 max-w-3xl mx-auto font-medium leading-relaxed"
+            style={{ textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}
           >
             {c.heroSubtitle}
           </motion.p>
@@ -102,7 +102,7 @@ export default function HomeClient() {
             className="flex flex-col sm:flex-row items-center justify-center gap-6"
           >
             <Link 
-              href="/our-people" 
+              to="/our-people" 
               className="shimmer-btn group relative inline-flex items-center justify-center px-12 py-5 text-sm font-black text-white bg-[#E87722] rounded-full transition-all shadow-2xl hover:shadow-[#E87722]/40 uppercase tracking-widest"
             >
               <motion.div
@@ -116,7 +116,7 @@ export default function HomeClient() {
               </motion.div>
             </Link>
             <Link 
-              href="/research" 
+              to="/research" 
               className="px-12 py-5 text-sm font-black text-white border border-white/30 rounded-full hover:bg-white/10 backdrop-blur-md transition-all uppercase tracking-widest"
             >
               <motion.div
@@ -164,7 +164,7 @@ export default function HomeClient() {
                   </p>
                 </div>
                 <Link 
-                  href="/about" 
+                  to="/about" 
                   className="inline-flex items-center gap-3 text-sm font-black text-[#1B3B5F] uppercase tracking-[0.2em] group border-b-2 border-transparent hover:border-[#1B3B5F] transition-all pb-1"
                 >
                   Learn Our History <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -191,35 +191,6 @@ export default function HomeClient() {
               </ScrollReveal>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* India-Eurasia at a Glance */}
-      <section className="py-20 md:py-32 bg-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <ScrollReveal>
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-6xl font-black text-[#1B3B5F] tracking-tighter mb-4">India-Eurasia <span className="text-[#E87722]">at a Glance</span></h2>
-              <p className="text-gray-500 text-lg font-medium max-w-2xl mx-auto">Strategic geopolitical and economic indicators shaping the Eurasian corridor.</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-10 bg-gray-50/50 rounded-[2.5rem] border border-gray-100 text-center hover:shadow-2xl hover:border-[#E87722]/30 transition-all group">
-                <div className="text-6xl font-black text-[#1B3B5F] group-hover:text-[#E87722] transition-colors mb-4">$3B</div>
-                <div className="text-[#1B3B5F] font-bold text-lg mb-3">India-Central Asia Trade Target</div>
-                <p className="text-gray-500 text-sm leading-relaxed">Targeted bilateral trade volume to be achieved by the year 2030, marking significant economic integration.</p>
-              </div>
-              <div className="p-10 bg-gray-50/50 rounded-[2.5rem] border border-gray-100 text-center hover:shadow-2xl hover:border-[#E87722]/30 transition-all group">
-                <div className="text-6xl font-black text-[#1B3B5F] group-hover:text-[#E87722] transition-colors mb-4">9</div>
-                <div className="text-[#1B3B5F] font-bold text-lg mb-3">SCO Member States</div>
-                <p className="text-gray-500 text-sm leading-relaxed">Comprehensive research coverage spanning across all Shanghai Cooperation Organisation nations.</p>
-              </div>
-              <div className="p-10 bg-gray-50/50 rounded-[2.5rem] border border-gray-100 text-center hover:shadow-2xl hover:border-[#E87722]/30 transition-all group">
-                <div className="text-6xl font-black text-[#1B3B5F] group-hover:text-[#E87722] transition-colors mb-4">40%</div>
-                <div className="text-[#1B3B5F] font-bold text-lg mb-3">INSTC Transit Reduction</div>
-                <p className="text-gray-500 text-sm leading-relaxed">Strategic reduction in freight transit time compared to the traditional Suez Canal route.</p>
-              </div>
-            </div>
-          </ScrollReveal>
         </div>
       </section>
 
@@ -278,7 +249,7 @@ export default function HomeClient() {
                     "Bridging the gap between scholarly rigour and regional strategic insights."
                   </p>
                   <div className="mt-auto">
-                    <Link href="/research" className="shimmer-btn inline-flex items-center gap-4 px-10 py-5 bg-[#1B3B5F] group-hover:bg-white text-white group-hover:text-[#E87722] rounded-full text-xs font-black uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-2xl">
+                    <Link to="/research" className="shimmer-btn inline-flex items-center gap-4 px-10 py-5 bg-[#1B3B5F] group-hover:bg-white text-white group-hover:text-[#E87722] rounded-full text-xs font-black uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-2xl">
                       Browse Papers <ArrowRight size={18} />
                     </Link>
                   </div>
@@ -286,44 +257,6 @@ export default function HomeClient() {
               </div>
             </ScrollReveal>
           </div>
-        </div>
-      </section>
-
-      {/* Recent Publications */}
-      <section className="py-20 md:py-32 bg-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal>
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-              <div>
-                <h2 className="text-4xl md:text-6xl font-black text-[#1B3B5F] tracking-tighter mb-4">Recent <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E87722] to-orange-400">Insights</span></h2>
-                <p className="text-gray-500 text-lg font-medium max-w-2xl">Latest geopolitical analysis and research from IERF scholars.</p>
-              </div>
-              <Link href="/research" className="inline-flex items-center gap-2 text-sm font-black text-[#1B3B5F] uppercase tracking-widest hover:text-[#E87722] transition-colors">
-                View All <ArrowRight size={16} />
-              </Link>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {recentPubs.map((pub: any, idx: number) => (
-                <Link href={`/research/${pub.id}`} key={idx} className="group flex flex-col bg-white rounded-[2rem] border border-gray-100 overflow-hidden hover:shadow-2xl transition-all hover:-translate-y-2">
-                  <div className="h-48 overflow-hidden relative">
-                    <img src={pub.image || '/images/hero1_new_opt.webp'} alt={pub.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <div className="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur-sm text-[#1B3B5F] text-[10px] font-black uppercase tracking-widest rounded-full">
-                      {pub.category || "Research"}
-                    </div>
-                  </div>
-                  <div className="p-8 flex flex-col flex-grow">
-                    <h3 className="text-xl font-bold text-[#1B3B5F] mb-3 leading-tight group-hover:text-[#E87722] transition-colors line-clamp-2">{pub.title}</h3>
-                    <p className="text-sm text-gray-500 mb-6 line-clamp-3 leading-relaxed">{pub.description}</p>
-                    <div className="mt-auto flex items-center justify-between pt-4 border-t border-gray-100">
-                      <span className="text-xs font-bold text-[#1B3B5F]">{pub.author}</span>
-                      <span className="text-xs font-medium text-gray-400">{pub.date}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </ScrollReveal>
         </div>
       </section>
 
@@ -357,7 +290,7 @@ export default function HomeClient() {
                 <p className="text-white/70 text-2xl leading-relaxed mb-16 font-light italic">
                   {c.volgaTeaserBody}
                 </p>
-                <Link href="/events/volga-to-ganga" className="shimmer-btn group inline-flex items-center gap-5 px-12 py-6 bg-[#E87722] text-white rounded-full font-black text-sm uppercase tracking-widest hover:bg-orange-600 transition-all shadow-2xl hover:shadow-[#E87722]/50 hover:-translate-y-1">
+                <Link to="/events/volga-to-ganga" className="shimmer-btn group inline-flex items-center gap-5 px-12 py-6 bg-[#E87722] text-white rounded-full font-black text-sm uppercase tracking-widest hover:bg-orange-600 transition-all shadow-2xl hover:shadow-[#E87722]/50 hover:-translate-y-1">
                   Join the Dialogue <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform duration-500" />
                 </Link>
               </div>
@@ -449,10 +382,10 @@ export default function HomeClient() {
               {c.ctaBody}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-              <Link href="/contact" className="shimmer-btn px-16 py-7 bg-white text-[#1B3B5F] rounded-full font-black text-sm tracking-[0.2em] hover:bg-[#E87722] hover:text-white transition-all shadow-3xl hover:-translate-y-2 uppercase">
+              <Link to="/contact" className="shimmer-btn px-16 py-7 bg-white text-[#1B3B5F] rounded-full font-black text-sm tracking-[0.2em] hover:bg-[#E87722] hover:text-white transition-all shadow-3xl hover:-translate-y-2 uppercase">
                 JOIN THE DIALOGUE
               </Link>
-              <Link href="/write-for-us" className="px-16 py-7 bg-transparent border-2 border-white/30 rounded-full font-black text-sm tracking-[0.2em] text-white hover:bg-white/10 transition-all uppercase">
+              <Link to="/write-for-us" className="px-16 py-7 bg-transparent border-2 border-white/30 rounded-full font-black text-sm tracking-[0.2em] text-white hover:bg-white/10 transition-all uppercase">
                 SUBMIT ANALYSIS
               </Link>
             </div>
