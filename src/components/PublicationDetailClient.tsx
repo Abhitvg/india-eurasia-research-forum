@@ -182,16 +182,7 @@ export default function PublicationDetailClient() {
                          About the Author
                       </h5>
                    </div>
-                   <div className="flex flex-col-reverse md:flex-row items-center md:items-end gap-8 w-full justify-between">
-                   <div className="text-center md:text-right flex-1">
-                      <h4 className="text-lg font-bold text-[#1B3B5F] mb-2">{publication.author}</h4>
-                      {bio && (
-                        <p 
-                          className="text-gray-500 text-sm italic leading-relaxed text-right"
-                          dangerouslySetInnerHTML={{ __html: bio }}
-                        />
-                      )}
-                   </div>
+                   <div className="flex flex-col md:flex-row items-center md:items-start gap-8 w-full justify-start">
                    {authorImg && (
                      <div className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 border-4 border-white shadow-lg relative">
                         <Image 
@@ -202,6 +193,15 @@ export default function PublicationDetailClient() {
                         />
                      </div>
                    )}
+                   <div className="text-center md:text-left flex-1">
+                      <h4 className="text-lg font-bold text-[#1B3B5F] mb-2">{publication.author}</h4>
+                      {bio && (
+                        <p 
+                          className="text-gray-500 text-sm italic leading-relaxed text-left"
+                          dangerouslySetInnerHTML={{ __html: bio }}
+                        />
+                      )}
+                   </div>
                    </div>
                 </div>
               )}

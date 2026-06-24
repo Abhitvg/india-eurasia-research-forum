@@ -14,11 +14,10 @@ The platform hosts research papers, regional analysis, a digital heritage archiv
 ## Research
 - [Research – publications overview](https://www.indiaeurasia.org/research): Collection of research papers and analysis across topics.  
 - [Digital Silk Road](https://www.indiaeurasia.org/research/digital-silk-road): Paper on digital infrastructure linking Eurasia.  
-- [Russian State Propaganda](https://www.indiaeurasia.org/research/russian-state-propaganda): Analysis of Russian propaganda mechanisms.  
+- [Intercultural Dialogue in Practice](https://www.indiaeurasia.org/research/intercultural-dialogue-practice): An insightful exploration of interculturality and cultural diplomacy.  
 - [India‑Chabahar](https://www.indiaeurasia.org/research/india-chabahar-final): Study of India’s involvement in the Chabahar port project.  
 - [NUR Stories from Eurasia](https://www.indiaeurasia.org/research/nur-stories-from-eurasia): Collection of narratives on Eurasian cultural ties.  
 - [Calculus of Eurasia](https://www.indiaeurasia.org/research/calculus-of-eurasia): Analytical paper on Eurasian geopolitical dynamics.  
-- [Special Research Note – Gupta](https://www.indiaeurasia.org/research/special-research-note-gupta): Focused note on Gupta‑era influences in Eurasia.
 
 ## Digital Archive
 - [DigiEurasia – digital heritage archive](https://www.indiaeurasia.org/digieurasia): Archive of historical documents and digital resources.
