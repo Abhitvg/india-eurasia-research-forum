@@ -1,25 +1,72 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const OWNER = 'abhisheksingh214';
 const REPO = 'india-eurasia-research-forum';
 const BRANCH = 'main';
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const { filename, base64Data } = await request.json();
-    
-    if (!GITHUB_TOKEN) {
-      return NextResponse.json({ success: false, message: 'Missing GITHUB_TOKEN environment variable.' }, { status: 500 });
+    const formData = await request.formData();
+    const file = formData.get('file') as File | null;
+
+    if (!file) {
+      return NextResponse.json(
+        { success: false, message: 'Missing file in request.' },
+        { status: 400 }
+      );
     }
 
-    const path = `public/images/${filename}`;
-    const apiUrl = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`;
-    
-    // We assume the file doesn't exist, so no SHA is provided. 
-    // If it exists, GitHub will reject the PUT without a SHA.
-    // That's fine for our use case (filenames should be unique).
-    
+    const filename = file.name;
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    const base64Data = buffer.toString('base64');
+
+    if (!GITHUB_TOKEN) {
+      return NextResponse.json(
+        { success: false, message: 'Missing GITHUB_TOKEN environment variable.' },
+        { status: 500 }
+      );
+    }
+
+    // 1. Write file to local public/images/ directory so it's immediately available
+    try {
+      const localDir = path.join(process.cwd(), 'public', 'images');
+      if (!fs.existsSync(localDir)) {
+        fs.mkdirSync(localDir, { recursive: true });
+      }
+      const localPath = path.join(localDir, filename);
+      const buffer = Buffer.from(base64Data, 'base64');
+      fs.writeFileSync(localPath, buffer);
+      console.log(`Image written locally: ${localPath} (${buffer.length} bytes)`);
+    } catch (localErr: any) {
+      // Local write failure is non-fatal in production (read-only filesystem)
+      console.warn('Local file write failed (expected in production):', localErr.message);
+    }
+
+    // 2. Commit to GitHub for persistence across deployments
+    const ghPath = `public/images/${filename}`;
+    const apiUrl = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${ghPath}`;
+
+    // Check if file already exists to get SHA (needed for updates)
+    let sha: string | undefined;
+    try {
+      const getRes = await fetch(`${apiUrl}?ref=${BRANCH}`, {
+        headers: {
+          'Authorization': `token ${GITHUB_TOKEN}`,
+          'Accept': 'application/vnd.github.v3+json',
+        },
+      });
+      if (getRes.ok) {
+        const existing = await getRes.json();
+        sha = existing.sha;
+      }
+    } catch {
+      // File doesn't exist, that's fine
+    }
+
     const putRes = await fetch(apiUrl, {
       method: 'PUT',
       headers: {
@@ -28,22 +75,29 @@ export async function POST(request: Request) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        message: `Upload image ${filename} via Git-Backed CMS`,
-        content: base64Data, // already in base64 without the data URI prefix
-        branch: BRANCH
-      })
+        message: `Upload image ${filename} via CMS`,
+        content: base64Data,
+        ...(sha ? { sha } : {}),
+        branch: BRANCH,
+      }),
     });
 
     if (!putRes.ok) {
       const errorText = await putRes.text();
-      throw new Error(`Failed to commit image: ${errorText}`);
+      console.error('GitHub API Error:', putRes.status, errorText);
+      throw new Error(`GitHub commit failed (${putRes.status}): ${errorText}`);
     }
 
-    const result = await putRes.json();
-
-    return NextResponse.json({ success: true, message: 'Image successfully uploaded to GitHub!', url: `/images/${filename}` });
+    return NextResponse.json({
+      success: true,
+      message: 'Image uploaded successfully!',
+      url: `/images/${filename}`,
+    });
   } catch (err: any) {
-    console.error('API Error:', err);
-    return NextResponse.json({ success: false, message: err.message }, { status: 500 });
+    console.error('Upload API Error:', err);
+    return NextResponse.json(
+      { success: false, message: err.message || 'Unknown upload error' },
+      { status: 500 }
+    );
   }
 }

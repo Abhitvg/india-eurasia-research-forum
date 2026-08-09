@@ -199,7 +199,8 @@ function ImageField({ label, value, onChange }: { label: string; value: string; 
     if (!url) return;
     const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
     if (match && match[1]) {
-      onChange(`https://drive.google.com/uc?export=view&id=${match[1]}`);
+      // Use thumbnail endpoint to avoid third-party cookie / CORS issues on img tag
+      onChange(`https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`);
     } else {
       alert("Invalid Google Drive URL. Could not find File ID.");
     }
@@ -210,7 +211,7 @@ function ImageField({ label, value, onChange }: { label: string; value: string; 
     if (!file) return;
 
     setUploading(true);
-    setUploadProgress(10); // initial progress
+    setUploadProgress(10);
     try {
       // Compress image before upload
       const compressed = await compressImage(file);
@@ -218,31 +219,27 @@ function ImageField({ label, value, onChange }: { label: string; value: string; 
       const safeName = file.name.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9.\-_]/g, '_');
       const filename = `${Date.now()}_${safeName}.${ext}`;
       
-      // Read Blob as Base64
-      const reader = new FileReader();
-      reader.readAsDataURL(compressed);
-      reader.onloadend = async () => {
-        const base64Data = (reader.result as string).split(',')[1];
-        setUploadProgress(50);
-        
-        const res = await fetch('/api/github/upload', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ filename, base64Data }),
-        });
-        
-        const data = await res.json();
-        if (!res.ok || !data.success) {
-          throw new Error(data.message || 'Unknown error');
-        }
-        
-        setUploadProgress(100);
-        onChange(data.url);
-        setTimeout(() => {
-          setUploading(false);
-          setUploadProgress(0);
-        }, 500);
-      };
+      setUploadProgress(50);
+      
+      const formData = new FormData();
+      formData.append('file', compressed, filename);
+      
+      const res = await fetch('/api/github/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || 'Unknown error');
+      }
+      
+      setUploadProgress(100);
+      onChange(data.url);
+      setTimeout(() => {
+        setUploading(false);
+        setUploadProgress(0);
+      }, 500);
     } catch (err: any) {
       console.error("Error compressing/uploading image:", err);
       alert(`Upload failed: ${err.message}`);
