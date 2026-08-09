@@ -7,6 +7,14 @@ const OWNER = 'Abhitvg';
 const REPO = 'india-eurasia-research-forum';
 const BRANCH = 'main';
 
+function friendlyGitHubError(status: number, body: string): string {
+  if (status === 401) return 'GitHub token is invalid or expired. Please generate a new Personal Access Token.';
+  if (status === 403) return 'GitHub token lacks write permission. Ensure "Contents: Read and write" scope.';
+  if (status === 404) return `Repository "${OWNER}/${REPO}" not found or token has no access.`;
+  if (status === 422) return 'GitHub rejected the file. It may already exist with a different SHA — try again.';
+  return `GitHub API error (${status}): ${body.substring(0, 200)}`;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -85,7 +93,7 @@ export async function POST(request: NextRequest) {
     if (!putRes.ok) {
       const errorText = await putRes.text();
       console.error('GitHub API Error:', putRes.status, errorText);
-      throw new Error(`GitHub commit failed (${putRes.status}): ${errorText}`);
+      throw new Error(friendlyGitHubError(putRes.status, errorText));
     }
 
     return NextResponse.json({

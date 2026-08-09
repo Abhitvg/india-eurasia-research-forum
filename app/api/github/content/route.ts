@@ -6,12 +6,31 @@ const REPO = 'india-eurasia-research-forum';
 const PATH = 'src/data/content.json';
 const BRANCH = 'main';
 
+function friendlyGitHubError(status: number, body: string): string {
+  if (status === 401) {
+    return 'GitHub token is invalid or expired. Please generate a new Personal Access Token and update your .env / Vercel environment variables.';
+  }
+  if (status === 403) {
+    return 'GitHub token does not have permission to write to this repository. Ensure the token has "Contents: Read and write" scope.';
+  }
+  if (status === 404) {
+    return `Repository "${OWNER}/${REPO}" not found, or the token does not have access to it.`;
+  }
+  if (status === 409) {
+    return 'Conflict: The file was modified by another process. Please try saving again.';
+  }
+  if (status === 422) {
+    return 'GitHub rejected the request. The file SHA may be stale — please refresh and try again.';
+  }
+  return `GitHub API error (${status}): ${body.substring(0, 200)}`;
+}
+
 export async function POST(request: Request) {
   try {
     const { content } = await request.json();
     
     if (!GITHUB_TOKEN) {
-      return NextResponse.json({ success: false, message: 'Missing GITHUB_TOKEN environment variable.' }, { status: 500 });
+      return NextResponse.json({ success: false, message: 'Missing GITHUB_TOKEN environment variable. Add it to your .env file.' }, { status: 500 });
     }
 
     const apiUrl = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}`;
@@ -30,7 +49,7 @@ export async function POST(request: Request) {
       sha = currentFile.sha;
     } else if (getRes.status !== 404) {
       const errorText = await getRes.text();
-      throw new Error(`Failed to fetch current file SHA: ${errorText}`);
+      throw new Error(friendlyGitHubError(getRes.status, errorText));
     }
 
     // 2. Commit the new file
@@ -51,7 +70,7 @@ export async function POST(request: Request) {
 
     if (!putRes.ok) {
       const errorText = await putRes.text();
-      throw new Error(`Failed to commit file: ${errorText}`);
+      throw new Error(friendlyGitHubError(putRes.status, errorText));
     }
 
     return NextResponse.json({ success: true, message: 'Content successfully saved to GitHub!' });

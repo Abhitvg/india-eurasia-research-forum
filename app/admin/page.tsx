@@ -1091,7 +1091,7 @@ export default function Admin() {
         {hasUnsavedChanges && (
           <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 lg:px-8 py-2.5">
             <div className="flex items-center gap-2">
-              <AlertTriangle size={14} className="text-amber-400" />
+              <AlertTriangle size={14} className="text-amber-400 flex-shrink-0" />
               <p className="text-amber-400 text-[11px] font-bold">You have unsaved changes</p>
             </div>
           </div>
@@ -1100,20 +1100,29 @@ export default function Admin() {
         {deployStatus === 'deploying' && (
           <div className="bg-green-500/10 border-b border-green-500/20 px-4 lg:px-8 py-3">
             <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <p className="text-green-400 text-[11px] font-black uppercase tracking-widest">
-                ✓ Content saved to Firebase — Changes are live immediately
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse flex-shrink-0" />
+              <p className="text-green-400 text-sm font-semibold">
+                ✓ Content saved successfully — Changes will be live after deployment
               </p>
             </div>
           </div>
         )}
         {deployStatus === 'error' && (
           <div className="bg-red-500/10 border-b border-red-500/20 px-4 lg:px-8 py-3">
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-red-500 rounded-full" />
-              <p className="text-red-400 text-[11px] font-black uppercase tracking-widest">
-                ✕ Save failed: {deployError || 'Try again or use Export as a backup'}
-              </p>
+            <div className="flex items-start gap-3">
+              <div className="w-2 h-2 bg-red-500 rounded-full mt-1.5 flex-shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="text-red-400 text-sm font-semibold mb-0.5">Save failed</p>
+                <p className="text-red-400/70 text-xs break-words">
+                  {deployError || 'An unknown error occurred. Try again or use Export as a backup.'}
+                </p>
+              </div>
+              <button 
+                onClick={() => setDeployStatus('idle')} 
+                className="text-red-400/50 hover:text-red-400 flex-shrink-0 p-1"
+              >
+                <X size={14} />
+              </button>
             </div>
           </div>
         )}
@@ -1126,3 +1135,4 @@ export default function Admin() {
     </div>
   );
 }
+

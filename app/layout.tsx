@@ -1,9 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Playfair_Display, Outfit } from 'next/font/google';
 import '../src/index.css';
-import Header from '../src/components/Header';
-import Footer from '../src/components/Footer';
-import MainWrapper from '../src/components/MainWrapper';
+import AdminLayoutGuard from '../src/components/AdminLayoutGuard';
 import { ContentProvider } from '../src/context/ContentContext';
 
 const playfair = Playfair_Display({
@@ -83,11 +81,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="font-sans text-slate-900 bg-[#FAFAFA] min-h-screen flex flex-col antialiased selection:bg-[#E87722] selection:text-white overflow-x-hidden">
         <ContentProvider>
-          <Header />
-          <MainWrapper>
+          <AdminLayoutGuard>
             {children}
-          </MainWrapper>
-          <Footer />
+          </AdminLayoutGuard>
         </ContentProvider>
       </body>
     </html>
