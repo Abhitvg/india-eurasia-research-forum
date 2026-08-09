@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const OWNER = 'abhisheksingh214';
+const OWNER = 'Abhitvg';
 const REPO = 'india-eurasia-research-forum';
 const BRANCH = 'main';
 

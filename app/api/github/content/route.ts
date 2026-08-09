@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const OWNER = 'abhisheksingh214';
+const OWNER = 'Abhitvg';
 const REPO = 'india-eurasia-research-forum';
 const PATH = 'src/data/content.json';
 const BRANCH = 'main';
