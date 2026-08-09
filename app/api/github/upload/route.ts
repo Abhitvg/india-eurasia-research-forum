@@ -2,21 +2,26 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-const OWNER = 'Abhitvg';
 const REPO = 'india-eurasia-research-forum';
 const BRANCH = 'main';
+
+function getToken(): string | null {
+  const raw = process.env.GITHUB_TOKEN;
+  if (!raw) return null;
+  return raw.trim();
+}
 
 function friendlyGitHubError(status: number, body: string): string {
   if (status === 401) return 'GitHub token is invalid or expired. Please generate a new Personal Access Token.';
   if (status === 403) return 'GitHub token lacks write permission. Ensure "Contents: Read and write" scope.';
-  if (status === 404) return `Repository "${OWNER}/${REPO}" not found or token has no access.`;
+  if (status === 404) return `Repository not found or token has no access.`;
   if (status === 422) return 'GitHub rejected the file. It may already exist with a different SHA — try again.';
   return `GitHub API error (${status}): ${body.substring(0, 200)}`;
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+    const token = getToken();
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
 
@@ -32,7 +37,7 @@ export async function POST(request: NextRequest) {
     const buffer = Buffer.from(arrayBuffer);
     const base64Data = buffer.toString('base64');
 
-    if (!GITHUB_TOKEN) {
+    if (!token) {
       return NextResponse.json(
         { success: false, message: 'Missing GITHUB_TOKEN environment variable.' },
         { status: 500 }
@@ -46,13 +51,23 @@ export async function POST(request: NextRequest) {
         fs.mkdirSync(localDir, { recursive: true });
       }
       const localPath = path.join(localDir, filename);
-      const buffer = Buffer.from(base64Data, 'base64');
-      fs.writeFileSync(localPath, buffer);
-      console.log(`Image written locally: ${localPath} (${buffer.length} bytes)`);
+      const localBuffer = Buffer.from(base64Data, 'base64');
+      fs.writeFileSync(localPath, localBuffer);
+      console.log(`Image written locally: ${localPath} (${localBuffer.length} bytes)`);
     } catch (localErr: any) {
       // Local write failure is non-fatal in production (read-only filesystem)
       console.warn('Local file write failed (expected in production):', localErr.message);
     }
+
+    // Resolve owner from the token itself
+    const userRes = await fetch('https://api.github.com/user', {
+      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' },
+    });
+    if (!userRes.ok) {
+      throw new Error(friendlyGitHubError(userRes.status, await userRes.text()));
+    }
+    const user = await userRes.json();
+    const OWNER = user.login;
 
     // 2. Commit to GitHub for persistence across deployments
     const ghPath = `public/images/${filename}`;
@@ -63,7 +78,7 @@ export async function POST(request: NextRequest) {
     try {
       const getRes = await fetch(`${apiUrl}?ref=${BRANCH}`, {
         headers: {
-          'Authorization': `token ${GITHUB_TOKEN}`,
+          'Authorization': `token ${token}`,
           'Accept': 'application/vnd.github.v3+json',
         },
       });
@@ -78,7 +93,7 @@ export async function POST(request: NextRequest) {
     const putRes = await fetch(apiUrl, {
       method: 'PUT',
       headers: {
-        'Authorization': `token ${GITHUB_TOKEN}`,
+        'Authorization': `token ${token}`,
         'Accept': 'application/vnd.github.v3+json',
         'Content-Type': 'application/json',
       },
@@ -109,3 +124,4 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
