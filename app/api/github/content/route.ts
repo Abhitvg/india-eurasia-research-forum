@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const OWNER = 'Abhitvg';
 const REPO = 'india-eurasia-research-forum';
 const PATH = 'src/data/content.json';
@@ -27,6 +26,7 @@ function friendlyGitHubError(status: number, body: string): string {
 
 export async function POST(request: Request) {
   try {
+    const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
     const { content } = await request.json();
     
     if (!GITHUB_TOKEN) {

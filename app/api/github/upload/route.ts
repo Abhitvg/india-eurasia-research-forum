@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const OWNER = 'Abhitvg';
 const REPO = 'india-eurasia-research-forum';
 const BRANCH = 'main';
@@ -17,6 +16,7 @@ function friendlyGitHubError(status: number, body: string): string {
 
 export async function POST(request: NextRequest) {
   try {
+    const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
 
