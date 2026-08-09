@@ -27,6 +27,8 @@ function friendlyGitHubError(status: number, body: string): string {
 export async function POST(request: Request) {
   try {
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+    console.log("DEBUG Token length:", GITHUB_TOKEN ? GITHUB_TOKEN.length : 0);
+    console.log("DEBUG Token value:", GITHUB_TOKEN);
     const { content } = await request.json();
     
     if (!GITHUB_TOKEN) {
