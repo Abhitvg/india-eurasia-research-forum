@@ -80,7 +80,7 @@ export default function HomeClient() {
             transition={{ duration: 1.2, ease: "easeOut" }}
           >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/30 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-black uppercase tracking-[0.4em] mb-10 shadow-2xl">
-              <Globe size={12} className="text-[#E87722]" /> India-Eurasian Research Forum
+              <Globe size={12} className="text-[#E87722]" /> India Eurasia Research Forum
             </div>
             <h1
               className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tight mb-10 leading-[1] max-w-6xl mx-auto drop-shadow-2xl"
