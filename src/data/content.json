@@ -185,18 +185,7 @@
       "date": "2026",
       "author": "IERF",
       "description": "A special report examining the BRICS journey featuring insights from leading young BRICS experts from Russia, China, South Africa, Brazil, Indonesia and Kazakhstan.",
-      "image": "/images/publications/brics-crossroads.jpg",
-      "content": "<iframe src=\"/pdfs/brics-crossroads-report.pdf\" width=\"100%\" height=\"1000px\" style=\"border: none; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);\"></iframe>",
-      "pdf": "/pdfs/brics-crossroads-report.pdf"
-    },
-    {
-      "id": "brics-crossroads-report",
-      "title": "BRICS at a Crossroads: Young BRICS Experts on the Future of BRICS",
-      "type": "Special Report",
-      "date": "2026",
-      "author": "IERF",
-      "description": "A special report examining the BRICS journey featuring insights from leading young BRICS experts from Russia, China, South Africa, Brazil, Indonesia and Kazakhstan.",
-      "image": "/images/publications/brics-crossroads.jpg",
+      "image": "/images/publications/brics-crossroads.png",
       "content": "<iframe src=\"/pdfs/brics-crossroads-report.pdf\" width=\"100%\" height=\"1000px\" style=\"border: none; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);\"></iframe>",
       "pdf": "/pdfs/brics-crossroads-report.pdf"
     },
