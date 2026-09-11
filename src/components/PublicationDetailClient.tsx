@@ -162,9 +162,15 @@ export default function PublicationDetailClient() {
                 <button onClick={() => window.print()} className="p-2.5 rounded-full bg-gray-50 text-gray-500 hover:bg-[#1B3B5F] hover:text-white transition-all shadow-sm" title="Print">
                   <Printer size={18} />
                 </button>
-                <button onClick={() => window.print()} className="flex items-center space-x-2 px-5 py-2.5 rounded-full bg-[#1B3B5F] text-white hover:bg-[#E87722] transition-colors shadow-md font-bold text-sm">
-                  <Download size={18} /> <span>PDF</span>
-                </button>
+                {publication.pdf ? (
+                  <a href={publication.pdf} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 px-5 py-2.5 rounded-full bg-[#1B3B5F] text-white hover:bg-[#E87722] transition-colors shadow-md font-bold text-sm">
+                    <Download size={18} /> <span>PDF</span>
+                  </a>
+                ) : (
+                  <button onClick={() => window.print()} className="flex items-center space-x-2 px-5 py-2.5 rounded-full bg-[#1B3B5F] text-white hover:bg-[#E87722] transition-colors shadow-md font-bold text-sm">
+                    <Download size={18} /> <span>PDF</span>
+                  </button>
+                )}
               </div>
 
               {/* Main Text Content */}
