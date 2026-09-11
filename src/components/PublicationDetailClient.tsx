@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { motion, useScroll, useSpring } from 'motion/react';
-import { Calendar, User, ArrowLeft, Download, Share2, Printer, Clock } from 'lucide-react';
+import { Calendar, User, ArrowLeft, Download, Share2, Printer, Clock, BookOpen, ExternalLink } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { defaultContent } from '../data/siteContent';
 
@@ -29,6 +29,7 @@ export default function PublicationDetailClient() {
   const defaultPub = defaultContent.publications.find(p => p.id === id);
   const bio = publication?.authorBio || defaultPub?.authorBio;
   const authorImg = publication?.authorImage || defaultPub?.authorImage;
+  const hasPdf = !!publication?.pdf;
 
   useEffect(() => {
     if (publication?.content) {
@@ -83,9 +84,11 @@ export default function PublicationDetailClient() {
               <span className="inline-block bg-[#E87722] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
                 {publication.type}
               </span>
-              <span className="flex items-center gap-1.5 text-white/60 text-[10px] font-black uppercase tracking-widest">
-                <Clock size={12} className="text-[#E87722]" /> {readingTime} min read
-              </span>
+              {!hasPdf && (
+                <span className="flex items-center gap-1.5 text-white/60 text-[10px] font-black uppercase tracking-widest">
+                  <Clock size={12} className="text-[#E87722]" /> {readingTime} min read
+                </span>
+              )}
             </div>
             <h1 className="text-2xl md:text-5xl lg:text-6xl font-black mb-8 md:mb-10 leading-tight text-white drop-shadow-2xl" style={{ fontFamily: 'var(--font-display)' }}>
               {publication.title}
@@ -109,16 +112,33 @@ export default function PublicationDetailClient() {
       <section className="py-16 relative z-40">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
-            {/* Featured Image */}
-            <div className="h-64 md:h-96 w-full relative">
-              <Image 
-                src={publication.image} 
-                alt={publication.title}
-                fill
-                priority
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+            
+            {/* Featured Image — use object-contain for logos/emblems, object-cover for photos */}
+            <div className={`w-full relative ${hasPdf ? 'bg-white py-8 md:py-12' : 'h-64 md:h-96'}`}>
+              {hasPdf ? (
+                <div className="flex justify-center items-center px-8">
+                  <div className="relative w-64 h-64 md:w-80 md:h-80">
+                    <Image 
+                      src={publication.image} 
+                      alt={publication.title}
+                      fill
+                      priority
+                      className="object-contain drop-shadow-lg"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <Image 
+                    src={publication.image} 
+                    alt={publication.title}
+                    fill
+                    priority
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                </>
+              )}
             </div>
             
             {publication.imageRef && (
@@ -163,7 +183,7 @@ export default function PublicationDetailClient() {
                   <Printer size={18} />
                 </button>
                 {publication.pdf ? (
-                  <a href={publication.pdf} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 px-5 py-2.5 rounded-full bg-[#1B3B5F] text-white hover:bg-[#E87722] transition-colors shadow-md font-bold text-sm">
+                  <a href={publication.pdf} download className="flex items-center space-x-2 px-5 py-2.5 rounded-full bg-[#1B3B5F] text-white hover:bg-[#E87722] transition-colors shadow-md font-bold text-sm">
                     <Download size={18} /> <span>PDF</span>
                   </a>
                 ) : (
@@ -178,6 +198,50 @@ export default function PublicationDetailClient() {
                 className="prose prose-lg prose-slate max-w-none text-gray-800 leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: publication.content }}
               />
+
+              {/* PDF Viewer Section — for publications with a PDF */}
+              {hasPdf && (
+                <div className="mt-12">
+                  {/* PDF Viewer Header */}
+                  <div className="flex items-center justify-between bg-gradient-to-r from-[#1B3B5F] to-[#2a5a8f] rounded-t-2xl px-6 py-4">
+                    <div className="flex items-center gap-3 text-white">
+                      <BookOpen size={22} className="text-[#E87722]" />
+                      <div>
+                        <p className="font-bold text-sm">Read the Full Report</p>
+                        <p className="text-[11px] text-white/60 font-medium">Scroll through the complete publication below</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <a 
+                        href={publication.pdf} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-white text-xs font-bold transition-all"
+                      >
+                        <ExternalLink size={14} /> Open in New Tab
+                      </a>
+                      <a 
+                        href={publication.pdf} 
+                        download 
+                        className="flex items-center gap-1.5 px-4 py-2 bg-[#E87722] hover:bg-[#d06a1a] rounded-lg text-white text-xs font-bold transition-all shadow-md"
+                      >
+                        <Download size={14} /> Download PDF
+                      </a>
+                    </div>
+                  </div>
+                  
+                  {/* PDF Embed */}
+                  <div className="border-2 border-t-0 border-gray-200 rounded-b-2xl overflow-hidden bg-gray-100">
+                    <iframe 
+                      src={publication.pdf} 
+                      width="100%" 
+                      height="1100px"
+                      style={{ border: 'none' }}
+                      title={`${publication.title} — Full Report PDF`}
+                    />
+                  </div>
+                </div>
+              )}
 
               {/* Author Bio Section */}
               {(bio || authorImg) && (
@@ -225,3 +289,4 @@ export default function PublicationDetailClient() {
     </div>
   );
 }
+
