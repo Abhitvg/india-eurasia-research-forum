@@ -1,4 +1,4 @@
-name: 🚀 Deploy Website to Hostinger
+name: 🏗️ CI Build Check
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  web-deploy:
-    name: 🏗️ Build and 🚀 Deploy
+  build-check:
+    name: 🏗️ Build Check
     runs-on: ubuntu-latest
     steps:
       - name: 🚚 Get latest code
@@ -25,13 +25,3 @@ jobs:
       - name: 🏗️ Build Project
         run: npm run build
 
-      - name: 📂 Sync files to Hostinger via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: 145.223.17.93
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/
-          server-dir: ./domains/indiaeurasia.org/public_html/
-          timeout: 120000
-        timeout-minutes: 10
