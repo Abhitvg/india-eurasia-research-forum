@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { SiteContent, defaultContent } from '../data/siteContent';
 
-const STORAGE_KEY = 'ierf_site_content_v2';
+const STORAGE_KEY = 'ierf_site_content_v3';
 
 interface SaveToGitHubResult {
   success: boolean;
