@@ -21,6 +21,7 @@ export interface PublicationData {
   imageFootnote?: string;
   content: string;
   region?: string;
+  pdf?: string;
 }
 
 export interface EventData {
