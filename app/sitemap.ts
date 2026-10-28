@@ -1,6 +1,13 @@
 import { MetadataRoute } from 'next';
 import { defaultContent } from '@/src/data/siteContent';
 
+function parseSafeDate(dateStr?: string): Date {
+  if (!dateStr) return new Date();
+  const cleanStr = dateStr.replace(/(\d+)(st|nd|rd|th)/gi, '$1');
+  const d = new Date(cleanStr);
+  return isNaN(d.getTime()) ? new Date() : d;
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.indiaeurasia.org';
   
@@ -25,7 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const publicationRoutes: MetadataRoute.Sitemap = defaultContent.publications.map((pub) => ({
     url: `${baseUrl}/research/${pub.id}`,
-    lastModified: new Date(pub.date),
+    lastModified: parseSafeDate(pub.date),
     changeFrequency: 'monthly',
     priority: 0.6,
   }));

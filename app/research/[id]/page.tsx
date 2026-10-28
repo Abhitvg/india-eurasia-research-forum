@@ -1,9 +1,16 @@
 import PublicationDetailClient from '@/src/components/PublicationDetailClient';
-import { publications } from '@/src/data/publications';
+import { defaultContent } from '@/src/data/siteContent';
+
+function parseSafeDate(dateStr?: string): string {
+  if (!dateStr) return new Date().toISOString();
+  const cleanStr = dateStr.replace(/(\d+)(st|nd|rd|th)/gi, '$1');
+  const d = new Date(cleanStr);
+  return (isNaN(d.getTime()) ? new Date() : d).toISOString();
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
-  const publication = publications.find(p => p.id === resolvedParams.id);
+  const publication = defaultContent.publications.find(p => p.id === resolvedParams.id);
   
   if (!publication) {
     return {
@@ -26,7 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         },
       ],
       type: 'article',
-      publishedTime: new Date(publication.date).toISOString(),
+      publishedTime: parseSafeDate(publication.date),
       authors: [publication.author],
     },
     twitter: {
@@ -39,18 +46,20 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 export async function generateStaticParams() {
-  return publications.map((pub) => ({
+  return defaultContent.publications.map((pub) => ({
     id: pub.id,
   }));
 }
 
 export default async function PublicationDetail({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
-  const publication = publications.find(p => p.id === resolvedParams.id);
+  const publication = defaultContent.publications.find(p => p.id === resolvedParams.id);
 
   if (!publication) {
     return <PublicationDetailClient />;
   }
+
+  const safeDate = parseSafeDate(publication.date);
 
   const articleJsonLd = {
     '@context': 'https://schema.org',
@@ -59,8 +68,8 @@ export default async function PublicationDetail({ params }: { params: Promise<{ 
     image: [
       publication.image || 'https://www.indiaeurasia.org/og-image.webp'
     ],
-    datePublished: new Date(publication.date).toISOString(),
-    dateModified: new Date(publication.date).toISOString(),
+    datePublished: safeDate,
+    dateModified: safeDate,
     author: [{
       '@type': 'Person',
       name: publication.author,
